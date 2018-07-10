@@ -3,7 +3,11 @@ title: "Workshop Part 2"
 output: html_notebook
 ---
 ### Importing the Data
-The code below reads in the `tents.csv` comma-separated file.  The `col_types` argument is telling `R` what the data type is in each column.  See `?read_csv` if you want to know more---the `readr` package itself contains some helpful functions for parsing data.  As an aside, `read_csv` reads the data in as a `tibble`, a more modern take on the data frame.  This data structure has all the functionalities of a `data.frame`, so don't fret over it too much.  More information can be found [here](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html).
+The code below reads in the `BlackWhite_results.csv` comma-separated file. This data structure has all the functionalities of a `data.frame`.
+```{r}
+BlackWhite_results <- read.csv("../Data/BlackWhite_results.csv")
+```
+
 
 The data set itself contains information about tents collected from a particular outdoor adventure store.  The variables are as follows:
 
