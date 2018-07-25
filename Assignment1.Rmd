@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r}
-#Do not forget to install the package "readr" using install.packgae() before you try to load the library. The goal of 'readr' is to provide a fast and intuitive way to read rectangular data. Write ?readr to learn more. 
+#Do not forget to install the package "readr" using install.packages() before you try to load the library. The goal of 'readr' is to provide a fast and intuitive way to read rectangular data. Write ?readr to learn more. 
 
 natlterr2015_cleaned <- read_csv("natlterr2015_cleaned.csv")
 
@@ -17,12 +17,12 @@ natlterr2015_cleaned <- read_csv("natlterr2015_cleaned.csv")
 ```
 
 
-1. We will make a new column "treatment" and randomly assign patients to 0 (placebo) or 1 (active treatment). There are two way to do this. 
+1. We will make a new column "treatment" and randomly assign patients to 0 (placebo) or 1 (active treatment). There are two ways to do this. 
 
 * Way 1:
-      * The first create a function that assigns 1 or 0 with probability 50% each, and then apply it to your new column. I will help you get started with the function. We will be using the function sample(). The first input it takes is a vector with 1+ elements to choose from.On this case it is only 0 and 1. The second argument we will input is the number of items we want to choose from. In this case, it will be 1, because we want 0 or 1, but not both. 
+      * The first create a function that assigns 1 or 0 with probability 50% each and then applying it to your new column. I will help you get started with the function. We will be using the function sample(). The first input it takes is a vector with 1+ elements to choose from. In this case, it is only 0 and 1. The second argument we will input is the number of items we want to choose from. In this case, it will be 1, because we want 0 or 1, but not both. 
 ```{r}
-# Do not forget to install the package "dplyr" using install.packgae() before you try to load the library. 
+# Do not forget to install the package "dplyr" using install.packages() before you try to load the library. 
 random_sampler<-function(x) sample(c(0,1),1)
 ```
 
@@ -33,16 +33,16 @@ Your turn! Now apply this function to your column. You can do this by using the 
 
 
 * Way 2:
-      *The second if to use the function rbinom() which takes three inputs. The first input is the length of the column. You can do this by checking the how many rows are in your dataframe using the function nrow(). The second is the number of trials, in this case 1.The third is the the probability, which we want it to be 0.5. Now you can assign this function to the new column in your data set. You can create the new column using the "df$colname", or "df[,'colnmae']
+      *The second is to use the function rbinom() which takes three inputs. The first input is the length of the column. You can do this by checking the how many rows are in your dataframe using the function nrow(). The second is the number of trials, in this case, 1.The third is the probability, which we want it to be 0.5. Now you can assign this function to the new column in your data set. You can create the new column using the "df$colname", or "df[,'colname']
 ```{r}
 #### YOUR CODE GOES HERE ####
 ```
 
-Note: By the law of large numbers, assuming the data is large enough, the coin flip function (heads=1 | tails=0) will roughly sort half of the babies into treatment and half into the placebo group. The law says that if take a sample size n, from a random vaiable X, and we were to take the average of these samples, the sample mean will *approach* the expected value of random variable (population mean) as n->inf. 
+Note: By the law of large numbers, assuming the data is large enough, the coin flip function (heads=1 | tails=0) will roughly sort half of the babies into treatment and half into the placebo group. The law says that if take a sample size n, from a random variable X, and we were to take the average of these samples, the sample mean will *approach* the expected value of the random variable (population mean) as n->inf. 
 In this case, if Pr(X=1)=p=0.5, and Pr(X=0)=q=0.5 then E(X)=Pr(X=1)*1+Pr(X=0)*0=0.5
 
 
-2.a Now produce a "Table 1", showing the descriptive statistics for treatment vs placebo.You can use the function table() on the treatment column to get frequency count. 
+2.a Now produce a "Table 1", showing the descriptive statistics for treatment vs placebo. You can use the function table() on the treatment column to get frequency count. 
 ```{r}
 #### YOUR CODE GOES HERE ####
 ```
@@ -53,19 +53,19 @@ In this case, if Pr(X=1)=p=0.5, and Pr(X=0)=q=0.5 then E(X)=Pr(X=1)*1+Pr(X=0)*0=
 ```
 
 
-3. Now, re-run the code you created in part 1. Use the fucntion table() to geta frequency count for placebo and tratement, but do NOT save it to the varaible called 'Table1'. YOu should be able to notice that the babies that were assigned to placebo or treatment in the first round were not necessarily assigned to the categories in the same round. You should also notice that the frequencies, although not equal are close to each other. Now try to convince yourself that you understand how the law of large numbers works when the data is large enough by noting how similar the descriptive statistics are on each run. 
+3. Now, re-run the code you created in part 1. Use the function table() to get a frequency count for placebo and treatment, but do NOT save it to the variable called 'Table1'. You should be able to notice that the babies that were assigned to placebo or treatment in the first round were not necessarily assigned to the categories in the same round. You should also notice that the frequencies, although not equal are close to each other. Now try to convince yourself that you understand how the law of large numbers works when the data is large enough by noting how similar the descriptive statistics are on each run. 
 
 
-4.a Now we will take a small sample from the pop (less than 100 observations), and randmly assign each to a treatment and placebo. I will get you started on taking the sample. We will use the function sample() and set.seed() 
+4.a Now we will take a small sample from the pop (less than 100 observations), and randomly assign each to a treatment and placebo. I will get you started on taking the sample. We will use the function sample() and set.seed() 
 
 ```{r}
-set.seed(123) #pseudo-random number generation. It ensured you can reproduce resuls. 
+set.seed(123) #pseudo-random number generation. It ensured you can reproduce results
 sample_index <- sample(1:nrow(natlterr2015_cleaned), 99) # pick any number < 100 
 sample_index
 natlterr2015_sample<-natlterr2015_cleaned[sample_index, ] # natlterr2015_sample is a random subset
 ```
 
-4.b Your Turn! Run the random_sampler function on the subset data frame ceated above to get fresh random assignment of placebo and treatment in the treatment column. 
+4.b Your Turn! Run the random_sampler function on the subset data frame created above to get a fresh random assignment of placebo and treatment in the treatment column. 
 ```{r}
 #### YOUR CODE GOES HERE ####
 ```
@@ -81,7 +81,7 @@ natlterr2015_sample<-natlterr2015_cleaned[sample_index, ] # natlterr2015_sample 
 ```
 
 
-5. Suppose that 17% of the baby's were born to mothers who smoked during pregnancy. Under randomization of the original large dataframe, what percent of babies assigned to treatment were born to mothers who smoked during pregnancy? Under placebo?
+5. Suppose that 17% of the babies were born to mothers who smoked during pregnancy. Under randomization of the original large dataframe, what percent of babies assigned to treatment were born to mothers who smoked during pregnancy? Under placebo?
 ```{r}
 #### YOUR CODE GOES HERE ####
 ```
