@@ -3,11 +3,11 @@ title:Randomized-Controlled Treatments and Factor Designs.
 output: html_document
 ---
 
-```{r}
-#Do not forget to install the package "readr" using install.packages() before you try to load the library. The goal of 'readr' is to provide a fast and intuitive way to read rectangular data. Write ?readr to learn more. 
-
+```{r read-in-data}
+library(readr)
 natlterr2015_cleaned <- read_csv("natlterr2015_cleaned.csv")
 
+#TODO Karla: make the data dictionary into a markdown table. I've added a dictionary from another file below for you to revise and then you can delete this.
 # column name meaning:
 #	birthweight (continuous in grams) - dbwt
 # gestational age (in completed weeks) -combgest
@@ -15,7 +15,29 @@ natlterr2015_cleaned <- read_csv("natlterr2015_cleaned.csv")
 # birth month -dob_mm
 # Smoker- CIG_REC 
 ```
+### Description of the data
 
+TODO Karla: Add a few sentences describing the data. (These are births from the US territories which include ...... from the year XXXX. These data were downloaded from [here](URL linked to the page). 
+
+Here is the data dictionary for this dataset:
+
+| Variable        | Description                                         |
+|-----------------|-----------------------------------------------------|
+| Country_Name    | The name of the country                             | 
+| CountryCode     | 3-digit unique country identifier                   |                
+| Births_Per_1000 | The number of births per 1000 people in the country |
+| IncomeGroup     | The income group the country is categorized into    |
+| Region          | The geographic region the country belongs to        |
+| GDP.2006        | The gross domestic product (GDP) of the country in 2006 |
+| CS.rate         | The percent of births that were delivered by cesarean section |
+
+### Simulating a randomized controlled trial in newborns
+
+TODO Corinne: to finish writing this: The purpose of this assignment is to take a **sample** from the **population** of newborns as if we were conducting a randomized controlled trial (RCT). Suppose that the US territories are interested in vaccinating their newborns against respiratory syncytial virus (RSV), which can cause severe lower respiratory infections in newborns and lead to hospitalizations and adverse respiratory outcomes. To conduct an RCT 
+
+### Get familiar with the dataset
+
+TODO: Have the students use str(), names(), head(), dim() to look at the data. Ask how many individuals in the data set there are, and who these individuals represent.
 
 1. We will make a new column "treatment" and randomly assign patients to 0 (placebo) or 1 (active treatment). There are two ways to do this. 
 
