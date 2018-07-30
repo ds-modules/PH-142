@@ -1,35 +1,26 @@
----
-title:Randomized-Controlled Treatments and Factor Designs.
-output: html_document
----
+
 
 ```{r read-in-data}
 library(readr)
-natlterr2015_cleaned <- read_csv("natlterr2015_cleaned.csv")
-
-#TODO Karla: make the data dictionary into a markdown table. I've added a dictionary from another file below for you to revise and then you can delete this.
-# column name meaning:
-#	birthweight (continuous in grams) - dbwt
-# gestational age (in completed weeks) -combgest
-#	Sex -sex
-# birth month -dob_mm
-# Smoker- CIG_REC 
+natlterr2015_cleaned <- read.csv("natlterr2015_cleaned.csv", stringsAsFactors=FALSE)
 ```
 ### Description of the data
 
-TODO Karla: Add a few sentences describing the data. (These are births from the US territories which include ...... from the year XXXX. These data were downloaded from [here](URL linked to the page). 
+
+These are births by place of ocurrance in the 50 USA states, the District of Columbia, and U.S. territories from the year 2015.  This is a subset of the data downloaded from [here](http://www.nber.org/data/vital-statistics-natality-data.html).
+You can find more information about the data set [here](ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/DVS/natality/UserGuide2016.pdf).
 
 Here is the data dictionary for this dataset:
 
-| Variable        | Description                                         |
-|-----------------|-----------------------------------------------------|
-| Country_Name    | The name of the country                             | 
-| CountryCode     | 3-digit unique country identifier                   |                
-| Births_Per_1000 | The number of births per 1000 people in the country |
-| IncomeGroup     | The income group the country is categorized into    |
-| Region          | The geographic region the country belongs to        |
-| GDP.2006        | The gross domestic product (GDP) of the country in 2006 |
-| CS.rate         | The percent of births that were delivered by cesarean section |
+| Variable        | Description                                                  |
+|-----------------|--------------------------------------------------------------|
+| babyID          | Unique identifier: row number                                |
+| dbwt            | Birth Weight – in Grams: 0227-8165 Number of grams           | 
+| combgest        | Combined Gestation - in Weeks: 17th to 47th week of Gestation|                
+| sex             | Sex of Infant: M (Male) or F (Female)	                       |
+| dob_mm          | Birth month of the infant                                    | 
+| cig_rec         | If the mother reports smoking in any of the three trimesters of pregnancy she is classified as a smoker: (Y) Yes, (N) No, or (U) Unknown|
+
 
 ### Simulating a randomized controlled trial in newborns
 
@@ -103,9 +94,8 @@ natlterr2015_sample<-natlterr2015_cleaned[sample_index, ] # natlterr2015_sample 
 ```
 
 
-5. Suppose that 17% of the babies were born to mothers who smoked during pregnancy. Under randomization of the original large dataframe, what percent of babies assigned to treatment were born to mothers who smoked during pregnancy? Under placebo?
+
+5.Suppose that 17% of the babies were born to mothers who smoked during pregnancy. Under randomization of the original large dataframe, what percent of babies assigned to treatment were born to mothers who smoked during pregnancy? Under placebo?
 ```{r}
 #### YOUR CODE GOES HERE ####
 ```
-
--
