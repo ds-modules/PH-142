@@ -173,20 +173,14 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-text-begin -->
+<div id="section-1-viewing-and-analyzing-the-data" class="section level3">
+<h3>Section 1: Viewing and Analyzing the Data</h3>
+</div>
 <div id="importing-the-data" class="section level3">
 <h3>Importing the Data</h3>
-<p>The code below reads in the <code>tents.csv</code> comma-separated file. The <code>col_types</code> argument is telling <code>R</code> what the data type is in each column. See <code>?read_csv</code> if you want to know more—the <code>readr</code> package itself contains some helpful functions for parsing data. As an aside, <code>read_csv</code> reads the data in as a <code>tibble</code>, a more modern take on the data frame. This data structure has all the functionalities of a <code>data.frame</code>, so don’t fret over it too much. More information can be found <a href="https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html">here</a>.</p>
-<p>The data set itself contains information about tents collected from a particular outdoor adventure store. The variables are as follows:</p>
-<ul>
-<li>name - name of the tent</li>
-<li>brand - brand of the tent</li>
-<li>price - price of the tent in dollars</li>
-<li>weight - the weight of the tent in grams</li>
-<li>height - the height of the tent in centimeters</li>
-<li>bestuse - the activity that the manufacturers recommend this tent for</li>
-<li>seasons - how many seasons this tent is suited for (heat/cold considerations)</li>
-<li>capacity - the number of people that the tent is rated for</li>
-</ul>
+<p>The code below reads in the <code>BlackWhite_results.csv</code> comma-separated file. This data structure has all the functionalities of a <code>data.frame</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQmxhY2tXaGl0ZV9yZXN1bHRzIDwtIHJlYWQuY3N2KFwiLi4vRGF0YS9CbGFja1doaXRlX3Jlc3VsdHMuY3N2XCIpXG5gYGAifQ== -->
@@ -195,545 +189,610 @@ $(document).ready(function () {
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="read-in-the-first-dataset" class="section level1">
-<h1>Read in the first dataset</h1>
-<p>BlackWhite_results &lt;- read.csv(“./Data/BlackWhite_results.csv”)</p>
+<div id="examining-the-data" class="section level3">
+<h3>Examining the Data</h3>
+<p>Let’s first use the viewer to look at these data. Click the data icon next to BlackWhite_results in the environment tab Or run the code, or run the cell below.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVmlldyhCbGFja1doaXRlX3Jlc3VsdHMpXG5gYGAifQ== -->
+<pre class="r"><code>View(BlackWhite_results)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>These are some results from a study I did on the inequality in life expectancy between blacks and whites in the US. Let’s first examine the structure of the dataset:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKEJsYWNrV2hpdGVfcmVzdWx0cylcblxuYGBgIn0= -->
+<pre class="r"><code>str(BlackWhite_results)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJ2RhdGEuZnJhbWUnOlx0MzYwMCBvYnMuIG9mICAyNCB2YXJpYWJsZXM6XG4gJCBYLjIgICAgICAgICAgICAgIDogaW50ICAxIDIgMyA0IDUgNiA3IDggOSAxMCAuLi5cbiAkIFguMSAgICAgICAgICAgICAgOiBpbnQgIDEgMiAzIDQgNSA2IDcgOCA5IDEwIC4uLlxuICQgWCAgICAgICAgICAgICAgICA6IGludCAgMSAyIDMgNCA1IDYgNyA4IDkgMTAgLi4uXG4gJCBzdHJhdHVtLmlkICAgICAgIDogRmFjdG9yIHcvIDM2MDAgbGV2ZWxzIFwiQWxhYmFtYS4xOTY5LkZlbWFsZVwiLC4uOiAxIDIgMyA0IDUgNiA3IDggOSAxMCAuLi5cbiAkIExFX3doaXRlX2xjbCAgICAgOiBudW0gIDc1LjUgNjYuNCA3NS43IDY2LjYgNzYgLi4uXG4gJCBMRV93aGl0ZV9tZWQgICAgIDogbnVtICA3NS44IDY2LjYgNzUuOSA2Ni43IDc2LjIgLi4uXG4gJCBMRV93aGl0ZV91Y2wgICAgIDogbnVtICA3NiA2Ni44IDc2LjEgNjYuOSA3Ni4zIC4uLlxuICQgTEVfd2hpdGVfbWVhbiAgICA6IG51bSAgNzUuOCA2Ni42IDc1LjkgNjYuNyA3Ni4yIC4uLlxuICQgTEVfYmxhY2tfbGNsICAgICA6IG51bSAgNjcuNiA1OSA2Ny45IDU5LjYgNjguNiAuLi5cbiAkIExFX2JsYWNrX21lZCAgICAgOiBudW0gIDY4IDU5LjUgNjguMiA1OS45IDY4LjkgLi4uXG4gJCBMRV9ibGFja191Y2wgICAgIDogbnVtICA2OC4zIDU5LjkgNjguNiA2MC4zIDY5LjIgLi4uXG4gJCBMRV9ibGFja19tZWFuICAgIDogbnVtICA2OCA1OS41IDY4LjIgNTkuOSA2OC45IC4uLlxuICQgTEVfd2JnYXBfbGNsICAgICA6IG51bSAgNy4zNCA2LjY4IDcuMjQgNi40MiA2Ljg4IC4uLlxuICQgTEVfd2JnYXBfbWVkICAgICA6IG51bSAgNy44IDcuMTMgNy42NCA2LjgyIDcuMjQgLi4uXG4gJCBMRV93YmdhcF91Y2wgICAgIDogbnVtICA4LjIgNy42MiA4LjA0IDcuMjEgNy42NCAuLi5cbiAkIExFX3diZ2FwX21lYW4gICAgOiBudW0gIDcuOCA3LjEzIDcuNjUgNi44MiA3LjI0IC4uLlxuICQgc3RhdGUgICAgICAgICAgICA6IEZhY3RvciB3LyA0MCBsZXZlbHMgXCJBbGFiYW1hXCIsXCJBcml6b25hXCIsLi46IDEgMSAxIDEgMSAxIDEgMSAxIDEgLi4uXG4gJCB5ZWFyICAgICAgICAgICAgIDogaW50ICAxOTY5IDE5NjkgMTk3MCAxOTcwIDE5NzEgMTk3MSAxOTcyIDE5NzIgMTk3MyAxOTczIC4uLlxuICQgc2V4ICAgICAgICAgICAgICA6IEZhY3RvciB3LyAyIGxldmVscyBcIkZlbWFsZVwiLFwiTWFsZVwiOiAxIDIgMSAyIDEgMiAxIDIgMSAyIC4uLlxuICQgQ2Vuc3VzX1JlZ2lvbiAgICA6IEZhY3RvciB3LyA0IGxldmVscyBcIk1pZHdlc3RcIixcIk5vcnRoZWFzdFwiLC4uOiAzIDMgMyAzIDMgMyAzIDMgMyAzIC4uLlxuICQgQ2Vuc3VzX0RpdmlzaW9uICA6IEZhY3RvciB3LyA5IGxldmVscyBcIkVhc3QgTm9ydGggQ2VudHJhbFwiLC4uOiAyIDIgMiAyIDIgMiAyIDIgMiAyIC4uLlxuICQgc3RhYmJycyAgICAgICAgICA6IEZhY3RvciB3LyA0MCBsZXZlbHMgXCJBTFwiLFwiQVJcIixcIkFaXCIsLi46IDEgMSAxIDEgMSAxIDEgMSAxIDEgLi4uXG4gJCBzdGF0ZS5tYXAub3JkZXIgIDogRmFjdG9yIHcvIDQwIGxldmVscyBcIkFsYWJhbWFcIixcIkFyaXpvbmFcIiwuLjogMSAxIDEgMSAxIDEgMSAxIDEgMSAuLi5cbiAkIHN0YWJicnMubWFwLm9yZGVyOiBGYWN0b3Igdy8gNDAgbGV2ZWxzIFwiQUxcIixcIkFSXCIsXCJBWlwiLC4uOiAxIDEgMSAxIDEgMSAxIDEgMSAxIC4uLlxuIn0= -->
+<pre><code>'data.frame':   3600 obs. of  24 variables:
+ $ X.2              : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ X.1              : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ X                : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ stratum.id       : Factor w/ 3600 levels &quot;Alabama.1969.Female&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ LE_white_lcl     : num  75.5 66.4 75.7 66.6 76 ...
+ $ LE_white_med     : num  75.8 66.6 75.9 66.7 76.2 ...
+ $ LE_white_ucl     : num  76 66.8 76.1 66.9 76.3 ...
+ $ LE_white_mean    : num  75.8 66.6 75.9 66.7 76.2 ...
+ $ LE_black_lcl     : num  67.6 59 67.9 59.6 68.6 ...
+ $ LE_black_med     : num  68 59.5 68.2 59.9 68.9 ...
+ $ LE_black_ucl     : num  68.3 59.9 68.6 60.3 69.2 ...
+ $ LE_black_mean    : num  68 59.5 68.2 59.9 68.9 ...
+ $ LE_wbgap_lcl     : num  7.34 6.68 7.24 6.42 6.88 ...
+ $ LE_wbgap_med     : num  7.8 7.13 7.64 6.82 7.24 ...
+ $ LE_wbgap_ucl     : num  8.2 7.62 8.04 7.21 7.64 ...
+ $ LE_wbgap_mean    : num  7.8 7.13 7.65 6.82 7.24 ...
+ $ state            : Factor w/ 40 levels &quot;Alabama&quot;,&quot;Arizona&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ year             : int  1969 1969 1970 1970 1971 1971 1972 1972 1973 1973 ...
+ $ sex              : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 1 2 1 2 1 2 1 2 1 2 ...
+ $ Census_Region    : Factor w/ 4 levels &quot;Midwest&quot;,&quot;Northeast&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ Census_Division  : Factor w/ 9 levels &quot;East North Central&quot;,..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ stabbrs          : Factor w/ 40 levels &quot;AL&quot;,&quot;AR&quot;,&quot;AZ&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ state.map.order  : Factor w/ 40 levels &quot;Alabama&quot;,&quot;Arizona&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ stabbrs.map.order: Factor w/ 40 levels &quot;AL&quot;,&quot;AR&quot;,&quot;AZ&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>what are the first three variables? Hint: Use the dollar sign to access the variables within the data frame.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Are the X.1 and X.2 variables the same? Write code in the cell to determine this.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="lets-first-use-the-viewer-to-look-at-these-data." class="section level1">
-<h1>Let’s first use the viewer to look at these data.</h1>
+<div id="data-manipulation" class="section level3">
+<h3>Data Manipulation</h3>
+<p>It looks like they just count the rows. Let’s remove them from the dataset:</p>
+<p>Data manipulation is best done using functions from the package “dplyr”</p>
+<p>Install.packages(“dplyr”). If you haven’t installed this package before, you need to do it now!</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cikgI2xvYWQgdGhpcyBwYWNrYWdlXG5gYGAifQ== -->
+<pre class="r"><code>library(dplyr) #load this package</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Notice the output in the console. These pink notes are called “messages”. These messages are telling you that the functions “filter” and “lag” from dplyr are named the same thing as functions from the pre-loaded stats package. So now when you call the function filter() or lag() you will use the dplyr version of those functions. It also has functions that are the same names as four functions from the base R package.</p>
+<p>Use the select() function from dplyr to select the rows you want to keep in the dataset and assign it to the variable cleaned.data Hint: Use subtractive select with the negative sign to remove the rows you do not want.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xlYW5lZC5kYXRhIDwtICMjcmVwbGFjZSB0aGlzIHdpdGggY29kZVxuYGBgIn0= -->
+<pre class="r"><code>cleaned.data &lt;- ##replace this with code</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Notice how the number of variables has changed in the environment tab vs. the original data.</p>
+<p>Now let’s erase cleaned.data using the remove function, rm():</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0oY2xlYW5lZC5kYXRhKVxuYGBgIn0= -->
+<pre class="r"><code>rm(cleaned.data)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>And recreate it using the piping operator:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xlYW5lZC5kYXRhIDwtIEJsYWNrV2hpdGVfcmVzdWx0cyAlPiUgc2VsZWN0KC1YLCAtWC4xLCAtWC4yKVxuYGBgIn0= -->
+<pre class="r"><code>cleaned.data &lt;- BlackWhite_results %&gt;% select(-X, -X.1, -X.2)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We can View() cleaned.data or remind ourselves of the variables contained in the data frame:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoY2xlYW5lZC5kYXRhKVxuYGBgIn0= -->
+<pre class="r"><code>names(cleaned.data)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Let’s examine some of the variables a little more closely:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUoY2xlYW5lZC5kYXRhJHNleClcbnRhYmxlKGNsZWFuZWQuZGF0YSRzdGF0ZSlcbnRhYmxlKGNsZWFuZWQuZGF0YSR5ZWFyKVxudGFibGUoY2xlYW5lZC5kYXRhJHN0YXRlLCBjbGVhbmVkLmRhdGEkQ2Vuc3VzX1JlZ2lvbilcbmBgYCJ9 -->
+<pre class="r"><code>table(cleaned.data$sex)
+table(cleaned.data$state)
+table(cleaned.data$year)
+table(cleaned.data$state, cleaned.data$Census_Region)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Also useful is the unique() function:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW5pcXVlKGNsZWFuZWQuZGF0YSRzZXgpXG51bmlxdWUoY2xlYW5lZC5kYXRhJENlbnN1c19EaXZpc2lvbilcbmxlbmd0aCh1bmlxdWUoY2xlYW5lZC5kYXRhJENlbnN1c19EaXZpc2lvbikpXG5gYGAifQ== -->
+<pre class="r"><code>unique(cleaned.data$sex)
+unique(cleaned.data$Census_Division)
+length(unique(cleaned.data$Census_Division))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Much less useful for continuous data!:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW5pcXVlKGNsZWFuZWQuZGF0YSRMRV9ibGFja19sY2wpXG5cbnN0cihjbGVhbmVkLmRhdGEkc3RhdGUpXG5gYGAifQ== -->
+<pre class="r"><code>unique(cleaned.data$LE_black_lcl)
+
+str(cleaned.data$state)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
-<div id="click-the-data-icon-next-to-blackwhite_results-in-the-environment-tab" class="section level1">
-<h1>1. Click the data icon next to BlackWhite_results in the environment tab</h1>
-</div>
-<div id="or-run-the-code" class="section level1">
-<h1>Or run the code:</h1>
-<p>View(BlackWhite_results)</p>
-</div>
-<div id="these-are-some-results-from-a-study-i-did-on-the-inequality-in-life-expectancy-between-blacks-and-whites-in-the-us." class="section level1">
-<h1>These are some results from a study I did on the inequality in life expectancy between blacks and whites in the US.</h1>
-</div>
-<div id="lets-first-examine-the-structure-of-the-dataset" class="section level1">
-<h1>Let’s first examine the structure of the dataset:</h1>
-<p>str(BlackWhite_results)</p>
-</div>
-<div id="hmm-what-are-the-first-three-variables" class="section level1">
-<h1>Hmm, what are the first three variables?</h1>
-</div>
-<div id="use-the-dollar-sign-to-access-the-variables-within-the-data-frame" class="section level1">
-<h1>Use the dollar sign to access the variables within the data frame:</h1>
-<p>head(BlackWhite_results<span class="math inline">\(X.2) #first six tail(BlackWhite_results\)</span>X.2) #last six identical(BlackWhite_results<span class="math inline">\(X.1, BlackWhite_results\)</span>X.2) #are these variables the same? #it looks like they just count the rows. Let’s remove them from the dataset:</p>
-</div>
-<div id="data-manipulation-is-best-done-using-functions-from-the-package-dplyr" class="section level1">
-<h1>Data manipulation is best done using functions from the package “dplyr”</h1>
-</div>
-<div id="install.packagesdplyr-if-you-havent-installed-this-package-before-you-need-to-do-it-now" class="section level1">
-<h1>install.packages(“dplyr”) #if you haven’t installed this package before, you need to do it now!</h1>
-<p>library(dplyr) #load this package #notice the output in the console. These pink notes are called “messages” #These messages are telling you that the functions “filter” and “lag” from dplyr are named the same thing #as functions from the pre-loaded stats package. So now when you call the function filter() or lag() #you will use the dplyr version of those functions. It also has functions that are the same names as #four functions from the base R package.</p>
-</div>
-<div id="use-the-select-function-from-dplyr-to-select-the-rows-you-want-to-keep-in-the-dataset." class="section level1">
-<h1>Use the select() function from dplyr to select the rows you want to keep in the dataset.</h1>
-</div>
-<div id="here-we-use-subtractive-select-with-the-negative-sign-to-remove-the-rows." class="section level1">
-<h1>Here we use subtractive select with the negative sign to remove the rows.</h1>
-<p>cleaned.data &lt;- select(BlackWhite_results, -X, -X.1, -X.2) #notice how the number of variables has changed in the environment tab vs. the original data</p>
-</div>
-<div id="now-lets-erase-cleaned.data-using-the-remove-function-rm" class="section level1">
-<h1>now let’s erase cleaned.data using the remove function, rm():</h1>
-<p>rm(cleaned.data)</p>
-</div>
-<div id="and-recreate-it-using-the-piping-operator" class="section level1">
-<h1>and recreate it using the piping operator:</h1>
-<p>cleaned.data &lt;- BlackWhite_results %&gt;% select(-X, -X.1, -X.2)</p>
-</div>
-<div id="we-can-view-cleaned.data-or-remind-ourselves-of-the-variables-contained-in-the-data-frame" class="section level1">
-<h1>We can View() cleaned.data or remind ourselves of the variables contained in the data frame:</h1>
-<p>names(cleaned.data)</p>
-</div>
-<div id="lets-examine-some-of-the-variables-a-little-more-closely" class="section level1">
-<h1>let’s examine some of the variables a little more closely</h1>
-<p>table(cleaned.data<span class="math inline">\(sex) table(cleaned.data\)</span>state) table(cleaned.data<span class="math inline">\(year) table(cleaned.data\)</span>state, cleaned.data$Census_Region)</p>
-</div>
-<div id="also-useful-is-the-unique-function" class="section level1">
-<h1>also useful is the unique() function:</h1>
-<p>unique(cleaned.data<span class="math inline">\(sex) unique(cleaned.data\)</span>Census_Division) length(unique(cleaned.data$Census_Division))</p>
-</div>
-<div id="much-less-useful-for-continuous-data" class="section level1">
-<h1>much less useful for continuous data!:</h1>
-<p>unique(cleaned.data$LE_black_lcl)</p>
-<p>str(cleaned.data<span class="math inline">\(state) #let's talk about factors #factors have levels and levels are ordered. #by default factors are ordered alphabetically if they are words. levels(cleaned.data\)</span>state) #this prints a vector of the factor levels in their order length(levels(cleaned.data$state)) #this prints the length</p>
-</div>
-<div id="some-other-useful-dplyr-functions" class="section level1">
-<h1>some other useful dplyr functions:</h1>
-</div>
-<div id="filter" class="section level1">
-<h1>1. filter()</h1>
-</div>
-<div id="group_by-summarise" class="section level1">
-<h1>2. group_by(), summarise()</h1>
-<p>Alabama.data &lt;- cleaned.data %&gt;% filter(state == “Alabama”, sex == “Male”)</p>
-<p>Alabama.data %&gt;% summarise(overall.mean.white = mean(LE_white_mean), overall.mean.black = mean(LE_black_mean)) #EXERCISE: extend the above statement to also compute the mean of the variable “LE_wbgap_mean”</p>
-</div>
-<div id="rather-than-doing-the-above-in-two-separate-steps-you-can-pipe-the-steps-together" class="section level1">
-<h1>Rather than doing the above in two separate steps you can “pipe” the steps together:</h1>
-<p>cleaned.data %&gt;% filter(state == “Alabama”, sex == “Male”) %&gt;% summarise(overall.mean.white = mean(LE_white_mean), overall.mean.black = mean(LE_black_mean))</p>
-</div>
-<div id="what-if-you-wanted-to-compute-the-summary-for-females-and-for-males" class="section level1">
-<h1>What if you wanted to compute the summary for females and for males?</h1>
-</div>
-<div id="hint-we-need-to-use-the-group_by-function-as-one-of-our-commands-and-also-slightly-modify-the-filter-command." class="section level1">
-<h1>Hint: we need to use the group_by() function as one of our commands, and also slightly modify the filter() command.</h1>
-</div>
-<div id="solution" class="section level1">
-<h1>SOLUTION:</h1>
-</div>
-<div id="we-will-fill-this-in-together-and-i-will-send-a-complete-file-with-solutions-after-class." class="section level1">
-<h1>we will fill this in together, and I will send a complete file with solutions after class.</h1>
-<p>cleaned.data %&gt;% group_by(sex) %&gt;% filter(state == “Alabama”) %&gt;% summarise(overall.mean.white = mean(LE_white_mean), overall.mean.black = mean(LE_black_mean))</p>
-</div>
-<div id="exercise-compute-the-summary-for-females-and-males-in-every-state." class="section level1">
-<h1>EXERCISE: Compute the summary for females and males in every state.</h1>
-</div>
-<div id="solution-1" class="section level1">
-<h1>SOLUTION:</h1>
-</div>
-<div id="to-be-filled-in-during-class" class="section level1">
-<h1>TO BE FILLED IN DURING CLASS</h1>
-<p>cleaned.data %&gt;% group_by(sex, state) %&gt;% summarise(overall.mean.white = mean(LE_white_mean), overall.mean.black = mean(LE_black_mean)) %&gt;% print(n = nrow(.)) # add the print step to specify the number of rows to print. This tells it to print all rows of the results.</p>
+<div id="factors" class="section level3">
+<h3>Factors</h3>
+<p>Factors have levels and levels are ordered. By default, factors are ordered alphabetically if they are words.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGV2ZWxzKGNsZWFuZWQuZGF0YSRzdGF0ZSkgICN0aGlzIHByaW50cyBhIHZlY3RvciBvZiB0aGUgZmFjdG9yIGxldmVscyBpbiB0aGVpciBvcmRlclxubGVuZ3RoKGxldmVscyhjbGVhbmVkLmRhdGEkc3RhdGUpKSAgI3RoaXMgcHJpbnRzIHRoZSBsZW5ndGhcbmBgYCJ9 -->
+<pre class="r"><code>levels(cleaned.data$state)  #this prints a vector of the factor levels in their order
+length(levels(cleaned.data$state))  #this prints the length</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Some other useful dplyr functions: 1. filter() 2. group_by(), summarise()</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQWxhYmFtYS5kYXRhIDwtIGNsZWFuZWQuZGF0YSAlPiUgZmlsdGVyKHN0YXRlID09IFwiQWxhYmFtYVwiLCBzZXggPT0gXCJNYWxlXCIpXG5cbkFsYWJhbWEuZGF0YSAlPiUgc3VtbWFyaXNlKG92ZXJhbGwubWVhbi53aGl0ZSA9IG1lYW4oTEVfd2hpdGVfbWVhbiksIG92ZXJhbGwubWVhbi5ibGFjayA9IG1lYW4oTEVfYmxhY2tfbWVhbikpXG5gYGAifQ== -->
+<pre class="r"><code>Alabama.data &lt;- cleaned.data %&gt;% filter(state == &quot;Alabama&quot;, sex == &quot;Male&quot;)
+
+Alabama.data %&gt;% summarise(overall.mean.white = mean(LE_white_mean), overall.mean.black = mean(LE_black_mean))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>EXERCISE: Extend the above statement to also compute the mean of the variable “LE_wbgap_mean” Hint: Rather than doing the above in two separate steps you can “pipe” the steps together. Replace the dots with your code.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xlYW5lZC5kYXRhICU+JVxuICAuLi4gICU+JVxuICAuLi5cbmBgYCJ9 -->
+<pre class="r"><code>cleaned.data %&gt;%
+  ...  %&gt;%
+  ...</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>What if you wanted to compute the summary for females and for males? Hint: we need to use the group_by() function as one of our commands, and also slightly modify the filter() command. SOLUTION: We will fill this in together, and I will send a complete file with solutions after class.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xlYW5lZC5kYXRhICU+JSBcbiAgZ3JvdXBfYnkoc2V4KSAlPiVcbiAgZmlsdGVyKHN0YXRlID09IFwiQWxhYmFtYVwiKSAlPiVcbiAgc3VtbWFyaXNlKG92ZXJhbGwubWVhbi53aGl0ZSA9IG1lYW4oTEVfd2hpdGVfbWVhbiksIG92ZXJhbGwubWVhbi5ibGFjayA9IG1lYW4oTEVfYmxhY2tfbWVhbikpXG5gYGAifQ== -->
+<pre class="r"><code>cleaned.data %&gt;% 
+  group_by(sex) %&gt;%
+  filter(state == &quot;Alabama&quot;) %&gt;%
+  summarise(overall.mean.white = mean(LE_white_mean), overall.mean.black = mean(LE_black_mean))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>EXERCISE: Compute the summary for females and males in every state. TO BE FILLED IN DURING CLASS</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xlYW5lZC5kYXRhICU+JSBcbiAgLi4uICU+JVxuICBzdW1tYXJpc2Uob3ZlcmFsbC5tZWFuLndoaXRlID0gLi4uICwgXG4gICAgICAgICAgICBvdmVyYWxsLm1lYW4uYmxhY2sgPSAuLi4pKSAlPiUgXG4gIHByaW50KG4gPSBucm93KC4pKSAjIGFkZCB0aGUgcHJpbnQgc3RlcCB0byBzcGVjaWZ5IHRoZSBudW1iZXIgb2Ygcm93cyB0byBwcmludC4gVGhpcyB0ZWxscyBpdCB0byBwcmludCBhbGwgcm93cyBvZiB0aGUgcmVzdWx0cy5cbmBgYCJ9 -->
+<pre class="r"><code>cleaned.data %&gt;% 
+  ... %&gt;%
+  summarise(overall.mean.white = ... , 
+            overall.mean.black = ...)) %&gt;% 
+  print(n = nrow(.)) # add the print step to specify the number of rows to print. This tells it to print all rows of the results.</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <div id="section" class="section level102">
 <p></p>
 </div>
 </div>
-<div id="what-weve-learned-so-far" class="section level1">
-<h1>What we’ve learned so far:</h1>
-</div>
-<div id="importing-data" class="section level1">
-<h1>IMPORTING DATA</h1>
-</div>
-<div id="read.csv-for-importing-.csv-data.-there-is-also-read.table-for-.txt-data" class="section level1">
-<h1>read.csv() for importing .csv data. There is also read.table for .txt data</h1>
-</div>
-<div id="to-read-data-exported-from-state-you-will-need-to-load-the-foreign-library-and-use-read.dta" class="section level1">
-<h1>to read data exported from state you will need to load the foreign library and use read.dta()</h1>
-</div>
-<div id="to-read-files-exported-from-stata-version-13-you-need-to-load-the-readstata13-package-and-use-read.dta13" class="section level1">
-<h1>to read files exported from Stata version 13 you need to load the readstata13() package and use read.dta13()</h1>
-</div>
-<div id="looking-at-the-dataset" class="section level1">
-<h1>LOOKING AT THE DATASET</h1>
-</div>
-<div id="view-str-head-tail-table-length-unique" class="section level1">
-<h1>View(), str(), head(), tail(), table(), length(), unique()</h1>
-</div>
-<div id="summary-is-another-good-function.-useful-for-continuous-data" class="section level1">
-<h1>summary() is another good function. Useful for continuous data:</h1>
-<p>summary(Alabama.data$LE_white_mean)</p>
-</div>
-<div id="and-so-is-quantile" class="section level1">
-<h1>and so is quantile()</h1>
-<p>quantile(Alabama.data<span class="math inline">\(LE_black_mean) quantile(Alabama.data\)</span>LE_black_mean, 0.3)</p>
-</div>
-<div id="manipulate-the-data" class="section level1">
-<h1>MANIPULATE THE DATA</h1>
-</div>
-<div id="select-filter-group_by-summarise" class="section level1">
-<h1>select(), filter(), group_by(), summarise()</h1>
-</div>
-<div id="note-that-summarise-computes-a-variety-of-summary-functions-our-example-focused-on-computing-the-mean." class="section level1">
-<h1>Note that summarise computes a variety of summary functions – our example focused on computing the mean.</h1>
-</div>
-<div id="other-common-summary-functions-median-sum-first-last-n-min-max-sd" class="section level1">
-<h1>Other common summary functions: median(), sum(), first(), last(), n(), min(), max(), sd()</h1>
-</div>
-<div id="summarise-the-number-of-rows-per-stratum" class="section level1">
-<h1>Summarise the number of rows per stratum:</h1>
-<p>cleaned.data %&gt;% group_by(sex, state) %&gt;% summarise(num.per.strata = n()) #Alternatively, we could have written: cleaned.data %&gt;% group_by(sex, state) %&gt;% tally() #This is really useful if you have panel data and want to know the number of visits per patient, say. #Or, before running a multi-level model, you could check the cluster sizes for all your clusters</p>
+<div id="what-weve-learned-so-far" class="section level3">
+<h3>What we’ve learned so far:</h3>
+<ol style="list-style-type: decimal">
+<li>IMPORTING DATA</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>read.csv() for importing .csv data. There is also read.table for .txt data to read data exported from state you will need to load the foreign library and use read.data()</li>
+<li>To read files exported from Stata version 13 you need to load the readstata13() package and use read.dta13()</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>LOOKING AT THE DATASET</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>View(), str(), head(), tail(), table(), length(), unique()</li>
+<li>summary() is another good function. Useful for continuous data: summary(Alabama.data$LE_white_mean)</li>
+<li>And so is quantile(): quantile(Alabama.data<span class="math inline">\(LE_black_mean) quantile(Alabama.data\)</span>LE_black_mean, 0.3)</li>
+</ol>
+<ol start="3" style="list-style-type: decimal">
+<li>MANIPULATE THE DATA</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>select(), filter(), group_by(), summarise() Note that summarise computes a variety of summary functions – our example focused on computing the mean. Other common summary functions: median(), sum(), first(), last(), n(), min(), max(), sd()</li>
+</ol>
+<ol start="4" style="list-style-type: decimal">
+<li>Summarise the number of rows per stratum: cleaned.data %&gt;% group_by(sex, state) %&gt;% summarise(num.per.strata = n()) Alternatively, we could have written: cleaned.data %&gt;% group_by(sex, state) %&gt;% tally() This is really useful if you have panel data and want to know the number of visits per patient, say. Or, before running a multi-level model, you could check the cluster sizes for all your clusters</li>
+</ol>
 <div id="section-1" class="section level112">
 <p></p>
 </div>
 </div>
-<div id="section-2-data-visualization" class="section level1">
-<h1>SECTION 2: DATA VISUALIZATION</h1>
-</div>
-<div id="in-r-there-are-base-r-graphics-but-most-folks-prefer-the-ggplot2-graphing-library" class="section level1">
-<h1>In R, there are “base R graphics”, but most folks prefer the ggplot2 graphing library</h1>
-<p>library(ggplot2) #remember to first install the package if you haven’t done so already</p>
-</div>
-<div id="the-main-function-in-ggplot2-is-ggplot" class="section level1">
-<h1>the main function in ggplot2 is “ggplot”!</h1>
-</div>
-<div id="this-function-creates-a-plotting-window-that-reflects-the-range-of-x-and-y-in-the-data.frame" class="section level1">
-<h1>this function creates a plotting window that reflects the range of X and Y in the data.frame</h1>
-<p>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean))</p>
-</div>
-<div id="we-need-to-tell-it-how-to-plot-the-time-series-of-the-mean-life-expectancy-for-whites." class="section level1">
-<h1>we need to tell it how to plot the time series of the mean life expectancy for whites.</h1>
-</div>
-<div id="lets-start-by-plotting-points" class="section level1">
-<h1>Let’s start by plotting points:</h1>
-<p>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) +<br />
-geom_point()</p>
-</div>
-<div id="note-the-plus-sign-needs-to-always-be-at-the-end-of-the-line.-the-following-code-will-not-add-the-geom_point-command" class="section level1">
-<h1>NOTE: the plus sign needs to always be at the end of the line. The following code WILL NOT add the geom_point() command:</h1>
-<p>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + geom_point()</p>
-</div>
-<div id="within-the-geom_point-function-you-can-customize-the-appearance-of-the-points" class="section level1">
-<h1>Within the geom_point() function, you can customize the appearance of the points:</h1>
-<p>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + geom_point(col = “red”, size = 2, pch = 3)</p>
-</div>
-<div id="would-you-prefer-to-have-a-line-instead" class="section level1">
-<h1>Would you prefer to have a line instead?</h1>
-</div>
-<div id="exercise-how-do-you-think-youd-plot-a-line-in-ggplot-give-it-a-go.-hint-change-geom_point-to-another-type-of-geom" class="section level1">
-<h1>EXERCISE: how do you think you’d plot a line in ggplot? Give it a go. Hint: change geom_point to another type of “geom”</h1>
-</div>
-<div id="solution-2" class="section level1">
-<h1>SOLUTION:</h1>
-<p>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + geom_line(col = “red”, size = 2)</p>
-</div>
-<div id="exercise-titles" class="section level1">
-<h1>EXERCISE: Titles</h1>
-</div>
-<div id="ggtitlethis-is-a-title-adds-a-title-to-the-ggplot.-add-one" class="section level1">
-<h1>ggtitle(“This is a title”) adds a title to the ggplot. Add one!</h1>
-</div>
-<div id="also-use-xlab-and-ylab-to-update-the-assigned-x-and-y-labels." class="section level1">
-<h1>Also use xlab() and ylab() to update the assigned x and y labels.</h1>
-</div>
-<div id="solution-3" class="section level1">
-<h1>SOLUTION</h1>
-<p>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + geom_line(col = “green”, size = 2) + #this colour is ugly. xlab(“Year”) + ylab(“Mean life expectancy (years)”) + ggtitle(“Mean life expectancy for white males in Alabama, 1968–2013”)</p>
-</div>
-<div id="how-can-we-choose-nice-colours" class="section level1">
-<h1>How can we choose nice colours?</h1>
-</div>
-<div id="nice-online-colour-pickers" class="section level1">
-<h1>Nice online colour pickers:</h1>
-</div>
-<div id="httpcolorbrewer2.orgtypesequentialschemebugnn3" class="section level1">
-<h1><a href="http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3" class="uri">http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3</a></h1>
-</div>
-<div id="httptristen.cahcl-pickerhlc6115534ce2e062" class="section level1">
-<h1><a href="http://tristen.ca/hcl-picker/#/hlc/6/1/15534C/E2E062" class="uri">http://tristen.ca/hcl-picker/#/hlc/6/1/15534C/E2E062</a></h1>
-</div>
-<div id="pick-a-colour-you-like-and-copy-its-hex-value-including-the-.-then-specify-col-12345-where-12345-is-the-hex-value." class="section level1">
-<h1>pick a colour you like and copy its HEX value, including the “#”. Then specify col = “#12345”, where 12345 is the HEX value.</h1>
-</div>
-<div id="some-nice-colours-1c9099-7f526d" class="section level1">
-<h1>some nice colours: #1c9099, #7F526D</h1>
-</div>
-<div id="solution-4" class="section level1">
-<h1>SOLUTION</h1>
-<p>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + geom_line(col = “#1c9099”, size = 2) + #easy on the eyes xlab(“Year”) + ylab(“Mean life expectancy (years)”) + ggtitle(“Mean life expectancy for white males in Alabama, 1968–2013”)</p>
-<p>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + geom_line(col = “#7F526D”, size = 2) + #easy on the eyes xlab(“Year”) + ylab(“Mean life expectancy (years)”) + ggtitle(“Mean life expectancy for white males in Alabama, 1968–2013”)</p>
-</div>
-<div id="it-would-be-nice-to-also-plot-the-life-expectancy-for-females-during-the-same-time-period." class="section level1">
-<h1>It would be nice to also plot the life expectancy for females during the same time period.</h1>
-</div>
-<div id="exercise-user-dplyr-functions-on-the-cleaned.data-to-create-and-store-a-new-dataset-that" class="section level1">
-<h1>EXERCISE: user dplyr functions on the cleaned.data to create and store a new dataset that</h1>
-</div>
-<div id="contains-the-alabama-data-for-both-males-and-females.-call-the-new-dataset-alabama.both.genders" class="section level1">
-<h1>contains the Alabama data for both males and females. Call the new dataset Alabama.both.genders:</h1>
-</div>
-<div id="solution-5" class="section level1">
-<h1>SOLUTION:</h1>
-<p>Alabama.both.genders &lt;- cleaned.data %&gt;% filter(state == “Alabama”)</p>
-</div>
-<div id="lets-plot-the-alabama-data-using-the-previous-code" class="section level1">
-<h1>Let’s plot the Alabama data using the previous code:</h1>
-<p>ggplot(data = Alabama.both.genders, aes(x = year, y = LE_white_mean)) + geom_line(col = “#7F526D”, size = 2) + #ho boy, what is happening here? any guesses? xlab(“Year”) + ylab(“Mean life expectancy (years)”)</p>
-</div>
-<div id="try" class="section level1">
-<h1>Try:</h1>
-<p>ggplot(data = Alabama.both.genders, aes(x = year, y = LE_white_mean)) + geom_point(col = “#7F526D”, size = 2) + #better, but still not ideal. What would make this better? xlab(“Year”) + ylab(“Mean life expectancy (years)”)</p>
-</div>
-<div id="option-1-different-colours-for-each-gender" class="section level1">
-<h1>Option 1: Different colours for each gender:</h1>
-<p>ggplot(data = Alabama.both.genders, aes(x = year, y = LE_white_mean)) + geom_point(aes(col = sex), size = 2) + xlab(“Year”) + ylab(“Mean life expectancy (years)”)</p>
-</div>
-<div id="option-2-separate-panels-aka-facets-for-each-gender" class="section level1">
-<h1>Option 2: Separate panels (aka “facets”) for each gender:</h1>
-<p>ggplot(data = Alabama.both.genders, aes(x = year, y = LE_white_mean)) + geom_point(size = 2) + facet_wrap(~sex) + xlab(“Year”) + ylab(“Mean life expectancy (years)”)</p>
-</div>
-<div id="lets-use-these-same-skills-to-look-at-a-larger-dataset" class="section level1">
-<h1>Let’s use these same skills to look at a larger dataset</h1>
-</div>
-<div id="exercise" class="section level1">
-<h1>EXERCISE</h1>
-</div>
-<div id="part-1-use-dplyr-functions-to-create-a-new-dataset-containing-data-on-only-females.-call-it-data.females" class="section level1">
-<h1>PART 1: Use dplyr functions to create a new dataset containing data on only females. Call it data.females</h1>
-</div>
-<div id="you-now-have-time-series-data-for-40-states-for-black-and-white-females." class="section level1">
-<h1>You now have time series data for 40 states for black and white females.</h1>
-</div>
-<div id="solution-6" class="section level1">
-<h1>SOLUTION</h1>
-<p>data.females &lt;- cleaned.data %&gt;% filter(sex == “Female”)</p>
-</div>
-<div id="part-2-plot-the-mean-life-expectancy-for-white-females-using-geom_point-or-geom_line." class="section level1">
-<h1>PART 2: plot the mean life expectancy for white females using geom_point or geom_line.</h1>
-</div>
-<div id="use-one-of-the-options-learned-in-the-previous-step-to-plot-a-separate-line-for-each-state." class="section level1">
-<h1>Use one of the options learned in the previous step to plot a separate line for each state.</h1>
-</div>
-<div id="which-option-do-you-like-best" class="section level1">
-<h1>Which option do you like best?</h1>
-</div>
-<div id="solution-a" class="section level1">
-<h1>SOLUTION A</h1>
-<p>ggplot(data = data.females, aes(x = year, y = LE_white_mean)) + geom_line() + facet_wrap(~state) + xlab(“Year”) + ylab(“Mean life expectancy (years)”)</p>
-</div>
-<div id="solution-b" class="section level1">
-<h1>SOLUTION B</h1>
-<p>ggplot(data = data.females, aes(x = year, y = LE_white_mean)) + geom_line(aes(col = state)) + xlab(“Year”) + ylab(“Mean life expectancy (years)”)</p>
-</div>
-<div id="for-the-previous-plot-it-would-be-really-helpful-if-we-could-more-easily-tell-which-line-is-which" class="section level1">
-<h1>For the previous plot, it would be really helpful if we could more easily tell which line is which</h1>
-</div>
-<div id="plotly-is-a-graphing-package-that-adds-interactive-components-hover-zoom-highlighting" class="section level1">
-<h1>Plotly is a graphing package that adds interactive components: hover, zoom, highlighting</h1>
-</div>
-<div id="for-many-ggplots-you-can-pipe-them-to-ggplotly-to-easily-add-these-interactive-components" class="section level1">
-<h1>For many ggplots, you can pipe them to ggplotly() to easily add these interactive components:</h1>
-<p>library(plotly) # don’t forget to install first if you haven’t done so already</p>
-</div>
-<div id="here-were-saving-the-ggplot-plot-and-calling-it-our.plot" class="section level1">
-<h1>here, we’re saving the ggplot plot and calling it “our.plot”</h1>
-<p>our.plot &lt;- ggplot(data = data.females, aes(x = year, y = LE_white_mean)) + geom_line(aes(col = state)) + xlab(“Year”) + ylab(“Mean life expectancy (years)”)</p>
-<p>our.plot #this prints the static version</p>
-</div>
-<div id="then-we-send-the-ggplot-to-the-plotly-function-ggplotly-to-add-hover-text" class="section level1">
-<h1>then, we send the ggplot to the plotly() function ggplotly() to add hover text:</h1>
-<p>our.plot %&gt;% ggplotly()</p>
-<div id="exercise-incorporate-information-on-census_divsion-or-census_region-into-the-ggplot-to-make-it-more-readable." class="section level3">
-<h3>EXERCISE: Incorporate information on Census_Divsion or Census_Region into the ggplot to make it more readable.</h3>
-</div>
-</div>
-<div id="hint-use-both-aescol-and-facet_wrap.-use-one-of-the-census-variables-as-well-as-the-state-variable." class="section level1">
-<h1>Hint: Use both aes(col) and facet_wrap(~). Use one of the census variables, as well as the state variable.</h1>
-</div>
-<div id="once-you-have-a-plot-you-like-make-it-interactive-using-ggplotly." class="section level1">
-<h1>Once you have a plot you like, make it interactive using ggplotly.</h1>
-</div>
-<div id="first-remind-yourself-what-the-census-variables-are-named" class="section level1">
-<h1>first, remind yourself what the census variables are named:</h1>
-<p>names(data.females)</p>
-</div>
-<div id="solution-7" class="section level1">
-<h1>SOLUTION</h1>
-<p>census_plot &lt;- ggplot(data = data.females, aes(x = year, y = LE_white_mean)) + geom_line(aes(col = state)) + facet_wrap(~Census_Division) + xlab(“Year”) + ylab(“Mean life expectancy (years)”)</p>
-<p>census_plot %&gt;% ggplotly()</p>
+<div id="section-2-data-visualization" class="section level3">
+<h3>SECTION 2: DATA VISUALIZATION</h3>
+<p>In R, there are “base R graphics”, but most folks prefer the ggplot2 graphing library</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKSAjcmVtZW1iZXIgdG8gZmlyc3QgaW5zdGFsbCB0aGUgcGFja2FnZSBpZiB5b3UgaGF2ZW4ndCBkb25lIHNvIGFscmVhZHlcbmBgYCJ9 -->
+<pre class="r"><code>library(ggplot2) #remember to first install the package if you haven't done so already</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The main function in ggplot2 is “ggplot”! This function creates a plotting window that reflects the range of X and Y in the data.frame</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKVxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We need to tell it how to plot the time series of the mean life expectancy for whites. Let’s start by plotting points:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArICAgIFxuICBnZW9tX3BvaW50KCkgIFxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) +    
+  geom_point()  </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>NOTE: the plus sign needs to always be at the end of the line. The following code WILL NOT add the geom_point() command:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKVxuKyBnZW9tX3BvaW50KCkgXG5gYGAifQ== -->
+<pre class="r"><code>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean))
++ geom_point() </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Within the geom_point() function, you can customize the appearance of the points:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIFxuICBnZW9tX3BvaW50KGNvbCA9IFwicmVkXCIsIHNpemUgPSAyLCBwY2ggPSAzKVxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + 
+  geom_point(col = &quot;red&quot;, size = 2, pch = 3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Would you prefer to have a line instead? EXERCISE: How do you think you’d plot a line in ggplot? Give it a go. Hint: change geom_point to another type of “geom”</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>EXERCISE: Titles ggtitle(“This is a title”) adds a title to the ggplot. Add one! Also use xlab() and ylab() to update the assigned x and y labels.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>How can we choose nice colours? Nice online colour pickers: <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3" class="uri">http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3</a> <a href="http://tristen.ca/hcl-picker/#/hlc/6/1/15534C/E2E062" class="uri">http://tristen.ca/hcl-picker/#/hlc/6/1/15534C/E2E062</a> Pick a colour you like and copy its HEX value, including the “#”. Then specify col = “#12345”, where 12345 is the HEX value. Some nice colours: #1c9099, #7F526D Replace the dots in the code with your favorite colors. Pick colors that are easy on the eyes! (Note: make sure to wrap the colors around with quotes, your code will not run!)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIFxuICBnZW9tX2xpbmUoY29sID0gLi4uICwgc2l6ZSA9IDIpICtcbiAgeGxhYihcIlllYXJcIikgKyB5bGFiKFwiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKVwiKSArXG4gIGdndGl0bGUoXCJNZWFuIGxpZmUgZXhwZWN0YW5jeSBmb3Igd2hpdGUgbWFsZXMgaW4gQWxhYmFtYSwgMTk2OC0tMjAxM1wiKVxuXG5nZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuZGF0YSwgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgXG4gIGdlb21fbGluZShjb2wgPSAuLi4gLCBzaXplID0gMikgK1xuICB4bGFiKFwiWWVhclwiKSArIHlsYWIoXCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpXCIpICtcbiAgZ2d0aXRsZShcIk1lYW4gbGlmZSBleHBlY3RhbmN5IGZvciB3aGl0ZSBtYWxlcyBpbiBBbGFiYW1hLCAxOTY4LS0yMDEzXCIpXG5gYGAifQ== -->
+<pre class="r"><code>ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + 
+  geom_line(col = ... , size = 2) +
+  xlab(&quot;Year&quot;) + ylab(&quot;Mean life expectancy (years)&quot;) +
+  ggtitle(&quot;Mean life expectancy for white males in Alabama, 1968--2013&quot;)
+
+ggplot(data = Alabama.data, aes(x = year, y = LE_white_mean)) + 
+  geom_line(col = ... , size = 2) +
+  xlab(&quot;Year&quot;) + ylab(&quot;Mean life expectancy (years)&quot;) +
+  ggtitle(&quot;Mean life expectancy for white males in Alabama, 1968--2013&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>It would be nice to also plot the life expectancy for females during the same time period. EXERCISE: user dplyr functions on the cleaned.data to create and store a new dataset that contains the Alabama data for both males and females. Call the new dataset Alabama.both.genders:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQWxhYmFtYS5ib3RoLmdlbmRlcnMgPC0gY2xlYW5lZC5kYXRhICU+JSAuLi5cbmBgYCJ9 -->
+<pre class="r"><code>Alabama.both.genders &lt;- cleaned.data %&gt;% ...</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Let’s plot the Alabama data using the previous code:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmJvdGguZ2VuZGVycywgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgXG4gIGdlb21fbGluZShjb2wgPSBcIiM3RjUyNkRcIiwgc2l6ZSA9IDIpICsgIyNvaCBib3ksIHdoYXQgaXMgaGFwcGVuaW5nIGhlcmU/IGFueSBndWVzc2VzP1xuICB4bGFiKFwiWWVhclwiKSArIHlsYWIoXCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpXCIpIFxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = Alabama.both.genders, aes(x = year, y = LE_white_mean)) + 
+  geom_line(col = &quot;#7F526D&quot;, size = 2) + ##oh boy, what is happening here? any guesses?
+  xlab(&quot;Year&quot;) + ylab(&quot;Mean life expectancy (years)&quot;) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Try:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmJvdGguZ2VuZGVycywgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgXG4gIGdlb21fcG9pbnQoY29sID0gXCIjN0Y1MjZEXCIsIHNpemUgPSAyKSArICNiZXR0ZXIsIGJ1dCBzdGlsbCBub3QgaWRlYWwuIFdoYXQgd291bGQgbWFrZSB0aGlzIGJldHRlcj9cbiAgeGxhYihcIlllYXJcIikgKyB5bGFiKFwiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKVwiKSBcbmBgYCJ9 -->
+<pre class="r"><code>ggplot(data = Alabama.both.genders, aes(x = year, y = LE_white_mean)) + 
+  geom_point(col = &quot;#7F526D&quot;, size = 2) + #better, but still not ideal. What would make this better?
+  xlab(&quot;Year&quot;) + ylab(&quot;Mean life expectancy (years)&quot;) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Option 1: Different colours for each gender:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmJvdGguZ2VuZGVycywgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgXG4gIGdlb21fcG9pbnQoYWVzKGNvbCA9IHNleCksIHNpemUgPSAyKSArIFxuICB4bGFiKFwiWWVhclwiKSArIHlsYWIoXCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpXCIpIFxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = Alabama.both.genders, aes(x = year, y = LE_white_mean)) + 
+  geom_point(aes(col = sex), size = 2) + 
+  xlab(&quot;Year&quot;) + ylab(&quot;Mean life expectancy (years)&quot;) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Option 2: Separate panels (aka “facets”) for each gender:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmJvdGguZ2VuZGVycywgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgXG4gIGdlb21fcG9pbnQoc2l6ZSA9IDIpICsgXG4gIGZhY2V0X3dyYXAofnNleCkgK1xuICB4bGFiKFwiWWVhclwiKSArIHlsYWIoXCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpXCIpIFxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = Alabama.both.genders, aes(x = year, y = LE_white_mean)) + 
+  geom_point(size = 2) + 
+  facet_wrap(~sex) +
+  xlab(&quot;Year&quot;) + ylab(&quot;Mean life expectancy (years)&quot;) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Let’s use these same skills to look at a larger dataset</p>
+<p>EXERCISE PART 1: Use dplyr functions to create a new dataset containing data on only females. Call it data.females You now have time series data for 40 states for black and white females.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0YS5mZW1hbGVzIDwtIC4uLlxuYGBgIn0= -->
+<pre class="r"><code>data.females &lt;- ...</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>PART 2: Plot the mean life expectancy for white females using geom_point or geom_line. Use one of the options learned in the previous step to plot a separate line for each state. Which option do you like best?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>For the previous plot, it would be really helpful if we could more easily tell which line is which. Plotly is a graphing package that adds interactive components: hover, zoom, highlighting. For many ggplots, you can pipe them to ggplotly() to easily add these interactive components:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShwbG90bHkpICMgZG9uJ3QgZm9yZ2V0IHRvIGluc3RhbGwgZmlyc3QgaWYgeW91IGhhdmVuJ3QgZG9uZSBzbyBhbHJlYWR5XG5gYGAifQ== -->
+<pre class="r"><code>library(plotly) # don't forget to install first if you haven't done so already</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Here, we’re saving the ggplot plot and calling it “our.plot”</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub3VyLnBsb3QgPC0gZ2dwbG90KGRhdGEgPSBkYXRhLmZlbWFsZXMsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIFxuICBnZW9tX2xpbmUoYWVzKGNvbCA9IHN0YXRlKSkgKyBcbiAgeGxhYihcIlllYXJcIikgKyB5bGFiKFwiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKVwiKVxuXG5vdXIucGxvdCAjdGhpcyBwcmludHMgdGhlIHN0YXRpYyB2ZXJzaW9uXG5gYGAifQ== -->
+<pre class="r"><code>our.plot &lt;- ggplot(data = data.females, aes(x = year, y = LE_white_mean)) + 
+  geom_line(aes(col = state)) + 
+  xlab(&quot;Year&quot;) + ylab(&quot;Mean life expectancy (years)&quot;)
+
+our.plot #this prints the static version</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Then, we send the ggplot to the plotly() function ggplotly() to add hover text:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub3VyLnBsb3QgJT4lIGdncGxvdGx5KClcbmBgYCJ9 -->
+<pre class="r"><code>our.plot %&gt;% ggplotly()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>EXERCISE: Incorporate information on Census_Divsion or Census_Region into the ggplot to make it more readable. Hint: Use both aes(col) and facet_wrap(~). Use one of the census variables, as well as the state variable. Once you have a plot you like, make it interactive using ggplotly.</p>
+<p>First, remind yourself what the census variables are named:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoZGF0YS5mZW1hbGVzKVxuYGBgIn0= -->
+<pre class="r"><code>names(data.females)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyNUeXBlIHNvbHV0aW9uIGhlcmVcblxuXG5gYGAifQ== -->
+<pre class="r"><code>##Type solution here
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <div id="section-2" class="section level102">
 <p></p>
-</div>
-</div>
-<div id="what-have-we-learned-so-far" class="section level1">
-<h1>What have we learned so far:</h1>
-</div>
-<div id="geom_point-geom_line" class="section level1">
-<h1>geom_point(), geom_line()</h1>
-</div>
-<div id="how-to-set-colour-to-a-fixed-value-e.g.-colred-or-col7f526d" class="section level1">
-<h1>how to set colour to a fixed value, e.g., col(“red”) or col(#7F526D)</h1>
-</div>
-<div id="how-to-set-colour-according-to-the-value-of-a-variable-e.g.aescol-state.-the-aes-wrapper-is-crucial" class="section level1">
-<h1>how to set colour according to the value of a variable, e.g. aes(col = state). The aes() wrapper is crucial!</h1>
-</div>
-<div id="facet_wrap-to-make-separate-panels-for-each-level-of-a-variable" class="section level1">
-<h1>facet_wrap() to make separate panels for each level of a variable</h1>
-</div>
-<div id="labels-ggtitle-xlab-ylab" class="section level1">
-<h1>labels: ggtitle(), xlab(), ylab()</h1>
-</div>
-<div id="ggplotly-to-make-a-ggplot-interactive.-works-on-most-ggplots" class="section level1">
-<h1>ggplotly() to make a ggplot interactive. Works on most ggplots!</h1>
-<div id="section-3" class="section level102">
+<p>What have we learned so far: a. geom_point(), geom_line() b. how to set colour to a fixed value, e.g., col(“red”) or col(#7F526D) c. how to set colour according to the value of a variable, e.g. aes(col = state). The aes() wrapper is crucial! d. facet_wrap() to make separate panels for each level of a variable e. labels: ggtitle(), xlab(), ylab() f. ggplotly() to make a ggplot interactive. Works on most ggplots! ######################################################################################################</p>
+<p>EXERCISE 1: Start with cleaned.data() and use a dplyr function to keep only data from the years 1969 and 2013 HINT: In R “|” is the OR operator and “&amp;” is the AND operator. Use one of these operators inside a filter() statement to fiter these two years of data</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Alternatively, use the %in% operator.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>EXERCISE 2: Make a histogram of black life expectancy, with separate panels for year and sex. Call your histogram two.years You’ll need to use two new functions: geom_histogram() and facet_grid(var1~var2). HINT: Since histograms are univariate, you only need to set x in the ggplot() command.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>EXERCISE 3: This is kind of ugly. Change the colour. Did that do as you expected? Try also changing the fill.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>EXERCISE 4: Update the colour to “white”, and change the fill to be a function of sex. Remember aes()!</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>If you don’t like the grey background, an easy way to remove it is to modify the underlying theme:<br />
+Tab through the themes and apply them to find the one you like.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="section-3" class="section level112">
 <p></p>
 </div>
 </div>
-<div id="exercise-1-start-with-cleaned.data-and-use-a-dplyr-function-to-keep-only-data-from-the-years-1969-and-2013" class="section level1">
-<h1>EXERCISE 1: Start with cleaned.data() and use a dplyr function to keep only data from the years 1969 and 2013</h1>
 </div>
-<div id="hint-in-r-is-the-or-operator-and-is-the-and-operator." class="section level1">
-<h1>HINT: In R “|” is the OR operator and “&amp;” is the AND operator.</h1>
-</div>
-<div id="use-one-of-these-operators-inside-a-filter-statement-to-fiter-these-two-years-of-data" class="section level1">
-<h1>Use one of these operators inside a filter() statement to fiter these two years of data</h1>
-</div>
-<div id="solution-1-1" class="section level1">
-<h1>SOLUTION 1:</h1>
-<p>cleaned.data %&gt;% filter(year == 1969 | year == 2013)</p>
-</div>
-<div id="alternatively-use-the-in-operator." class="section level1">
-<h1>Alternatively, use the %in% operator.</h1>
-</div>
-<div id="solution-2-1" class="section level1">
-<h1>SOLUTION 2:</h1>
-<p>cleaned.data %&gt;% filter(year %in% c(1969, 2013))</p>
-</div>
-<div id="exercise-2-make-a-histogram-of-black-life-expectancy-with-separate-panels-for-year-and-sex." class="section level1">
-<h1>EXERCISE 2: make a histogram of black life expectancy, with separate panels for year and sex.</h1>
-</div>
-<div id="youll-need-to-use-two-new-functions-geom_histogram-and-facet_gridvar1var2." class="section level1">
-<h1>You’ll need to use two new functions: geom_histogram() and facet_grid(var1~var2).</h1>
-</div>
-<div id="hint-since-histograms-are-univariate-you-only-need-to-set-x-in-the-ggplot-command." class="section level1">
-<h1>HINT: Since histograms are univariate, you only need to set x in the ggplot() command.</h1>
-</div>
-<div id="solution-8" class="section level1">
-<h1>SOLUTION</h1>
-<p>two.years &lt;- cleaned.data %&gt;% filter(year %in% c(1969, 2013)) ggplot(two.years, aes(x = LE_black_mean)) + geom_histogram() + facet_grid(year~sex)</p>
-</div>
-<div id="exercise-3-this-is-kind-of-ugly.-change-the-colour.-did-that-do-as-you-expected-try-also-changing-the-fill." class="section level1">
-<h1>EXERCISE 3: This is kind of ugly. Change the colour. Did that do as you expected? Try also changing the fill.</h1>
-</div>
-<div id="solution-1-2" class="section level1">
-<h1>SOLUTION 1:</h1>
-<p>cleaned.data %&gt;% filter(year == 1969 | year == 2013) %&gt;% ggplot(aes(x = LE_black_mean)) + geom_histogram(col = “blue”) + facet_grid(year~sex)</p>
-</div>
-<div id="solution-2-2" class="section level1">
-<h1>SOLUTION 2:</h1>
-<p>cleaned.data %&gt;% filter(year == 1969 | year == 2013) %&gt;% ggplot(aes(x = LE_black_mean)) + geom_histogram(col = “blue”, fill = “red”) + facet_grid(year~sex)</p>
-</div>
-<div id="exercise-4-update-the-colour-to-white-and-change-the-fill-to-be-a-function-of-sex.-remember-aes" class="section level1">
-<h1>EXERCISE 4: Update the colour to “white”, and change the fill to be a function of sex. Remember aes()!</h1>
-</div>
-<div id="solution-9" class="section level1">
-<h1>SOLUTION:</h1>
-<p>cleaned.data %&gt;% filter(year == 1969 | year == 2013) %&gt;% ggplot(aes(x = LE_black_mean)) + geom_histogram(col = “white”, aes(fill = sex)) + facet_wrap(year~sex)</p>
-</div>
-<div id="if-you-dont-like-the-grey-background-an-easy-way-to-remove-it-is-to-modify-the-underlying-theme" class="section level1">
-<h1>If you don’t like the grey background, an easy way to remove it is to modify the underlying theme:</h1>
-</div>
-<div id="tab-through-the-themes-and-apply-them-to-find-the-one-you-like." class="section level1">
-<h1>tab through the themes and apply them to find the one you like.</h1>
-</div>
-<div id="solution-10" class="section level1">
-<h1>SOLUTION:</h1>
-<p>cleaned.data %&gt;% filter(year == 1969 | year == 2013) %&gt;% ggplot(aes(x = LE_black_mean)) + geom_histogram(col = “white”, aes(fill = sex)) + facet_wrap(year~sex) + theme_minimal() #this is a good one!</p>
-<div id="section-4" class="section level112">
+<div id="section-3-another-dataset-another-data-visualization" class="section level3">
+<h3>SECTION 3: ANOTHER DATASET, ANOTHER DATA VISUALIZATION</h3>
+<p>I previously saved the R data.frame “CS.data” inside R. We can reload it using the load() command:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ1MuZGF0YSA8LSByZWFkLmNzdihcIi4uL0RhdGEvQ2VzYXJlYW4uY3N2XCIpXG5gYGAifQ== -->
+<pre class="r"><code>CS.data &lt;- read.csv(&quot;../Data/Cesarean.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Notice that CS.data has been added to the Global Environment. Check out CS.data using some of the commands we learned earlier. There is a variable called “X2006”. This variable is the gross domestic product in 2006 for the corresponding country.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Let’s use the dplyr function rename() to give this variable a better name.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXhhbXBsZS5kYXRhIDwtIGV4YW1wbGUuZGF0YSAlPiUgcmVuYW1lKG5ldy5uYW1lID0gb2xkLm5hbWUpXG5gYGAifQ== -->
+<pre class="r"><code>example.data &lt;- example.data %&gt;% rename(new.name = old.name)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ1MuZGF0YSA8LSBDUy5kYXRhICU+JSByZW5hbWUoZ2RwLjIwMDYgPSBYMjAwNilcbmBgYCJ9 -->
+<pre class="r"><code>CS.data &lt;- CS.data %&gt;% rename(gdp.2006 = X2006)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>CS_Rate2 is the cesarean delivery rate as a proportion &lt; 1. For graphing purposes, it will be nice to have this variable have an upper bound of 100. Use the dplyr function mutate() to create a new variable based on CS_Rate2 that is multiplied by 100.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXhhbXBsZS5kYXRhIDwtIGV4YW1wbGUuZGF0YSAlPiUgbXV0YXRlKG11dGF0ZWQudmFyID0gZnVuY3Rpb24oZXhpc3RpbmcudmFyKSlcblxuQ1MuZGF0YSA8LSBDUy5kYXRhICU+JSBtdXRhdGUoLi4uKVxuYGBgIn0= -->
+<pre class="r"><code>example.data &lt;- example.data %&gt;% mutate(mutated.var = function(existing.var))
+
+CS.data &lt;- CS.data %&gt;% mutate(...)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Drop two of the country variables and keep the third. Use View() to look at the values and choose the best variable to keep. Also drop the old CS_Rate2 variable</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ1MuZGF0YSA8LSBDUy5kYXRhICU+JSBzZWxlY3QoLUNvdW50cnkueSwgLUNvdW50cnkueCwgLUNTX1JhdGUyKVxuYGBgIn0= -->
+<pre class="r"><code>CS.data &lt;- CS.data %&gt;% select(-Country.y, -Country.x, -CS_Rate2)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>EXERCISE: Visually assess the relationship between GDP and cesarean delivery rate using a scatter plot (i.e., geom_point). Start simple and then keep enhancing the ggplot until it is awesome. Remember: col(), fill(), and size(). Also, remember the themes. Experiment with geom_text(). Type ?geom_text into the console to open a help window and learn about it or google it!</p>
+<p>The very basics</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoeCA9IC4uLiwgeSA9IC4uLikpICsgXG4gIGdlb21fcG9pbnQoKVxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = CS.data, aes(x = ..., y = ...)) + 
+  geom_point()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>There is a lot of data smushed near 0, especially on the x-axis – could a transformation help?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSAuLi4sIGFlcyh4ID0gLi4uICwgeSA9IC4uLikpICsgXG4gIGdlb21fcG9pbnQoYWVzKC4uLikpICtcbiAgLi4uICMjcmVwbGFjZSB0aGVzZSBkb3RzIHdpdGggYWVzdGhldGljXG5gYGAifQ== -->
+<pre class="r"><code>ggplot(data = ..., aes(x = ... , y = ...)) + 
+  geom_point(aes(...)) +
+  ... ##replace these dots with aesthetic</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>where should size of the points come in?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoLi4uKSkgKyBcbiAgZ2VvbV9wb2ludChhZXMoLi4uKSkgK1xuICAuLi5cbmBgYCJ9 -->
+<pre class="r"><code>ggplot(data = CS.data, aes(...)) + 
+  geom_point(aes(...)) +
+  ...</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I want the points to all be BIGGER! You can adjust the max point size using scale_size_area(max_size = ##)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoLi4uKSkgKyBcbiAgZ2VvbV9wb2ludCguLi4pICtcbiAgLi4uICsgXG4gIC4uLlxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = CS.data, aes(...)) + 
+  geom_point(...) +
+  ... + 
+  ...</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Oh boy, the legend is massive – let’s remove it. And some points are overlapping – you can make the points semi-transparent by setting the alpha parameter to a value between 0 and 1:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoLi4uKSArIFxuICBnZW9tX3BvaW50KC4uLiwgYWxwaGEgPSAuLi4pKSArXG4gIC4uLiArIFxuICBzY2FsZV9zaXplX2FyZWEoLi4uICwgZ3VpZGUgPSBcIm5vbmVcIilcbmBgYCJ9 -->
+<pre class="r"><code>ggplot(data = CS.data, aes(...) + 
+  geom_point(..., alpha = ...)) +
+  ... + 
+  scale_size_area(... , guide = &quot;none&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>which country is which?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoeCAuLi5SZWdpb24sIHNpemUgPSAuLi4sIGFscGhhID0gLi4uKSkgK1xuICAuLi4gKyBcbiAgc2NhbGVfc2l6ZV9hcmVhKC4uLikgK1xuICBnZW9tX3RleHQoLi4uKVxuXG5gYGAifQ== -->
+<pre class="r"><code>ggplot(data = CS.data, aes(x ...Region, size = ..., alpha = ...)) +
+  ... + 
+  scale_size_area(...) +
+  geom_text(...)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Too many labels. Let’s use an ifelse() statement to selectively display labels for a certain set of countries</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoLi4uKSArIFxuICBnZW9tX3BvaW50KC4uLikgK1xuICAuLi4gK1xuICBzY2FsZV9zaXplX2FyZWEoLi4uLCBndWlkZSA9IFwibm9uZVwiKSArXG4gIGdlb21fdGV4dChhZXMobGFiZWwgPSBpZmVsc2UoLi4uICwgLi4uKVxuXG5nZ3Bsb3QoZGF0YSA9IENTLmRhdGEsIGFlcyguLi4pICsgXG4gIGdlb21fcG9pbnQoLi4uKSArXG4gIC4uLiArXG4gIHNjYWxlX3NpemVfYXJlYSguLi4sIGd1aWRlID0gXCJub25lXCIpICtcbiAgZ2VvbV90ZXh0KGFlcyhsYWJlbCA9IGlmZWxzZSguLi4gLCBhcy5jaGFyYWN0ZXIoQ291bnRyeV9OYW1lKSwgXCJcIikpKVxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = CS.data, aes(...) + 
+  geom_point(...) +
+  ... +
+  scale_size_area(..., guide = &quot;none&quot;) +
+  geom_text(aes(label = ifelse(... , ...)
+
+ggplot(data = CS.data, aes(...) + 
+  geom_point(...) +
+  ... +
+  scale_size_area(..., guide = &quot;none&quot;) +
+  geom_text(aes(label = ifelse(... , as.character(Country_Name), &quot;&quot;)))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Some more easy style changes</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoeCA9IGdkcC4yMDA2LCB5ID0gQ1NfUmF0ZSkpICsgXG4gIGdlb21fcG9pbnQoYWVzKGNvbCA9IFJlZ2lvbiwgc2l6ZSA9IEJpcnRoc19QZXJfMTAwMCwgYWxwaGEgPSAwLjUpKSArXG4gIHNjYWxlX3hfbG9nMTAoKSArXG4gIHNjYWxlX3NpemVfYXJlYShtYXhfc2l6ZSA9IDUwLCBndWlkZSA9IFwibm9uZVwiKSArXG4gIHNjYWxlX2FscGhhX2NvbnRpbnVvdXMoZ3VpZGUgPSBcIm5vbmVcIikgK1xuICBnZW9tX3RleHQoYWVzKGxhYmVsID0gaWZlbHNlKEJpcnRoc19QZXJfMTAwMCA+IDEwMDAsIGFzLmNoYXJhY3RlcihDb3VudHJ5X05hbWUpLCBcIlwiKSkpICtcbiAgeGxhYihcIkdEUFwiKSArIHlsYWIoXCJDZXNhcmVhbiBkZWxpdmVyeSByYXRlICglKVwiKSArIHRoZW1lX21pbmltYWwoKVxuXG5jcy5wbG90IDwtIGdncGxvdChkYXRhID0gQ1MuZGF0YSwgYWVzKHggPSBnZHAuMjAwNiwgeSA9IENTX1JhdGUpKSArIFxuICBnZW9tX3BvaW50KGFlcyhmaWxsID0gUmVnaW9uLCBzaXplID0gQmlydGhzX1Blcl8xMDAwLCBhbHBoYSA9IDAuNSksIGNvbCA9IFwiYmxhY2tcIiwgc2hhcGUgPSAyMSkgK1xuICBzY2FsZV94X2xvZzEwKGJyZWFrcyA9IGMoMSwgMTAwLCAxMDAwLCAxMDAwMCksIGxhYmVscyA9IGMoMSwgMTAwLCAxMDAwLCAxMDAwMCkpICtcbiAgc2NhbGVfc2l6ZV9hcmVhKG1heF9zaXplID0gNTAsIGd1aWRlID0gXCJub25lXCIpICtcbiAgc2NhbGVfYWxwaGFfY29udGludW91cyhndWlkZSA9IFwibm9uZVwiKSArXG4gIGdlb21fdGV4dChhZXMobGFiZWwgPSBpZmVsc2UoQmlydGhzX1Blcl8xMDAwID4gNzAwLCBhcy5jaGFyYWN0ZXIoQ291bnRyeV9OYW1lKSwgXCJcIikpKSArXG4gIHhsYWIoXCJHRFBcIikgKyB5bGFiKFwiQ2VzYXJlYW4gZGVsaXZlcnkgcmF0ZSAoJSlcIikgKyB0aGVtZV9taW5pbWFsKCkgXG4gIFxuY3MucGxvdCAlPiUgZ2dwbG90bHkoKVxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + 
+  geom_point(aes(col = Region, size = Births_Per_1000, alpha = 0.5)) +
+  scale_x_log10() +
+  scale_size_area(max_size = 50, guide = &quot;none&quot;) +
+  scale_alpha_continuous(guide = &quot;none&quot;) +
+  geom_text(aes(label = ifelse(Births_Per_1000 &gt; 1000, as.character(Country_Name), &quot;&quot;))) +
+  xlab(&quot;GDP&quot;) + ylab(&quot;Cesarean delivery rate (%)&quot;) + theme_minimal()
+
+cs.plot &lt;- ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + 
+  geom_point(aes(fill = Region, size = Births_Per_1000, alpha = 0.5), col = &quot;black&quot;, shape = 21) +
+  scale_x_log10(breaks = c(1, 100, 1000, 10000), labels = c(1, 100, 1000, 10000)) +
+  scale_size_area(max_size = 50, guide = &quot;none&quot;) +
+  scale_alpha_continuous(guide = &quot;none&quot;) +
+  geom_text(aes(label = ifelse(Births_Per_1000 &gt; 700, as.character(Country_Name), &quot;&quot;))) +
+  xlab(&quot;GDP&quot;) + ylab(&quot;Cesarean delivery rate (%)&quot;) + theme_minimal() 
+  
+cs.plot %&gt;% ggplotly()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="section-4" class="section level102">
 <p></p>
-</div>
-</div>
-<div id="section-3-another-dataset-another-data-visualization" class="section level1">
-<h1>SECTION 3: ANOTHER DATASET, ANOTHER DATA VISUALIZATION</h1>
-</div>
-<div id="i-previously-saved-the-r-data.frame-cs.data-inside-r.-we-can-reload-it-using-the-load-command" class="section level1">
-<h1>I previously saved the R data.frame “CS.data” inside R. We can reload it using the load() command:</h1>
-<p>CS.data &lt;- read.csv(“../Data/Cesarean.csv”) #Notice that CS.data has been added to the Global Environment. #Check out CS.data using some of the commands we learned earlier. #There is a variable called “X2006”. This variable is the gross domestic product in 2006 for the corresponding country. #Let’s use the dplyr function rename() to give this variable a better name. # example.data &lt;- example.data %&gt;% rename(new.name = old.name)</p>
-<p>CS.data &lt;- CS.data %&gt;% rename(gdp.2006 = X2006)</p>
-</div>
-<div id="cs_rate2-is-the-cesarean-delivery-rate-as-a-proportion-1.-for-graphing-purposes-it-will-be-nice-to-have-this-variable" class="section level1">
-<h1>CS_Rate2 is the cesarean delivery rate as a proportion &lt; 1. For graphing purposes, it will be nice to have this variable</h1>
-</div>
-<div id="have-an-upper-bound-of-100." class="section level1">
-<h1>have an upper bound of 100.</h1>
-</div>
-<div id="use-the-dplyr-function-mutate-to-create-a-new-variable-based-on-cs_rate2-that-is-multiplied-by-100." class="section level1">
-<h1>Use the dplyr function mutate() to create a new variable based on CS_Rate2 that is multiplied by 100.</h1>
-</div>
-<div id="example.data---example.data-mutatemutated.var-functionexisting.var." class="section level1">
-<h1>example.data &lt;- example.data %&gt;% mutate(mutated.var = function(existing.var)).</h1>
-<p>CS.data &lt;- CS.data %&gt;% mutate(CS_Rate = CS_Rate2*100)</p>
-</div>
-<div id="drop-two-of-the-country-variables-and-keep-the-third.-use-view-to-look-at-the-values-and-choose-the-best-variable-to-keep" class="section level1">
-<h1>Drop two of the country variables and keep the third. Use View() to look at the values and choose the best variable to keep</h1>
-</div>
-<div id="also-drop-the-old-cs_rate2-variable" class="section level1">
-<h1>Also drop the old CS_Rate2 variable</h1>
-<p>CS.data &lt;- CS.data %&gt;% select(-Country.y, -Country.x, -CS_Rate2)</p>
-</div>
-<div id="exercise-1" class="section level1">
-<h1>EXERCISE</h1>
-</div>
-<div id="visually-assess-the-relationship-between-gdp-and-cesarean-delivery-rate-using-a-scatter-plot-i.e.-geom_point." class="section level1">
-<h1>Visually assess the relationship between GDP and cesarean delivery rate using a scatter plot (i.e., geom_point).</h1>
-</div>
-<div id="start-simple-and-then-keep-enhancing-the-ggplot-until-it-is-awesome." class="section level1">
-<h1>Start simple and then keep enhancing the ggplot until it is awesome.</h1>
-</div>
-<div id="remember-col-fill-and-size.-also-remember-the-themes." class="section level1">
-<h1>Remember: col(), fill(), and size(). Also, remember the themes.</h1>
-</div>
-<div id="experiment-with-geom_text.-type-geom_text-into-the-console-to-open-a-help-window-and-learn-about-it-or-google-it" class="section level1">
-<h1>Experiment with geom_text(). Type ?geom_text into the console to open a help window and learn about it or google it!</h1>
-</div>
-<div id="the-very-basics" class="section level1">
-<h1>The very basics</h1>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point()</p>
-</div>
-<div id="there-is-a-lot-of-data-smushed-near-0-especially-on-the-x-axis-could-a-transformation-help" class="section level1">
-<h1>There is a lot of data smushed near 0, especially on the x-axis – could a transformation help?</h1>
-</div>
-<div id="much-better" class="section level1">
-<h1>much better!</h1>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(col = Region)) + scale_x_log10()</p>
-</div>
-<div id="where-should-size-of-the-points-come-in" class="section level1">
-<h1>where should size of the points come in?</h1>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(col = Region, size = Births_Per_1000)) + scale_x_log10()</p>
-</div>
-<div id="i-want-the-points-to-all-be-bigger-you-can-adjust-the-max-point-size-using-scale_size_areamax_size" class="section level1">
-<h1>I want the points to all be BIGGER! You can adjust the max point size using scale_size_area(max_size = ##)</h1>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(col = Region, size = Births_Per_1000)) + scale_x_log10() + scale_size_area(max_size = 50)</p>
-</div>
-<div id="oh-boy-the-legend-is-massive-lets-remove-it.-and-some-points-are-overlapping-you-can-make-the-points-semi-transparent" class="section level1">
-<h1>oh boy, the legend is massive – let’s remove it. And some points are overlapping – you can make the points semi-transparent</h1>
-</div>
-<div id="by-setting-the-alpha-parameter-to-a-value-between-0-and-1" class="section level1">
-<h1>by setting the alpha parameter to a value between 0 and 1:</h1>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(col = Region, size = Births_Per_1000, alpha = 0.5)) + scale_x_log10() + scale_size_area(max_size = 50, guide = “none”)</p>
-</div>
-<div id="which-country-is-which" class="section level1">
-<h1>which country is which?</h1>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(col = Region, size = Births_Per_1000, alpha = 0.5)) + scale_x_log10() + scale_size_area(max_size = 50, guide = “none”) + geom_text(aes(label = Country_Name))</p>
-</div>
-<div id="too-many-labels.-lets-use-an-ifelse-statement-to-selectively-display-labels-for-a-certain-set-of-countries" class="section level1">
-<h1>too many labels. Let’s use an ifelse() statement to selectively display labels for a certain set of countries</h1>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(col = Region, size = Births_Per_1000, alpha = 0.5)) + scale_x_log10() + scale_size_area(max_size = 50, guide = “none”) + geom_text(aes(label = ifelse(Region == “North America”, as.character(Country_Name), “”)))</p>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(col = Region, size = Births_Per_1000, alpha = 0.5)) + scale_x_log10() + scale_size_area(max_size = 50, guide = “none”) + geom_text(aes(label = ifelse(Births_Per_1000 &gt; 1000, as.character(Country_Name), “”)))</p>
-</div>
-<div id="some-more-easy-style-changes" class="section level1">
-<h1>some more easy style changes</h1>
-<p>ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(col = Region, size = Births_Per_1000, alpha = 0.5)) + scale_x_log10() + scale_size_area(max_size = 50, guide = “none”) + scale_alpha_continuous(guide = “none”) + geom_text(aes(label = ifelse(Births_Per_1000 &gt; 1000, as.character(Country_Name), “”))) + xlab(“GDP”) + ylab(“Cesarean delivery rate (%)”) + theme_minimal()</p>
-<p>cs.plot &lt;- ggplot(data = CS.data, aes(x = gdp.2006, y = CS_Rate)) + geom_point(aes(fill = Region, size = Births_Per_1000, alpha = 0.5), col = “black”, shape = 21) + scale_x_log10(breaks = c(1, 100, 1000, 10000), labels = c(1, 100, 1000, 10000)) + scale_size_area(max_size = 50, guide = “none”) + scale_alpha_continuous(guide = “none”) + geom_text(aes(label = ifelse(Births_Per_1000 &gt; 700, as.character(Country_Name), “”))) + xlab(“GDP”) + ylab(“Cesarean delivery rate (%)”) + theme_minimal()</p>
-<p>cs.plot %&gt;% ggplotly()</p>
-<div id="section-5" class="section level102">
-<p></p>
-</div>
-</div>
-<div id="what-else-did-we-learn" class="section level1">
-<h1>What else did we learn:</h1>
-</div>
-<div id="dplyr-functions-rename-to-change-variable-names-and-mutate-to-add-new-variables-based-on-existing-variables" class="section level1">
-<h1>dplyr functions rename() to change variable names, and mutate() to add new variables based on existing variables</h1>
-</div>
-<div id="alpha-to-control-transparency-shape-to-change-shape-of-geom_point" class="section level1">
-<h1>alpha() to control transparency, shape() to change shape of geom_point()</h1>
-</div>
-<div id="scale_x_log10-to-use-a-log-transformed-x-axis" class="section level1">
-<h1>scale_x_log10() to use a log-transformed x-axis</h1>
-</div>
-<div id="geom_text-to-add-labels-to-the-plot" class="section level1">
-<h1>geom_text() to add labels to the plot</h1>
-</div>
-<div id="ifelse-operator.-if-true-then-do-.-else-do-." class="section level1">
-<h1>ifelse() operator. If true then do: …., else, do: ….</h1>
-</div>
-<div id="really-useful-resources-for-learning-ggplot2-and-dplyr" class="section level1">
-<h1>Really useful resources for learning ggplot2 and dplyr:</h1>
-</div>
-<div id="ggplot2-cheatsheet-httpswww.rstudio.comwp-contentuploads201503ggplot2-cheatsheet.pdf" class="section level1">
-<h1>ggplot2 cheatsheet: <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf" class="uri">https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf</a></h1>
-</div>
-<div id="dplyr-cheatsheet-httpswww.rstudio.comwp-contentuploads201502data-wrangling-cheatsheet.pdf" class="section level1">
-<h1>dplyr cheatsheet: <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf" class="uri">https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf</a></h1>
+<p>What else did we learn: a. dplyr functions rename() to change variable names, and mutate() to add new variables based on existing variables b. alpha() to control transparency, shape() to change shape of geom_point() c. scale_x_log10() to use a log-transformed x-axis d. geom_text() to add labels to the plot e. ifelse() operator. If true then do: …., else, do: ….</p>
+<p>Really useful resources for learning ggplot2 and dplyr: ggplot2 cheatsheet: <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf" class="uri">https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf</a> dplyr cheatsheet: <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf" class="uri">https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf</a> ######################################################################################################</p>
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIldvcmtzaG9wIFBhcnQgMiINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQojIyMgSW1wb3J0aW5nIHRoZSBEYXRhDQpUaGUgY29kZSBiZWxvdyByZWFkcyBpbiB0aGUgYHRlbnRzLmNzdmAgY29tbWEtc2VwYXJhdGVkIGZpbGUuICBUaGUgYGNvbF90eXBlc2AgYXJndW1lbnQgaXMgdGVsbGluZyBgUmAgd2hhdCB0aGUgZGF0YSB0eXBlIGlzIGluIGVhY2ggY29sdW1uLiAgU2VlIGA/cmVhZF9jc3ZgIGlmIHlvdSB3YW50IHRvIGtub3cgbW9yZS0tLXRoZSBgcmVhZHJgIHBhY2thZ2UgaXRzZWxmIGNvbnRhaW5zIHNvbWUgaGVscGZ1bCBmdW5jdGlvbnMgZm9yIHBhcnNpbmcgZGF0YS4gIEFzIGFuIGFzaWRlLCBgcmVhZF9jc3ZgIHJlYWRzIHRoZSBkYXRhIGluIGFzIGEgYHRpYmJsZWAsIGEgbW9yZSBtb2Rlcm4gdGFrZSBvbiB0aGUgZGF0YSBmcmFtZS4gIFRoaXMgZGF0YSBzdHJ1Y3R1cmUgaGFzIGFsbCB0aGUgZnVuY3Rpb25hbGl0aWVzIG9mIGEgYGRhdGEuZnJhbWVgLCBzbyBkb24ndCBmcmV0IG92ZXIgaXQgdG9vIG11Y2guICBNb3JlIGluZm9ybWF0aW9uIGNhbiBiZSBmb3VuZCBbaGVyZV0oaHR0cHM6Ly9jcmFuLnItcHJvamVjdC5vcmcvd2ViL3BhY2thZ2VzL3RpYmJsZS92aWduZXR0ZXMvdGliYmxlLmh0bWwpLg0KDQpUaGUgZGF0YSBzZXQgaXRzZWxmIGNvbnRhaW5zIGluZm9ybWF0aW9uIGFib3V0IHRlbnRzIGNvbGxlY3RlZCBmcm9tIGEgcGFydGljdWxhciBvdXRkb29yIGFkdmVudHVyZSBzdG9yZS4gIFRoZSB2YXJpYWJsZXMgYXJlIGFzIGZvbGxvd3M6DQoNCiogbmFtZSAtIG5hbWUgb2YgdGhlIHRlbnQNCiogYnJhbmQgLSBicmFuZCBvZiB0aGUgdGVudA0KKiBwcmljZSAtIHByaWNlIG9mIHRoZSB0ZW50IGluIGRvbGxhcnMNCiogd2VpZ2h0IC0gdGhlIHdlaWdodCBvZiB0aGUgdGVudCBpbiBncmFtcw0KKiBoZWlnaHQgLSB0aGUgaGVpZ2h0IG9mIHRoZSB0ZW50IGluIGNlbnRpbWV0ZXJzDQoqIGJlc3R1c2UgLSB0aGUgYWN0aXZpdHkgdGhhdCB0aGUgbWFudWZhY3R1cmVycyByZWNvbW1lbmQgdGhpcyB0ZW50IGZvcg0KKiBzZWFzb25zIC0gaG93IG1hbnkgc2Vhc29ucyB0aGlzIHRlbnQgaXMgc3VpdGVkIGZvciAoaGVhdC9jb2xkIGNvbnNpZGVyYXRpb25zKQ0KKiBjYXBhY2l0eSAtIHRoZSBudW1iZXIgb2YgcGVvcGxlIHRoYXQgdGhlIHRlbnQgaXMgcmF0ZWQgZm9yDQpgYGB7cn0NCkJsYWNrV2hpdGVfcmVzdWx0cyA8LSByZWFkLmNzdigiLi4vRGF0YS9CbGFja1doaXRlX3Jlc3VsdHMuY3N2IikNCmBgYA0KDQoNCiNSZWFkIGluIHRoZSBmaXJzdCBkYXRhc2V0DQpCbGFja1doaXRlX3Jlc3VsdHMgPC0gcmVhZC5jc3YoIi4vRGF0YS9CbGFja1doaXRlX3Jlc3VsdHMuY3N2IikNCg0KDQojTGV0J3MgZmlyc3QgdXNlIHRoZSB2aWV3ZXIgdG8gbG9vayBhdCB0aGVzZSBkYXRhLg0KIyAxLiBDbGljayB0aGUgZGF0YSBpY29uIG5leHQgdG8gQmxhY2tXaGl0ZV9yZXN1bHRzIGluIHRoZSBlbnZpcm9ubWVudCB0YWINCiMgT3IgcnVuIHRoZSBjb2RlOg0KVmlldyhCbGFja1doaXRlX3Jlc3VsdHMpDQoNCiNUaGVzZSBhcmUgc29tZSByZXN1bHRzIGZyb20gYSBzdHVkeSBJIGRpZCBvbiB0aGUgaW5lcXVhbGl0eSBpbiBsaWZlIGV4cGVjdGFuY3kgYmV0d2VlbiBibGFja3MgYW5kIHdoaXRlcyBpbiB0aGUgVVMuDQojTGV0J3MgZmlyc3QgZXhhbWluZSB0aGUgc3RydWN0dXJlIG9mIHRoZSBkYXRhc2V0Og0Kc3RyKEJsYWNrV2hpdGVfcmVzdWx0cykNCg0KI0htbSwgd2hhdCBhcmUgdGhlIGZpcnN0IHRocmVlIHZhcmlhYmxlcz8NCiNVc2UgdGhlIGRvbGxhciBzaWduIHRvIGFjY2VzcyB0aGUgdmFyaWFibGVzIHdpdGhpbiB0aGUgZGF0YSBmcmFtZToNCmhlYWQoQmxhY2tXaGl0ZV9yZXN1bHRzJFguMikgI2ZpcnN0IHNpeA0KdGFpbChCbGFja1doaXRlX3Jlc3VsdHMkWC4yKSAjbGFzdCBzaXgNCmlkZW50aWNhbChCbGFja1doaXRlX3Jlc3VsdHMkWC4xLCBCbGFja1doaXRlX3Jlc3VsdHMkWC4yKSAjYXJlIHRoZXNlIHZhcmlhYmxlcyB0aGUgc2FtZT8NCiNpdCBsb29rcyBsaWtlIHRoZXkganVzdCBjb3VudCB0aGUgcm93cy4gTGV0J3MgcmVtb3ZlIHRoZW0gZnJvbSB0aGUgZGF0YXNldDoNCg0KI0RhdGEgbWFuaXB1bGF0aW9uIGlzIGJlc3QgZG9uZSB1c2luZyBmdW5jdGlvbnMgZnJvbSB0aGUgcGFja2FnZSAiZHBseXIiDQoNCiNpbnN0YWxsLnBhY2thZ2VzKCJkcGx5ciIpICNpZiB5b3UgaGF2ZW4ndCBpbnN0YWxsZWQgdGhpcyBwYWNrYWdlIGJlZm9yZSwgeW91IG5lZWQgdG8gZG8gaXQgbm93IQ0KbGlicmFyeShkcGx5cikgI2xvYWQgdGhpcyBwYWNrYWdlDQojbm90aWNlIHRoZSBvdXRwdXQgaW4gdGhlIGNvbnNvbGUuIFRoZXNlIHBpbmsgbm90ZXMgYXJlIGNhbGxlZCAibWVzc2FnZXMiDQojVGhlc2UgbWVzc2FnZXMgYXJlIHRlbGxpbmcgeW91IHRoYXQgdGhlIGZ1bmN0aW9ucyAiZmlsdGVyIiBhbmQgImxhZyIgZnJvbSBkcGx5ciBhcmUgbmFtZWQgdGhlIHNhbWUgdGhpbmcNCiNhcyBmdW5jdGlvbnMgZnJvbSB0aGUgcHJlLWxvYWRlZCBzdGF0cyBwYWNrYWdlLiBTbyBub3cgd2hlbiB5b3UgY2FsbCB0aGUgZnVuY3Rpb24gZmlsdGVyKCkgb3IgbGFnKCkNCiN5b3Ugd2lsbCB1c2UgdGhlIGRwbHlyIHZlcnNpb24gb2YgdGhvc2UgZnVuY3Rpb25zLiBJdCBhbHNvIGhhcyBmdW5jdGlvbnMgdGhhdCBhcmUgdGhlIHNhbWUgbmFtZXMgYXMgDQojZm91ciBmdW5jdGlvbnMgZnJvbSB0aGUgYmFzZSBSIHBhY2thZ2UuDQoNCiNVc2UgdGhlIHNlbGVjdCgpIGZ1bmN0aW9uIGZyb20gZHBseXIgdG8gc2VsZWN0IHRoZSByb3dzIHlvdSB3YW50IHRvIGtlZXAgaW4gdGhlIGRhdGFzZXQuIA0KI0hlcmUgd2UgdXNlIHN1YnRyYWN0aXZlIHNlbGVjdCB3aXRoIHRoZSBuZWdhdGl2ZSBzaWduIHRvIHJlbW92ZSB0aGUgcm93cy4NCg0KY2xlYW5lZC5kYXRhIDwtIHNlbGVjdChCbGFja1doaXRlX3Jlc3VsdHMsIC1YLCAtWC4xLCAtWC4yKQ0KI25vdGljZSBob3cgdGhlIG51bWJlciBvZiB2YXJpYWJsZXMgaGFzIGNoYW5nZWQgaW4gdGhlIGVudmlyb25tZW50IHRhYiB2cy4gdGhlIG9yaWdpbmFsIGRhdGENCg0KI25vdyBsZXQncyBlcmFzZSBjbGVhbmVkLmRhdGEgdXNpbmcgdGhlIHJlbW92ZSBmdW5jdGlvbiwgcm0oKToNCnJtKGNsZWFuZWQuZGF0YSkNCg0KI2FuZCByZWNyZWF0ZSBpdCB1c2luZyB0aGUgcGlwaW5nIG9wZXJhdG9yOg0KY2xlYW5lZC5kYXRhIDwtIEJsYWNrV2hpdGVfcmVzdWx0cyAlPiUgc2VsZWN0KC1YLCAtWC4xLCAtWC4yKQ0KDQojV2UgY2FuIFZpZXcoKSBjbGVhbmVkLmRhdGEgb3IgcmVtaW5kIG91cnNlbHZlcyBvZiB0aGUgdmFyaWFibGVzIGNvbnRhaW5lZCBpbiB0aGUgZGF0YSBmcmFtZToNCm5hbWVzKGNsZWFuZWQuZGF0YSkNCg0KI2xldCdzIGV4YW1pbmUgc29tZSBvZiB0aGUgdmFyaWFibGVzIGEgbGl0dGxlIG1vcmUgY2xvc2VseQ0KdGFibGUoY2xlYW5lZC5kYXRhJHNleCkNCnRhYmxlKGNsZWFuZWQuZGF0YSRzdGF0ZSkNCnRhYmxlKGNsZWFuZWQuZGF0YSR5ZWFyKQ0KdGFibGUoY2xlYW5lZC5kYXRhJHN0YXRlLCBjbGVhbmVkLmRhdGEkQ2Vuc3VzX1JlZ2lvbikNCg0KI2Fsc28gdXNlZnVsIGlzIHRoZSB1bmlxdWUoKSBmdW5jdGlvbjoNCnVuaXF1ZShjbGVhbmVkLmRhdGEkc2V4KQ0KdW5pcXVlKGNsZWFuZWQuZGF0YSRDZW5zdXNfRGl2aXNpb24pDQpsZW5ndGgodW5pcXVlKGNsZWFuZWQuZGF0YSRDZW5zdXNfRGl2aXNpb24pKQ0KDQojbXVjaCBsZXNzIHVzZWZ1bCBmb3IgY29udGludW91cyBkYXRhIToNCnVuaXF1ZShjbGVhbmVkLmRhdGEkTEVfYmxhY2tfbGNsKQ0KDQpzdHIoY2xlYW5lZC5kYXRhJHN0YXRlKQ0KI2xldCdzIHRhbGsgYWJvdXQgZmFjdG9ycyANCiNmYWN0b3JzIGhhdmUgbGV2ZWxzIGFuZCBsZXZlbHMgYXJlIG9yZGVyZWQuDQojYnkgZGVmYXVsdCBmYWN0b3JzIGFyZSBvcmRlcmVkIGFscGhhYmV0aWNhbGx5IGlmIHRoZXkgYXJlIHdvcmRzLg0KbGV2ZWxzKGNsZWFuZWQuZGF0YSRzdGF0ZSkgI3RoaXMgcHJpbnRzIGEgdmVjdG9yIG9mIHRoZSBmYWN0b3IgbGV2ZWxzIGluIHRoZWlyIG9yZGVyDQpsZW5ndGgobGV2ZWxzKGNsZWFuZWQuZGF0YSRzdGF0ZSkpICN0aGlzIHByaW50cyB0aGUgbGVuZ3RoDQoNCiNzb21lIG90aGVyIHVzZWZ1bCBkcGx5ciBmdW5jdGlvbnM6DQojMS4gZmlsdGVyKCkNCiMyLiBncm91cF9ieSgpLCBzdW1tYXJpc2UoKQ0KQWxhYmFtYS5kYXRhIDwtIGNsZWFuZWQuZGF0YSAlPiUgZmlsdGVyKHN0YXRlID09ICJBbGFiYW1hIiwgc2V4ID09ICJNYWxlIikNCg0KQWxhYmFtYS5kYXRhICU+JSBzdW1tYXJpc2Uob3ZlcmFsbC5tZWFuLndoaXRlID0gbWVhbihMRV93aGl0ZV9tZWFuKSwgb3ZlcmFsbC5tZWFuLmJsYWNrID0gbWVhbihMRV9ibGFja19tZWFuKSkNCiNFWEVSQ0lTRTogZXh0ZW5kIHRoZSBhYm92ZSBzdGF0ZW1lbnQgdG8gYWxzbyBjb21wdXRlIHRoZSBtZWFuIG9mIHRoZSB2YXJpYWJsZSAiTEVfd2JnYXBfbWVhbiINCg0KI1JhdGhlciB0aGFuIGRvaW5nIHRoZSBhYm92ZSBpbiB0d28gc2VwYXJhdGUgc3RlcHMgeW91IGNhbiAicGlwZSIgdGhlIHN0ZXBzIHRvZ2V0aGVyOg0KDQpjbGVhbmVkLmRhdGEgJT4lDQogIGZpbHRlcihzdGF0ZSA9PSAiQWxhYmFtYSIsIHNleCA9PSAiTWFsZSIpICU+JQ0KICBzdW1tYXJpc2Uob3ZlcmFsbC5tZWFuLndoaXRlID0gbWVhbihMRV93aGl0ZV9tZWFuKSwgb3ZlcmFsbC5tZWFuLmJsYWNrID0gbWVhbihMRV9ibGFja19tZWFuKSkNCg0KI1doYXQgaWYgeW91IHdhbnRlZCB0byBjb21wdXRlIHRoZSBzdW1tYXJ5IGZvciBmZW1hbGVzIGFuZCBmb3IgbWFsZXM/DQojSGludDogd2UgbmVlZCB0byB1c2UgdGhlIGdyb3VwX2J5KCkgZnVuY3Rpb24gYXMgb25lIG9mIG91ciBjb21tYW5kcywgYW5kIGFsc28gc2xpZ2h0bHkgbW9kaWZ5IHRoZSBmaWx0ZXIoKSBjb21tYW5kLg0KDQojU09MVVRJT046DQojd2Ugd2lsbCBmaWxsIHRoaXMgaW4gdG9nZXRoZXIsIGFuZCBJIHdpbGwgc2VuZCBhIGNvbXBsZXRlIGZpbGUgd2l0aCBzb2x1dGlvbnMgYWZ0ZXIgY2xhc3MuDQpjbGVhbmVkLmRhdGEgJT4lIA0KICBncm91cF9ieShzZXgpICU+JQ0KICBmaWx0ZXIoc3RhdGUgPT0gIkFsYWJhbWEiKSAlPiUNCiAgc3VtbWFyaXNlKG92ZXJhbGwubWVhbi53aGl0ZSA9IG1lYW4oTEVfd2hpdGVfbWVhbiksIG92ZXJhbGwubWVhbi5ibGFjayA9IG1lYW4oTEVfYmxhY2tfbWVhbikpDQoNCiNFWEVSQ0lTRTogQ29tcHV0ZSB0aGUgc3VtbWFyeSBmb3IgZmVtYWxlcyBhbmQgbWFsZXMgaW4gZXZlcnkgc3RhdGUuDQoNCiNTT0xVVElPTjoNCiNUTyBCRSBGSUxMRUQgSU4gRFVSSU5HIENMQVNTDQpjbGVhbmVkLmRhdGEgJT4lIA0KICBncm91cF9ieShzZXgsIHN0YXRlKSAlPiUNCiAgc3VtbWFyaXNlKG92ZXJhbGwubWVhbi53aGl0ZSA9IG1lYW4oTEVfd2hpdGVfbWVhbiksIA0KICAgICAgICAgICAgb3ZlcmFsbC5tZWFuLmJsYWNrID0gbWVhbihMRV9ibGFja19tZWFuKSkgJT4lIA0KICBwcmludChuID0gbnJvdyguKSkgIyBhZGQgdGhlIHByaW50IHN0ZXAgdG8gc3BlY2lmeSB0aGUgbnVtYmVyIG9mIHJvd3MgdG8gcHJpbnQuIFRoaXMgdGVsbHMgaXQgdG8gcHJpbnQgYWxsIHJvd3Mgb2YgdGhlIHJlc3VsdHMuDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KI1doYXQgd2UndmUgbGVhcm5lZCBzbyBmYXI6DQoNCiNJTVBPUlRJTkcgREFUQQ0KI3JlYWQuY3N2KCkgZm9yIGltcG9ydGluZyAuY3N2IGRhdGEuIFRoZXJlIGlzIGFsc28gcmVhZC50YWJsZSBmb3IgLnR4dCBkYXRhDQojdG8gcmVhZCBkYXRhIGV4cG9ydGVkIGZyb20gc3RhdGUgeW91IHdpbGwgbmVlZCB0byBsb2FkIHRoZSBmb3JlaWduIGxpYnJhcnkgYW5kIHVzZSByZWFkLmR0YSgpDQojdG8gcmVhZCBmaWxlcyBleHBvcnRlZCBmcm9tIFN0YXRhIHZlcnNpb24gMTMgeW91IG5lZWQgdG8gbG9hZCB0aGUgcmVhZHN0YXRhMTMoKSBwYWNrYWdlIGFuZCB1c2UgcmVhZC5kdGExMygpDQoNCiNMT09LSU5HIEFUIFRIRSBEQVRBU0VUDQojVmlldygpLCBzdHIoKSwgaGVhZCgpLCB0YWlsKCksIHRhYmxlKCksIGxlbmd0aCgpLCB1bmlxdWUoKQ0KDQojc3VtbWFyeSgpIGlzIGFub3RoZXIgZ29vZCBmdW5jdGlvbi4gVXNlZnVsIGZvciBjb250aW51b3VzIGRhdGE6DQpzdW1tYXJ5KEFsYWJhbWEuZGF0YSRMRV93aGl0ZV9tZWFuKQ0KDQojYW5kIHNvIGlzIHF1YW50aWxlKCkNCnF1YW50aWxlKEFsYWJhbWEuZGF0YSRMRV9ibGFja19tZWFuKQ0KcXVhbnRpbGUoQWxhYmFtYS5kYXRhJExFX2JsYWNrX21lYW4sIDAuMykNCg0KI01BTklQVUxBVEUgVEhFIERBVEENCiNzZWxlY3QoKSwgZmlsdGVyKCksIGdyb3VwX2J5KCksIHN1bW1hcmlzZSgpDQojTm90ZSB0aGF0IHN1bW1hcmlzZSBjb21wdXRlcyBhIHZhcmlldHkgb2Ygc3VtbWFyeSBmdW5jdGlvbnMgLS0gb3VyIGV4YW1wbGUgZm9jdXNlZCBvbiBjb21wdXRpbmcgdGhlIG1lYW4uDQojT3RoZXIgY29tbW9uIHN1bW1hcnkgZnVuY3Rpb25zOiBtZWRpYW4oKSwgc3VtKCksIGZpcnN0KCksIGxhc3QoKSwgbigpLCBtaW4oKSwgbWF4KCksIHNkKCkNCg0KI1N1bW1hcmlzZSB0aGUgbnVtYmVyIG9mIHJvd3MgcGVyIHN0cmF0dW06DQpjbGVhbmVkLmRhdGEgJT4lIA0KICBncm91cF9ieShzZXgsIHN0YXRlKSAlPiUNCiAgc3VtbWFyaXNlKG51bS5wZXIuc3RyYXRhID0gbigpKQ0KI0FsdGVybmF0aXZlbHksIHdlIGNvdWxkIGhhdmUgd3JpdHRlbjoNCmNsZWFuZWQuZGF0YSAlPiUgDQogIGdyb3VwX2J5KHNleCwgc3RhdGUpICU+JQ0KICB0YWxseSgpDQojVGhpcyBpcyByZWFsbHkgdXNlZnVsIGlmIHlvdSBoYXZlIHBhbmVsIGRhdGEgYW5kIHdhbnQgdG8ga25vdyB0aGUgbnVtYmVyIG9mIHZpc2l0cyBwZXIgcGF0aWVudCwgc2F5Lg0KI09yLCBiZWZvcmUgcnVubmluZyBhIG11bHRpLWxldmVsIG1vZGVsLCB5b3UgY291bGQgY2hlY2sgdGhlIGNsdXN0ZXIgc2l6ZXMgZm9yIGFsbCB5b3VyIGNsdXN0ZXJzDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KI1NFQ1RJT04gMjogREFUQSBWSVNVQUxJWkFUSU9ODQoNCiNJbiBSLCB0aGVyZSBhcmUgImJhc2UgUiBncmFwaGljcyIsIGJ1dCBtb3N0IGZvbGtzIHByZWZlciB0aGUgZ2dwbG90MiBncmFwaGluZyBsaWJyYXJ5DQpsaWJyYXJ5KGdncGxvdDIpICNyZW1lbWJlciB0byBmaXJzdCBpbnN0YWxsIHRoZSBwYWNrYWdlIGlmIHlvdSBoYXZlbid0IGRvbmUgc28gYWxyZWFkeQ0KDQojdGhlIG1haW4gZnVuY3Rpb24gaW4gZ2dwbG90MiBpcyAiZ2dwbG90IiENCg0KI3RoaXMgZnVuY3Rpb24gY3JlYXRlcyBhIHBsb3R0aW5nIHdpbmRvdyB0aGF0IHJlZmxlY3RzIHRoZSByYW5nZSBvZiBYIGFuZCBZIGluIHRoZSBkYXRhLmZyYW1lDQpnZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuZGF0YSwgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpDQoNCiN3ZSBuZWVkIHRvIHRlbGwgaXQgaG93IHRvIHBsb3QgdGhlIHRpbWUgc2VyaWVzIG9mIHRoZSBtZWFuIGxpZmUgZXhwZWN0YW5jeSBmb3Igd2hpdGVzLg0KI0xldCdzIHN0YXJ0IGJ5IHBsb3R0aW5nIHBvaW50czoNCmdncGxvdChkYXRhID0gQWxhYmFtYS5kYXRhLCBhZXMoeCA9IHllYXIsIHkgPSBMRV93aGl0ZV9tZWFuKSkgKyAgICANCiAgZ2VvbV9wb2ludCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KDQojTk9URTogdGhlIHBsdXMgc2lnbiBuZWVkcyB0byBhbHdheXMgYmUgYXQgdGhlIGVuZCBvZiB0aGUgbGluZS4gVGhlIGZvbGxvd2luZyBjb2RlIFdJTEwgTk9UIGFkZCB0aGUgZ2VvbV9wb2ludCgpIGNvbW1hbmQ6DQpnZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuZGF0YSwgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpDQorIGdlb21fcG9pbnQoKSANCg0KI1dpdGhpbiB0aGUgZ2VvbV9wb2ludCgpIGZ1bmN0aW9uLCB5b3UgY2FuIGN1c3RvbWl6ZSB0aGUgYXBwZWFyYW5jZSBvZiB0aGUgcG9pbnRzOg0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX3BvaW50KGNvbCA9ICJyZWQiLCBzaXplID0gMiwgcGNoID0gMykNCg0KI1dvdWxkIHlvdSBwcmVmZXIgdG8gaGF2ZSBhIGxpbmUgaW5zdGVhZD8NCiNFWEVSQ0lTRTogaG93IGRvIHlvdSB0aGluayB5b3UnZCBwbG90IGEgbGluZSBpbiBnZ3Bsb3Q/IEdpdmUgaXQgYSBnby4gSGludDogY2hhbmdlIGdlb21fcG9pbnQgdG8gYW5vdGhlciB0eXBlIG9mICJnZW9tIg0KI1NPTFVUSU9OOg0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX2xpbmUoY29sID0gInJlZCIsIHNpemUgPSAyKQ0KDQojRVhFUkNJU0U6IFRpdGxlcw0KI2dndGl0bGUoIlRoaXMgaXMgYSB0aXRsZSIpIGFkZHMgYSB0aXRsZSB0byB0aGUgZ2dwbG90LiBBZGQgb25lIQ0KI0Fsc28gdXNlIHhsYWIoKSBhbmQgeWxhYigpIHRvIHVwZGF0ZSB0aGUgYXNzaWduZWQgeCBhbmQgeSBsYWJlbHMuDQoNCiNTT0xVVElPTg0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX2xpbmUoY29sID0gImdyZWVuIiwgc2l6ZSA9IDIpICsgI3RoaXMgY29sb3VyIGlzIHVnbHkuDQogIHhsYWIoIlllYXIiKSArIHlsYWIoIk1lYW4gbGlmZSBleHBlY3RhbmN5ICh5ZWFycykiKSArDQogIGdndGl0bGUoIk1lYW4gbGlmZSBleHBlY3RhbmN5IGZvciB3aGl0ZSBtYWxlcyBpbiBBbGFiYW1hLCAxOTY4LS0yMDEzIikNCg0KI0hvdyBjYW4gd2UgY2hvb3NlIG5pY2UgY29sb3Vycz8NCiNOaWNlIG9ubGluZSBjb2xvdXIgcGlja2VyczoNCiNodHRwOi8vY29sb3JicmV3ZXIyLm9yZy8jdHlwZT1zZXF1ZW50aWFsJnNjaGVtZT1CdUduJm49Mw0KI2h0dHA6Ly90cmlzdGVuLmNhL2hjbC1waWNrZXIvIy9obGMvNi8xLzE1NTM0Qy9FMkUwNjINCiNwaWNrIGEgY29sb3VyIHlvdSBsaWtlIGFuZCBjb3B5IGl0cyBIRVggdmFsdWUsIGluY2x1ZGluZyB0aGUgIiMiLiBUaGVuIHNwZWNpZnkgY29sID0gIiMxMjM0NSIsIHdoZXJlIDEyMzQ1IGlzIHRoZSBIRVggdmFsdWUuDQojc29tZSBuaWNlIGNvbG91cnM6ICMxYzkwOTksICM3RjUyNkQNCg0KI1NPTFVUSU9ODQpnZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuZGF0YSwgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgDQogIGdlb21fbGluZShjb2wgPSAiIzFjOTA5OSIsIHNpemUgPSAyKSArICNlYXN5IG9uIHRoZSBleWVzDQogIHhsYWIoIlllYXIiKSArIHlsYWIoIk1lYW4gbGlmZSBleHBlY3RhbmN5ICh5ZWFycykiKSArDQogIGdndGl0bGUoIk1lYW4gbGlmZSBleHBlY3RhbmN5IGZvciB3aGl0ZSBtYWxlcyBpbiBBbGFiYW1hLCAxOTY4LS0yMDEzIikNCg0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX2xpbmUoY29sID0gIiM3RjUyNkQiLCBzaXplID0gMikgKyAjZWFzeSBvbiB0aGUgZXllcw0KICB4bGFiKCJZZWFyIikgKyB5bGFiKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpIikgKw0KICBnZ3RpdGxlKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSBmb3Igd2hpdGUgbWFsZXMgaW4gQWxhYmFtYSwgMTk2OC0tMjAxMyIpDQoNCiNJdCB3b3VsZCBiZSBuaWNlIHRvIGFsc28gcGxvdCB0aGUgbGlmZSBleHBlY3RhbmN5IGZvciBmZW1hbGVzIGR1cmluZyB0aGUgc2FtZSB0aW1lIHBlcmlvZC4NCg0KI0VYRVJDSVNFOiB1c2VyIGRwbHlyIGZ1bmN0aW9ucyBvbiB0aGUgY2xlYW5lZC5kYXRhIHRvIGNyZWF0ZSBhbmQgc3RvcmUgYSBuZXcgZGF0YXNldCB0aGF0IA0KI2NvbnRhaW5zIHRoZSBBbGFiYW1hIGRhdGEgZm9yIGJvdGggbWFsZXMgYW5kIGZlbWFsZXMuIENhbGwgdGhlIG5ldyBkYXRhc2V0IEFsYWJhbWEuYm90aC5nZW5kZXJzOg0KDQojU09MVVRJT046DQpBbGFiYW1hLmJvdGguZ2VuZGVycyA8LSBjbGVhbmVkLmRhdGEgJT4lIGZpbHRlcihzdGF0ZSA9PSAiQWxhYmFtYSIpDQoNCiNMZXQncyBwbG90IHRoZSBBbGFiYW1hIGRhdGEgdXNpbmcgdGhlIHByZXZpb3VzIGNvZGU6IA0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmJvdGguZ2VuZGVycywgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgDQogIGdlb21fbGluZShjb2wgPSAiIzdGNTI2RCIsIHNpemUgPSAyKSArICNobyBib3ksIHdoYXQgaXMgaGFwcGVuaW5nIGhlcmU/IGFueSBndWVzc2VzPw0KICB4bGFiKCJZZWFyIikgKyB5bGFiKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpIikgDQoNCiNUcnk6DQpnZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuYm90aC5nZW5kZXJzLCBhZXMoeCA9IHllYXIsIHkgPSBMRV93aGl0ZV9tZWFuKSkgKyANCiAgZ2VvbV9wb2ludChjb2wgPSAiIzdGNTI2RCIsIHNpemUgPSAyKSArICNiZXR0ZXIsIGJ1dCBzdGlsbCBub3QgaWRlYWwuIFdoYXQgd291bGQgbWFrZSB0aGlzIGJldHRlcj8NCiAgeGxhYigiWWVhciIpICsgeWxhYigiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKSIpIA0KDQojT3B0aW9uIDE6IERpZmZlcmVudCBjb2xvdXJzIGZvciBlYWNoIGdlbmRlcjoNCmdncGxvdChkYXRhID0gQWxhYmFtYS5ib3RoLmdlbmRlcnMsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX3BvaW50KGFlcyhjb2wgPSBzZXgpLCBzaXplID0gMikgKyANCiAgeGxhYigiWWVhciIpICsgeWxhYigiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKSIpIA0KDQojT3B0aW9uIDI6IFNlcGFyYXRlIHBhbmVscyAoYWthICJmYWNldHMiKSBmb3IgZWFjaCBnZW5kZXI6DQpnZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuYm90aC5nZW5kZXJzLCBhZXMoeCA9IHllYXIsIHkgPSBMRV93aGl0ZV9tZWFuKSkgKyANCiAgZ2VvbV9wb2ludChzaXplID0gMikgKyANCiAgZmFjZXRfd3JhcCh+c2V4KSArDQogIHhsYWIoIlllYXIiKSArIHlsYWIoIk1lYW4gbGlmZSBleHBlY3RhbmN5ICh5ZWFycykiKSANCg0KI0xldCdzIHVzZSB0aGVzZSBzYW1lIHNraWxscyB0byBsb29rIGF0IGEgbGFyZ2VyIGRhdGFzZXQNCg0KI0VYRVJDSVNFDQojUEFSVCAxOiBVc2UgZHBseXIgZnVuY3Rpb25zIHRvIGNyZWF0ZSBhIG5ldyBkYXRhc2V0IGNvbnRhaW5pbmcgZGF0YSBvbiBvbmx5IGZlbWFsZXMuIENhbGwgaXQgZGF0YS5mZW1hbGVzDQojWW91IG5vdyBoYXZlIHRpbWUgc2VyaWVzIGRhdGEgZm9yIDQwIHN0YXRlcyBmb3IgYmxhY2sgYW5kIHdoaXRlIGZlbWFsZXMuDQoNCiNTT0xVVElPTg0KZGF0YS5mZW1hbGVzIDwtIGNsZWFuZWQuZGF0YSAlPiUgZmlsdGVyKHNleCA9PSAiRmVtYWxlIikNCg0KI1BBUlQgMjogcGxvdCB0aGUgbWVhbiBsaWZlIGV4cGVjdGFuY3kgZm9yIHdoaXRlIGZlbWFsZXMgdXNpbmcgZ2VvbV9wb2ludCBvciBnZW9tX2xpbmUuIA0KI1VzZSBvbmUgb2YgdGhlIG9wdGlvbnMgbGVhcm5lZCBpbiB0aGUgcHJldmlvdXMgc3RlcCB0byBwbG90IGEgc2VwYXJhdGUgbGluZSBmb3IgZWFjaCBzdGF0ZS4NCiNXaGljaCBvcHRpb24gZG8geW91IGxpa2UgYmVzdD8NCg0KI1NPTFVUSU9OIEENCmdncGxvdChkYXRhID0gZGF0YS5mZW1hbGVzLCBhZXMoeCA9IHllYXIsIHkgPSBMRV93aGl0ZV9tZWFuKSkgKyANCiAgZ2VvbV9saW5lKCkgKyANCiAgZmFjZXRfd3JhcCh+c3RhdGUpICsNCiAgeGxhYigiWWVhciIpICsgeWxhYigiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKSIpIA0KDQojU09MVVRJT04gQg0KZ2dwbG90KGRhdGEgPSBkYXRhLmZlbWFsZXMsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX2xpbmUoYWVzKGNvbCA9IHN0YXRlKSkgKyANCiAgeGxhYigiWWVhciIpICsgeWxhYigiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKSIpIA0KDQojRm9yIHRoZSBwcmV2aW91cyBwbG90LCBpdCB3b3VsZCBiZSByZWFsbHkgaGVscGZ1bCBpZiB3ZSBjb3VsZCBtb3JlIGVhc2lseSB0ZWxsIHdoaWNoIGxpbmUgaXMgd2hpY2gNCiNQbG90bHkgaXMgYSBncmFwaGluZyBwYWNrYWdlIHRoYXQgYWRkcyBpbnRlcmFjdGl2ZSBjb21wb25lbnRzOiBob3Zlciwgem9vbSwgaGlnaGxpZ2h0aW5nDQojRm9yIG1hbnkgZ2dwbG90cywgeW91IGNhbiBwaXBlIHRoZW0gdG8gZ2dwbG90bHkoKSB0byBlYXNpbHkgYWRkIHRoZXNlIGludGVyYWN0aXZlIGNvbXBvbmVudHM6DQoNCmxpYnJhcnkocGxvdGx5KSAjIGRvbid0IGZvcmdldCB0byBpbnN0YWxsIGZpcnN0IGlmIHlvdSBoYXZlbid0IGRvbmUgc28gYWxyZWFkeQ0KDQojaGVyZSwgd2UncmUgc2F2aW5nIHRoZSBnZ3Bsb3QgcGxvdCBhbmQgY2FsbGluZyBpdCAib3VyLnBsb3QiDQpvdXIucGxvdCA8LSBnZ3Bsb3QoZGF0YSA9IGRhdGEuZmVtYWxlcywgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgDQogIGdlb21fbGluZShhZXMoY29sID0gc3RhdGUpKSArIA0KICB4bGFiKCJZZWFyIikgKyB5bGFiKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpIikNCg0Kb3VyLnBsb3QgI3RoaXMgcHJpbnRzIHRoZSBzdGF0aWMgdmVyc2lvbg0KDQojdGhlbiwgd2Ugc2VuZCB0aGUgZ2dwbG90IHRvIHRoZSBwbG90bHkoKSBmdW5jdGlvbiBnZ3Bsb3RseSgpIHRvIGFkZCBob3ZlciB0ZXh0Og0Kb3VyLnBsb3QgJT4lIGdncGxvdGx5KCkNCg0KIyMjRVhFUkNJU0U6IEluY29ycG9yYXRlIGluZm9ybWF0aW9uIG9uIENlbnN1c19EaXZzaW9uIG9yIENlbnN1c19SZWdpb24gaW50byB0aGUgZ2dwbG90IHRvIG1ha2UgaXQgbW9yZSByZWFkYWJsZS4gDQojSGludDogVXNlIGJvdGggYWVzKGNvbCkgYW5kIGZhY2V0X3dyYXAofikuIFVzZSBvbmUgb2YgdGhlIGNlbnN1cyB2YXJpYWJsZXMsIGFzIHdlbGwgYXMgdGhlIHN0YXRlIHZhcmlhYmxlLg0KI09uY2UgeW91IGhhdmUgYSBwbG90IHlvdSBsaWtlLCBtYWtlIGl0IGludGVyYWN0aXZlIHVzaW5nIGdncGxvdGx5Lg0KDQojZmlyc3QsIHJlbWluZCB5b3Vyc2VsZiB3aGF0IHRoZSBjZW5zdXMgdmFyaWFibGVzIGFyZSBuYW1lZDoNCm5hbWVzKGRhdGEuZmVtYWxlcykNCg0KI1NPTFVUSU9ODQpjZW5zdXNfcGxvdCA8LSBnZ3Bsb3QoZGF0YSA9IGRhdGEuZmVtYWxlcywgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgDQogIGdlb21fbGluZShhZXMoY29sID0gc3RhdGUpKSArIGZhY2V0X3dyYXAofkNlbnN1c19EaXZpc2lvbikgKw0KICB4bGFiKCJZZWFyIikgKyB5bGFiKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpIikNCg0KY2Vuc3VzX3Bsb3QgJT4lIGdncGxvdGx5KCkNCg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQojV2hhdCBoYXZlIHdlIGxlYXJuZWQgc28gZmFyOg0KI2dlb21fcG9pbnQoKSwgZ2VvbV9saW5lKCkNCiNob3cgdG8gc2V0IGNvbG91ciB0byBhIGZpeGVkIHZhbHVlLCBlLmcuLCBjb2woInJlZCIpIG9yIGNvbCgjN0Y1MjZEKQ0KI2hvdyB0byBzZXQgY29sb3VyIGFjY29yZGluZyB0byB0aGUgdmFsdWUgb2YgYSB2YXJpYWJsZSwgZS5nLiBhZXMoY29sID0gc3RhdGUpLiBUaGUgYWVzKCkgd3JhcHBlciBpcyBjcnVjaWFsIQ0KI2ZhY2V0X3dyYXAoKSB0byBtYWtlIHNlcGFyYXRlIHBhbmVscyBmb3IgZWFjaCBsZXZlbCBvZiBhIHZhcmlhYmxlDQojbGFiZWxzOiBnZ3RpdGxlKCksIHhsYWIoKSwgeWxhYigpDQojZ2dwbG90bHkoKSB0byBtYWtlIGEgZ2dwbG90IGludGVyYWN0aXZlLiBXb3JrcyBvbiBtb3N0IGdncGxvdHMhDQojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KI0VYRVJDSVNFIDE6IFN0YXJ0IHdpdGggY2xlYW5lZC5kYXRhKCkgYW5kIHVzZSBhIGRwbHlyIGZ1bmN0aW9uIHRvIGtlZXAgb25seSBkYXRhIGZyb20gdGhlIHllYXJzIDE5NjkgYW5kIDIwMTMNCiNISU5UOiBJbiBSICJ8IiBpcyB0aGUgT1Igb3BlcmF0b3IgYW5kICImIiBpcyB0aGUgQU5EIG9wZXJhdG9yLg0KI1VzZSBvbmUgb2YgdGhlc2Ugb3BlcmF0b3JzIGluc2lkZSBhIGZpbHRlcigpIHN0YXRlbWVudCB0byBmaXRlciB0aGVzZSB0d28geWVhcnMgb2YgZGF0YQ0KDQojU09MVVRJT04gMToNCmNsZWFuZWQuZGF0YSAlPiUgZmlsdGVyKHllYXIgPT0gMTk2OSB8IHllYXIgPT0gMjAxMykgDQoNCiNBbHRlcm5hdGl2ZWx5LCB1c2UgdGhlICVpbiUgb3BlcmF0b3IuIA0KI1NPTFVUSU9OIDI6DQpjbGVhbmVkLmRhdGEgJT4lIGZpbHRlcih5ZWFyICVpbiUgYygxOTY5LCAyMDEzKSkNCiAgDQojRVhFUkNJU0UgMjogbWFrZSBhIGhpc3RvZ3JhbSBvZiBibGFjayBsaWZlIGV4cGVjdGFuY3ksIHdpdGggc2VwYXJhdGUgcGFuZWxzIGZvciB5ZWFyIGFuZCBzZXguDQojWW91J2xsIG5lZWQgdG8gdXNlIHR3byBuZXcgZnVuY3Rpb25zOiBnZW9tX2hpc3RvZ3JhbSgpIGFuZCBmYWNldF9ncmlkKHZhcjF+dmFyMikuDQojSElOVDogU2luY2UgaGlzdG9ncmFtcyBhcmUgdW5pdmFyaWF0ZSwgeW91IG9ubHkgbmVlZCB0byBzZXQgeCBpbiB0aGUgZ2dwbG90KCkgY29tbWFuZC4NCg0KI1NPTFVUSU9ODQp0d28ueWVhcnMgPC0gY2xlYW5lZC5kYXRhICU+JSBmaWx0ZXIoeWVhciAlaW4lIGMoMTk2OSwgMjAxMykpDQpnZ3Bsb3QodHdvLnllYXJzLCBhZXMoeCA9IExFX2JsYWNrX21lYW4pKSArIA0KICBnZW9tX2hpc3RvZ3JhbSgpICsgDQogIGZhY2V0X2dyaWQoeWVhcn5zZXgpDQoNCiNFWEVSQ0lTRSAzOiBUaGlzIGlzIGtpbmQgb2YgdWdseS4gQ2hhbmdlIHRoZSBjb2xvdXIuIERpZCB0aGF0IGRvIGFzIHlvdSBleHBlY3RlZD8gVHJ5IGFsc28gY2hhbmdpbmcgdGhlIGZpbGwuDQoNCiNTT0xVVElPTiAxOg0KY2xlYW5lZC5kYXRhICU+JSBmaWx0ZXIoeWVhciA9PSAxOTY5IHwgeWVhciA9PSAyMDEzKSAlPiUNCiAgZ2dwbG90KGFlcyh4ID0gTEVfYmxhY2tfbWVhbikpICsgDQogIGdlb21faGlzdG9ncmFtKGNvbCA9ICJibHVlIikgKyANCiAgZmFjZXRfZ3JpZCh5ZWFyfnNleCkNCg0KI1NPTFVUSU9OIDI6DQpjbGVhbmVkLmRhdGEgJT4lIGZpbHRlcih5ZWFyID09IDE5NjkgfCB5ZWFyID09IDIwMTMpICU+JQ0KICBnZ3Bsb3QoYWVzKHggPSBMRV9ibGFja19tZWFuKSkgKyANCiAgZ2VvbV9oaXN0b2dyYW0oY29sID0gImJsdWUiLCBmaWxsID0gInJlZCIpICsgDQogIGZhY2V0X2dyaWQoeWVhcn5zZXgpDQoNCiNFWEVSQ0lTRSA0OiBVcGRhdGUgdGhlIGNvbG91ciB0byAid2hpdGUiLCBhbmQgY2hhbmdlIHRoZSBmaWxsIHRvIGJlIGEgZnVuY3Rpb24gb2Ygc2V4LiBSZW1lbWJlciBhZXMoKSENCg0KI1NPTFVUSU9OOg0KY2xlYW5lZC5kYXRhICU+JSBmaWx0ZXIoeWVhciA9PSAxOTY5IHwgeWVhciA9PSAyMDEzKSAlPiUNCiAgZ2dwbG90KGFlcyh4ID0gTEVfYmxhY2tfbWVhbikpICsgDQogIGdlb21faGlzdG9ncmFtKGNvbCA9ICJ3aGl0ZSIsIGFlcyhmaWxsID0gc2V4KSkgKyANCiAgZmFjZXRfd3JhcCh5ZWFyfnNleCkNCg0KI0lmIHlvdSBkb24ndCBsaWtlIHRoZSBncmV5IGJhY2tncm91bmQsIGFuIGVhc3kgd2F5IHRvIHJlbW92ZSBpdCBpcyB0byBtb2RpZnkgdGhlIHVuZGVybHlpbmcgdGhlbWU6ICANCiN0YWIgdGhyb3VnaCB0aGUgdGhlbWVzIGFuZCBhcHBseSB0aGVtIHRvIGZpbmQgdGhlIG9uZSB5b3UgbGlrZS4NCg0KI1NPTFVUSU9OOg0KY2xlYW5lZC5kYXRhICU+JSBmaWx0ZXIoeWVhciA9PSAxOTY5IHwgeWVhciA9PSAyMDEzKSAlPiUNCiAgZ2dwbG90KGFlcyh4ID0gTEVfYmxhY2tfbWVhbikpICsgDQogIGdlb21faGlzdG9ncmFtKGNvbCA9ICJ3aGl0ZSIsIGFlcyhmaWxsID0gc2V4KSkgKyANCiAgZmFjZXRfd3JhcCh5ZWFyfnNleCkgKw0KICB0aGVtZV9taW5pbWFsKCkgI3RoaXMgaXMgYSBnb29kIG9uZSENCg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KDQojU0VDVElPTiAzOiBBTk9USEVSIERBVEFTRVQsIEFOT1RIRVIgREFUQSBWSVNVQUxJWkFUSU9ODQoNCiNJIHByZXZpb3VzbHkgc2F2ZWQgdGhlIFIgZGF0YS5mcmFtZSAiQ1MuZGF0YSIgaW5zaWRlIFIuIFdlIGNhbiByZWxvYWQgaXQgdXNpbmcgdGhlIGxvYWQoKSBjb21tYW5kOg0KQ1MuZGF0YSA8LSByZWFkLmNzdigiLi4vRGF0YS9DZXNhcmVhbi5jc3YiKQ0KI05vdGljZSB0aGF0IENTLmRhdGEgaGFzIGJlZW4gYWRkZWQgdG8gdGhlIEdsb2JhbCBFbnZpcm9ubWVudC4NCiNDaGVjayBvdXQgQ1MuZGF0YSB1c2luZyBzb21lIG9mIHRoZSBjb21tYW5kcyB3ZSBsZWFybmVkIGVhcmxpZXIuDQojVGhlcmUgaXMgYSB2YXJpYWJsZSBjYWxsZWQgIlgyMDA2Ii4gVGhpcyB2YXJpYWJsZSBpcyB0aGUgZ3Jvc3MgZG9tZXN0aWMgcHJvZHVjdCBpbiAyMDA2IGZvciB0aGUgY29ycmVzcG9uZGluZyBjb3VudHJ5Lg0KI0xldCdzIHVzZSB0aGUgZHBseXIgZnVuY3Rpb24gcmVuYW1lKCkgdG8gZ2l2ZSB0aGlzIHZhcmlhYmxlIGEgYmV0dGVyIG5hbWUuDQojIGV4YW1wbGUuZGF0YSA8LSBleGFtcGxlLmRhdGEgJT4lIHJlbmFtZShuZXcubmFtZSA9IG9sZC5uYW1lKQ0KDQpDUy5kYXRhIDwtIENTLmRhdGEgJT4lIHJlbmFtZShnZHAuMjAwNiA9IFgyMDA2KQ0KDQojQ1NfUmF0ZTIgaXMgdGhlIGNlc2FyZWFuIGRlbGl2ZXJ5IHJhdGUgYXMgYSBwcm9wb3J0aW9uIDwgMS4gRm9yIGdyYXBoaW5nIHB1cnBvc2VzLCBpdCB3aWxsIGJlIG5pY2UgdG8gaGF2ZSB0aGlzIHZhcmlhYmxlDQojaGF2ZSBhbiB1cHBlciBib3VuZCBvZiAxMDAuDQojVXNlIHRoZSBkcGx5ciBmdW5jdGlvbiBtdXRhdGUoKSB0byBjcmVhdGUgYSBuZXcgdmFyaWFibGUgYmFzZWQgb24gQ1NfUmF0ZTIgdGhhdCBpcyBtdWx0aXBsaWVkIGJ5IDEwMC4NCiMgZXhhbXBsZS5kYXRhIDwtIGV4YW1wbGUuZGF0YSAlPiUgbXV0YXRlKG11dGF0ZWQudmFyID0gZnVuY3Rpb24oZXhpc3RpbmcudmFyKSkuIA0KDQpDUy5kYXRhIDwtIENTLmRhdGEgJT4lIG11dGF0ZShDU19SYXRlID0gQ1NfUmF0ZTIqMTAwKQ0KDQojRHJvcCB0d28gb2YgdGhlIGNvdW50cnkgdmFyaWFibGVzIGFuZCBrZWVwIHRoZSB0aGlyZC4gVXNlIFZpZXcoKSB0byBsb29rIGF0IHRoZSB2YWx1ZXMgYW5kIGNob29zZSB0aGUgYmVzdCB2YXJpYWJsZSB0byBrZWVwDQojQWxzbyBkcm9wIHRoZSBvbGQgQ1NfUmF0ZTIgdmFyaWFibGUNCkNTLmRhdGEgPC0gQ1MuZGF0YSAlPiUgc2VsZWN0KC1Db3VudHJ5LnksIC1Db3VudHJ5LngsIC1DU19SYXRlMikNCg0KI0VYRVJDSVNFDQojVmlzdWFsbHkgYXNzZXNzIHRoZSByZWxhdGlvbnNoaXAgYmV0d2VlbiBHRFAgYW5kIGNlc2FyZWFuIGRlbGl2ZXJ5IHJhdGUgdXNpbmcgYSBzY2F0dGVyIHBsb3QgKGkuZS4sIGdlb21fcG9pbnQpLg0KI1N0YXJ0IHNpbXBsZSBhbmQgdGhlbiBrZWVwIGVuaGFuY2luZyB0aGUgZ2dwbG90IHVudGlsIGl0IGlzIGF3ZXNvbWUuDQojUmVtZW1iZXI6IGNvbCgpLCBmaWxsKCksIGFuZCBzaXplKCkuIEFsc28sIHJlbWVtYmVyIHRoZSB0aGVtZXMuDQojRXhwZXJpbWVudCB3aXRoIGdlb21fdGV4dCgpLiBUeXBlID9nZW9tX3RleHQgaW50byB0aGUgY29uc29sZSB0byBvcGVuIGEgaGVscCB3aW5kb3cgYW5kIGxlYXJuIGFib3V0IGl0IG9yIGdvb2dsZSBpdCENCg0KI1RoZSB2ZXJ5IGJhc2ljcw0KZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoeCA9IGdkcC4yMDA2LCB5ID0gQ1NfUmF0ZSkpICsgDQogIGdlb21fcG9pbnQoKQ0KDQojVGhlcmUgaXMgYSBsb3Qgb2YgZGF0YSBzbXVzaGVkIG5lYXIgMCwgZXNwZWNpYWxseSBvbiB0aGUgeC1heGlzIC0tIGNvdWxkIGEgdHJhbnNmb3JtYXRpb24gaGVscD8NCg0KI211Y2ggYmV0dGVyIQ0KZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoeCA9IGdkcC4yMDA2LCB5ID0gQ1NfUmF0ZSkpICsgDQogIGdlb21fcG9pbnQoYWVzKGNvbCA9IFJlZ2lvbikpICsNCiAgc2NhbGVfeF9sb2cxMCgpDQoNCiN3aGVyZSBzaG91bGQgc2l6ZSBvZiB0aGUgcG9pbnRzIGNvbWUgaW4/DQpnZ3Bsb3QoZGF0YSA9IENTLmRhdGEsIGFlcyh4ID0gZ2RwLjIwMDYsIHkgPSBDU19SYXRlKSkgKyANCiAgZ2VvbV9wb2ludChhZXMoY29sID0gUmVnaW9uLCBzaXplID0gQmlydGhzX1Blcl8xMDAwKSkgKw0KICBzY2FsZV94X2xvZzEwKCkNCg0KI0kgd2FudCB0aGUgcG9pbnRzIHRvIGFsbCBiZSBCSUdHRVIhIFlvdSBjYW4gYWRqdXN0IHRoZSBtYXggcG9pbnQgc2l6ZSB1c2luZyBzY2FsZV9zaXplX2FyZWEobWF4X3NpemUgPSAjIykNCmdncGxvdChkYXRhID0gQ1MuZGF0YSwgYWVzKHggPSBnZHAuMjAwNiwgeSA9IENTX1JhdGUpKSArIA0KICBnZW9tX3BvaW50KGFlcyhjb2wgPSBSZWdpb24sIHNpemUgPSBCaXJ0aHNfUGVyXzEwMDApKSArDQogIHNjYWxlX3hfbG9nMTAoKSArIA0KICBzY2FsZV9zaXplX2FyZWEobWF4X3NpemUgPSA1MCkNCg0KI29oIGJveSwgdGhlIGxlZ2VuZCBpcyBtYXNzaXZlIC0tIGxldCdzIHJlbW92ZSBpdC4gQW5kIHNvbWUgcG9pbnRzIGFyZSBvdmVybGFwcGluZyAtLSB5b3UgY2FuIG1ha2UgdGhlIHBvaW50cyBzZW1pLXRyYW5zcGFyZW50DQojYnkgc2V0dGluZyB0aGUgYWxwaGEgcGFyYW1ldGVyIHRvIGEgdmFsdWUgYmV0d2VlbiAwIGFuZCAxOg0KZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoeCA9IGdkcC4yMDA2LCB5ID0gQ1NfUmF0ZSkpICsgDQogIGdlb21fcG9pbnQoYWVzKGNvbCA9IFJlZ2lvbiwgc2l6ZSA9IEJpcnRoc19QZXJfMTAwMCwgYWxwaGEgPSAwLjUpKSArDQogIHNjYWxlX3hfbG9nMTAoKSArIA0KICBzY2FsZV9zaXplX2FyZWEobWF4X3NpemUgPSA1MCwgZ3VpZGUgPSAibm9uZSIpDQoNCiN3aGljaCBjb3VudHJ5IGlzIHdoaWNoPw0KZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoeCA9IGdkcC4yMDA2LCB5ID0gQ1NfUmF0ZSkpICsgDQogIGdlb21fcG9pbnQoYWVzKGNvbCA9IFJlZ2lvbiwgc2l6ZSA9IEJpcnRoc19QZXJfMTAwMCwgYWxwaGEgPSAwLjUpKSArDQogIHNjYWxlX3hfbG9nMTAoKSArIA0KICBzY2FsZV9zaXplX2FyZWEobWF4X3NpemUgPSA1MCwgZ3VpZGUgPSAibm9uZSIpICsNCiAgZ2VvbV90ZXh0KGFlcyhsYWJlbCA9IENvdW50cnlfTmFtZSkpDQoNCiN0b28gbWFueSBsYWJlbHMuIExldCdzIHVzZSBhbiBpZmVsc2UoKSBzdGF0ZW1lbnQgdG8gc2VsZWN0aXZlbHkgZGlzcGxheSBsYWJlbHMgZm9yIGEgY2VydGFpbiBzZXQgb2YgY291bnRyaWVzDQpnZ3Bsb3QoZGF0YSA9IENTLmRhdGEsIGFlcyh4ID0gZ2RwLjIwMDYsIHkgPSBDU19SYXRlKSkgKyANCiAgZ2VvbV9wb2ludChhZXMoY29sID0gUmVnaW9uLCBzaXplID0gQmlydGhzX1Blcl8xMDAwLCBhbHBoYSA9IDAuNSkpICsNCiAgc2NhbGVfeF9sb2cxMCgpICsNCiAgc2NhbGVfc2l6ZV9hcmVhKG1heF9zaXplID0gNTAsIGd1aWRlID0gIm5vbmUiKSArDQogIGdlb21fdGV4dChhZXMobGFiZWwgPSBpZmVsc2UoUmVnaW9uID09ICJOb3J0aCBBbWVyaWNhIiwgYXMuY2hhcmFjdGVyKENvdW50cnlfTmFtZSksICIiKSkpDQoNCmdncGxvdChkYXRhID0gQ1MuZGF0YSwgYWVzKHggPSBnZHAuMjAwNiwgeSA9IENTX1JhdGUpKSArIA0KICBnZW9tX3BvaW50KGFlcyhjb2wgPSBSZWdpb24sIHNpemUgPSBCaXJ0aHNfUGVyXzEwMDAsIGFscGhhID0gMC41KSkgKw0KICBzY2FsZV94X2xvZzEwKCkgKw0KICBzY2FsZV9zaXplX2FyZWEobWF4X3NpemUgPSA1MCwgZ3VpZGUgPSAibm9uZSIpICsNCiAgZ2VvbV90ZXh0KGFlcyhsYWJlbCA9IGlmZWxzZShCaXJ0aHNfUGVyXzEwMDAgPiAxMDAwLCBhcy5jaGFyYWN0ZXIoQ291bnRyeV9OYW1lKSwgIiIpKSkNCg0KI3NvbWUgbW9yZSBlYXN5IHN0eWxlIGNoYW5nZXMNCmdncGxvdChkYXRhID0gQ1MuZGF0YSwgYWVzKHggPSBnZHAuMjAwNiwgeSA9IENTX1JhdGUpKSArIA0KICBnZW9tX3BvaW50KGFlcyhjb2wgPSBSZWdpb24sIHNpemUgPSBCaXJ0aHNfUGVyXzEwMDAsIGFscGhhID0gMC41KSkgKw0KICBzY2FsZV94X2xvZzEwKCkgKw0KICBzY2FsZV9zaXplX2FyZWEobWF4X3NpemUgPSA1MCwgZ3VpZGUgPSAibm9uZSIpICsNCiAgc2NhbGVfYWxwaGFfY29udGludW91cyhndWlkZSA9ICJub25lIikgKw0KICBnZW9tX3RleHQoYWVzKGxhYmVsID0gaWZlbHNlKEJpcnRoc19QZXJfMTAwMCA+IDEwMDAsIGFzLmNoYXJhY3RlcihDb3VudHJ5X05hbWUpLCAiIikpKSArDQogIHhsYWIoIkdEUCIpICsgeWxhYigiQ2VzYXJlYW4gZGVsaXZlcnkgcmF0ZSAoJSkiKSArIHRoZW1lX21pbmltYWwoKQ0KDQpjcy5wbG90IDwtIGdncGxvdChkYXRhID0gQ1MuZGF0YSwgYWVzKHggPSBnZHAuMjAwNiwgeSA9IENTX1JhdGUpKSArIA0KICBnZW9tX3BvaW50KGFlcyhmaWxsID0gUmVnaW9uLCBzaXplID0gQmlydGhzX1Blcl8xMDAwLCBhbHBoYSA9IDAuNSksIGNvbCA9ICJibGFjayIsIHNoYXBlID0gMjEpICsNCiAgc2NhbGVfeF9sb2cxMChicmVha3MgPSBjKDEsIDEwMCwgMTAwMCwgMTAwMDApLCBsYWJlbHMgPSBjKDEsIDEwMCwgMTAwMCwgMTAwMDApKSArDQogIHNjYWxlX3NpemVfYXJlYShtYXhfc2l6ZSA9IDUwLCBndWlkZSA9ICJub25lIikgKw0KICBzY2FsZV9hbHBoYV9jb250aW51b3VzKGd1aWRlID0gIm5vbmUiKSArDQogIGdlb21fdGV4dChhZXMobGFiZWwgPSBpZmVsc2UoQmlydGhzX1Blcl8xMDAwID4gNzAwLCBhcy5jaGFyYWN0ZXIoQ291bnRyeV9OYW1lKSwgIiIpKSkgKw0KICB4bGFiKCJHRFAiKSArIHlsYWIoIkNlc2FyZWFuIGRlbGl2ZXJ5IHJhdGUgKCUpIikgKyB0aGVtZV9taW5pbWFsKCkgDQogIA0KY3MucGxvdCAlPiUgZ2dwbG90bHkoKQ0KDQojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCiNXaGF0IGVsc2UgZGlkIHdlIGxlYXJuOg0KI2RwbHlyIGZ1bmN0aW9ucyByZW5hbWUoKSB0byBjaGFuZ2UgdmFyaWFibGUgbmFtZXMsIGFuZCBtdXRhdGUoKSB0byBhZGQgbmV3IHZhcmlhYmxlcyBiYXNlZCBvbiBleGlzdGluZyB2YXJpYWJsZXMNCiNhbHBoYSgpIHRvIGNvbnRyb2wgdHJhbnNwYXJlbmN5LCBzaGFwZSgpIHRvIGNoYW5nZSBzaGFwZSBvZiBnZW9tX3BvaW50KCkNCiNzY2FsZV94X2xvZzEwKCkgdG8gdXNlIGEgbG9nLXRyYW5zZm9ybWVkIHgtYXhpcw0KI2dlb21fdGV4dCgpIHRvIGFkZCBsYWJlbHMgdG8gdGhlIHBsb3QNCiNpZmVsc2UoKSBvcGVyYXRvci4gSWYgdHJ1ZSB0aGVuIGRvOiAuLi4uLCBlbHNlLCBkbzogLi4uLg0KDQojUmVhbGx5IHVzZWZ1bCByZXNvdXJjZXMgZm9yIGxlYXJuaW5nIGdncGxvdDIgYW5kIGRwbHlyOg0KI2dncGxvdDIgY2hlYXRzaGVldDogaHR0cHM6Ly93d3cucnN0dWRpby5jb20vd3AtY29udGVudC91cGxvYWRzLzIwMTUvMDMvZ2dwbG90Mi1jaGVhdHNoZWV0LnBkZg0KI2RwbHlyIGNoZWF0c2hlZXQ6IGh0dHBzOi8vd3d3LnJzdHVkaW8uY29tL3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDE1LzAyL2RhdGEtd3JhbmdsaW5nLWNoZWF0c2hlZXQucGRmDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIldvcmtzaG9wIFBhcnQgMiINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQ0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQ0KYGBgDQoNCiMjI1NlY3Rpb24gMTogVmlld2luZyBhbmQgQW5hbHl6aW5nIHRoZSBEYXRhDQoNCiMjIyBJbXBvcnRpbmcgdGhlIERhdGENClRoZSBjb2RlIGJlbG93IHJlYWRzIGluIHRoZSBgQmxhY2tXaGl0ZV9yZXN1bHRzLmNzdmAgY29tbWEtc2VwYXJhdGVkIGZpbGUuIFRoaXMgZGF0YSBzdHJ1Y3R1cmUgaGFzIGFsbCB0aGUgZnVuY3Rpb25hbGl0aWVzIG9mIGEgYGRhdGEuZnJhbWVgLg0KDQpgYGB7cn0NCkJsYWNrV2hpdGVfcmVzdWx0cyA8LSByZWFkLmNzdigiLi4vRGF0YS9CbGFja1doaXRlX3Jlc3VsdHMuY3N2IikNCmBgYA0KDQoNCiMjIyBFeGFtaW5pbmcgdGhlIERhdGENCkxldCdzIGZpcnN0IHVzZSB0aGUgdmlld2VyIHRvIGxvb2sgYXQgdGhlc2UgZGF0YS4gQ2xpY2sgdGhlIGRhdGEgaWNvbiBuZXh0IHRvIEJsYWNrV2hpdGVfcmVzdWx0cyBpbiB0aGUgZW52aXJvbm1lbnQgdGFiIE9yIHJ1biB0aGUgY29kZSwgb3IgcnVuIHRoZSBjZWxsIGJlbG93Lg0KYGBge3J9DQpWaWV3KEJsYWNrV2hpdGVfcmVzdWx0cykNCmBgYA0KDQpUaGVzZSBhcmUgc29tZSByZXN1bHRzIGZyb20gYSBzdHVkeSBJIGRpZCBvbiB0aGUgaW5lcXVhbGl0eSBpbiBsaWZlIGV4cGVjdGFuY3kgYmV0d2VlbiBibGFja3MgYW5kIHdoaXRlcyBpbiB0aGUgVVMuIExldCdzIGZpcnN0IGV4YW1pbmUgdGhlIHN0cnVjdHVyZSBvZiB0aGUgZGF0YXNldDoNCg0KYGBge3J9DQpzdHIoQmxhY2tXaGl0ZV9yZXN1bHRzKQ0KYGBgDQoNCndoYXQgYXJlIHRoZSBmaXJzdCB0aHJlZSB2YXJpYWJsZXM/IA0KSGludDogVXNlIHRoZSBkb2xsYXIgc2lnbiB0byBhY2Nlc3MgdGhlIHZhcmlhYmxlcyB3aXRoaW4gdGhlIGRhdGEgZnJhbWUuDQpgYGB7cn0NCg0KYGBgDQoNCkFyZSB0aGUgWC4xIGFuZCBYLjIgdmFyaWFibGVzIHRoZSBzYW1lPw0KV3JpdGUgY29kZSBpbiB0aGUgY2VsbCB0byBkZXRlcm1pbmUgdGhpcy4NCmBgYHtyfQ0KDQpgYGANCg0KDQojIyNEYXRhIE1hbmlwdWxhdGlvbg0KSXQgbG9va3MgbGlrZSB0aGV5IGp1c3QgY291bnQgdGhlIHJvd3MuIExldCdzIHJlbW92ZSB0aGVtIGZyb20gdGhlIGRhdGFzZXQ6DQoNCkRhdGEgbWFuaXB1bGF0aW9uIGlzIGJlc3QgZG9uZSB1c2luZyBmdW5jdGlvbnMgZnJvbSB0aGUgcGFja2FnZSAiZHBseXIiDQoNCkluc3RhbGwucGFja2FnZXMoImRwbHlyIikuIElmIHlvdSBoYXZlbid0IGluc3RhbGxlZCB0aGlzIHBhY2thZ2UgYmVmb3JlLCB5b3UgbmVlZCB0byBkbyBpdCBub3chDQpgYGB7cn0NCmxpYnJhcnkoZHBseXIpICNsb2FkIHRoaXMgcGFja2FnZQ0KYGBgDQoNCk5vdGljZSB0aGUgb3V0cHV0IGluIHRoZSBjb25zb2xlLiBUaGVzZSBwaW5rIG5vdGVzIGFyZSBjYWxsZWQgIm1lc3NhZ2VzIi4gVGhlc2UgbWVzc2FnZXMgYXJlIHRlbGxpbmcgeW91IHRoYXQgdGhlIGZ1bmN0aW9ucyAiZmlsdGVyIiBhbmQgImxhZyIgZnJvbSBkcGx5ciBhcmUgbmFtZWQgdGhlIHNhbWUgdGhpbmcgYXMgZnVuY3Rpb25zIGZyb20gdGhlIHByZS1sb2FkZWQgc3RhdHMgcGFja2FnZS4gU28gbm93IHdoZW4geW91IGNhbGwgdGhlIGZ1bmN0aW9uIGZpbHRlcigpIG9yIGxhZygpIHlvdSB3aWxsIHVzZSB0aGUgZHBseXIgdmVyc2lvbiBvZiB0aG9zZSBmdW5jdGlvbnMuIEl0IGFsc28gaGFzIGZ1bmN0aW9ucyB0aGF0IGFyZSB0aGUgc2FtZSBuYW1lcyBhcyBmb3VyIGZ1bmN0aW9ucyBmcm9tIHRoZSBiYXNlIFIgcGFja2FnZS4NCg0KVXNlIHRoZSBzZWxlY3QoKSBmdW5jdGlvbiBmcm9tIGRwbHlyIHRvIHNlbGVjdCB0aGUgcm93cyB5b3Ugd2FudCB0byBrZWVwIGluIHRoZSBkYXRhc2V0IGFuZCBhc3NpZ24gaXQgdG8gdGhlIHZhcmlhYmxlIGNsZWFuZWQuZGF0YQ0KSGludDogVXNlIHN1YnRyYWN0aXZlIHNlbGVjdCB3aXRoIHRoZSBuZWdhdGl2ZSBzaWduIHRvIHJlbW92ZSB0aGUgcm93cyB5b3UgZG8gbm90IHdhbnQuDQpgYGB7cn0NCmNsZWFuZWQuZGF0YSA8LSAjI3JlcGxhY2UgdGhpcyB3aXRoIGNvZGUNCmBgYA0KDQpOb3RpY2UgaG93IHRoZSBudW1iZXIgb2YgdmFyaWFibGVzIGhhcyBjaGFuZ2VkIGluIHRoZSBlbnZpcm9ubWVudCB0YWIgdnMuIHRoZSBvcmlnaW5hbCBkYXRhLg0KDQpOb3cgbGV0J3MgZXJhc2UgY2xlYW5lZC5kYXRhIHVzaW5nIHRoZSByZW1vdmUgZnVuY3Rpb24sIHJtKCk6DQpgYGB7cn0NCnJtKGNsZWFuZWQuZGF0YSkNCmBgYA0KDQpBbmQgcmVjcmVhdGUgaXQgdXNpbmcgdGhlIHBpcGluZyBvcGVyYXRvcjoNCmBgYHtyfQ0KY2xlYW5lZC5kYXRhIDwtIEJsYWNrV2hpdGVfcmVzdWx0cyAlPiUgc2VsZWN0KC1YLCAtWC4xLCAtWC4yKQ0KYGBgDQoNCg0KV2UgY2FuIFZpZXcoKSBjbGVhbmVkLmRhdGEgb3IgcmVtaW5kIG91cnNlbHZlcyBvZiB0aGUgdmFyaWFibGVzIGNvbnRhaW5lZCBpbiB0aGUgZGF0YSBmcmFtZToNCmBgYHtyfQ0KbmFtZXMoY2xlYW5lZC5kYXRhKQ0KYGBgDQoNCg0KTGV0J3MgZXhhbWluZSBzb21lIG9mIHRoZSB2YXJpYWJsZXMgYSBsaXR0bGUgbW9yZSBjbG9zZWx5Og0KYGBge3J9DQp0YWJsZShjbGVhbmVkLmRhdGEkc2V4KQ0KdGFibGUoY2xlYW5lZC5kYXRhJHN0YXRlKQ0KdGFibGUoY2xlYW5lZC5kYXRhJHllYXIpDQp0YWJsZShjbGVhbmVkLmRhdGEkc3RhdGUsIGNsZWFuZWQuZGF0YSRDZW5zdXNfUmVnaW9uKQ0KYGBgDQoNCkFsc28gdXNlZnVsIGlzIHRoZSB1bmlxdWUoKSBmdW5jdGlvbjoNCmBgYHtyfQ0KdW5pcXVlKGNsZWFuZWQuZGF0YSRzZXgpDQp1bmlxdWUoY2xlYW5lZC5kYXRhJENlbnN1c19EaXZpc2lvbikNCmxlbmd0aCh1bmlxdWUoY2xlYW5lZC5kYXRhJENlbnN1c19EaXZpc2lvbikpDQpgYGANCg0KDQpNdWNoIGxlc3MgdXNlZnVsIGZvciBjb250aW51b3VzIGRhdGEhOg0KYGBge3J9DQp1bmlxdWUoY2xlYW5lZC5kYXRhJExFX2JsYWNrX2xjbCkNCg0Kc3RyKGNsZWFuZWQuZGF0YSRzdGF0ZSkNCmBgYA0KDQojIyNGYWN0b3JzDQpGYWN0b3JzIGhhdmUgbGV2ZWxzIGFuZCBsZXZlbHMgYXJlIG9yZGVyZWQuIEJ5IGRlZmF1bHQsIGZhY3RvcnMgYXJlIG9yZGVyZWQgYWxwaGFiZXRpY2FsbHkgaWYgdGhleSBhcmUgd29yZHMuDQpgYGB7cn0NCmxldmVscyhjbGVhbmVkLmRhdGEkc3RhdGUpICAjdGhpcyBwcmludHMgYSB2ZWN0b3Igb2YgdGhlIGZhY3RvciBsZXZlbHMgaW4gdGhlaXIgb3JkZXINCmxlbmd0aChsZXZlbHMoY2xlYW5lZC5kYXRhJHN0YXRlKSkgICN0aGlzIHByaW50cyB0aGUgbGVuZ3RoDQpgYGANCg0KU29tZSBvdGhlciB1c2VmdWwgZHBseXIgZnVuY3Rpb25zOg0KMS4gZmlsdGVyKCkNCjIuIGdyb3VwX2J5KCksIHN1bW1hcmlzZSgpDQpgYGB7cn0NCkFsYWJhbWEuZGF0YSA8LSBjbGVhbmVkLmRhdGEgJT4lIGZpbHRlcihzdGF0ZSA9PSAiQWxhYmFtYSIsIHNleCA9PSAiTWFsZSIpDQoNCkFsYWJhbWEuZGF0YSAlPiUgc3VtbWFyaXNlKG92ZXJhbGwubWVhbi53aGl0ZSA9IG1lYW4oTEVfd2hpdGVfbWVhbiksIG92ZXJhbGwubWVhbi5ibGFjayA9IG1lYW4oTEVfYmxhY2tfbWVhbikpDQpgYGANCg0KRVhFUkNJU0U6IEV4dGVuZCB0aGUgYWJvdmUgc3RhdGVtZW50IHRvIGFsc28gY29tcHV0ZSB0aGUgbWVhbiBvZiB0aGUgdmFyaWFibGUgIkxFX3diZ2FwX21lYW4iDQpIaW50OiBSYXRoZXIgdGhhbiBkb2luZyB0aGUgYWJvdmUgaW4gdHdvIHNlcGFyYXRlIHN0ZXBzIHlvdSBjYW4gInBpcGUiIHRoZSBzdGVwcyB0b2dldGhlci4gUmVwbGFjZSB0aGUgZG90cyB3aXRoIHlvdXIgY29kZS4NCmBgYHtyfQ0KY2xlYW5lZC5kYXRhICU+JQ0KICAuLi4gICU+JQ0KICAuLi4NCmBgYA0KDQoNCldoYXQgaWYgeW91IHdhbnRlZCB0byBjb21wdXRlIHRoZSBzdW1tYXJ5IGZvciBmZW1hbGVzIGFuZCBmb3IgbWFsZXM/DQpIaW50OiB3ZSBuZWVkIHRvIHVzZSB0aGUgZ3JvdXBfYnkoKSBmdW5jdGlvbiBhcyBvbmUgb2Ygb3VyIGNvbW1hbmRzLCBhbmQgYWxzbyBzbGlnaHRseSBtb2RpZnkgdGhlIGZpbHRlcigpIGNvbW1hbmQuDQpTT0xVVElPTjogV2Ugd2lsbCBmaWxsIHRoaXMgaW4gdG9nZXRoZXIsIGFuZCBJIHdpbGwgc2VuZCBhIGNvbXBsZXRlIGZpbGUgd2l0aCBzb2x1dGlvbnMgYWZ0ZXIgY2xhc3MuDQpgYGB7cn0NCmNsZWFuZWQuZGF0YSAlPiUgDQogIGdyb3VwX2J5KHNleCkgJT4lDQogIGZpbHRlcihzdGF0ZSA9PSAiQWxhYmFtYSIpICU+JQ0KICBzdW1tYXJpc2Uob3ZlcmFsbC5tZWFuLndoaXRlID0gbWVhbihMRV93aGl0ZV9tZWFuKSwgb3ZlcmFsbC5tZWFuLmJsYWNrID0gbWVhbihMRV9ibGFja19tZWFuKSkNCmBgYA0KDQpFWEVSQ0lTRTogQ29tcHV0ZSB0aGUgc3VtbWFyeSBmb3IgZmVtYWxlcyBhbmQgbWFsZXMgaW4gZXZlcnkgc3RhdGUuDQpUTyBCRSBGSUxMRUQgSU4gRFVSSU5HIENMQVNTDQpgYGB7cn0NCmNsZWFuZWQuZGF0YSAlPiUgDQogIC4uLiAlPiUNCiAgc3VtbWFyaXNlKG92ZXJhbGwubWVhbi53aGl0ZSA9IC4uLiAsIA0KICAgICAgICAgICAgb3ZlcmFsbC5tZWFuLmJsYWNrID0gLi4uKSkgJT4lIA0KICBwcmludChuID0gbnJvdyguKSkgIyBhZGQgdGhlIHByaW50IHN0ZXAgdG8gc3BlY2lmeSB0aGUgbnVtYmVyIG9mIHJvd3MgdG8gcHJpbnQuIFRoaXMgdGVsbHMgaXQgdG8gcHJpbnQgYWxsIHJvd3Mgb2YgdGhlIHJlc3VsdHMuDQpgYGANCg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQojIyNXaGF0IHdlJ3ZlIGxlYXJuZWQgc28gZmFyOg0KDQoxLiBJTVBPUlRJTkcgREFUQQ0KYS4gcmVhZC5jc3YoKSBmb3IgaW1wb3J0aW5nIC5jc3YgZGF0YS4gVGhlcmUgaXMgYWxzbyByZWFkLnRhYmxlIGZvciAudHh0IGRhdGEgdG8gcmVhZCBkYXRhIGV4cG9ydGVkIGZyb20gc3RhdGUgeW91IHdpbGwgbmVlZCB0byBsb2FkIHRoZSBmb3JlaWduIGxpYnJhcnkgYW5kIHVzZSByZWFkLmRhdGEoKQ0KYi4gVG8gcmVhZCBmaWxlcyBleHBvcnRlZCBmcm9tIFN0YXRhIHZlcnNpb24gMTMgeW91IG5lZWQgdG8gbG9hZCB0aGUgcmVhZHN0YXRhMTMoKSBwYWNrYWdlIGFuZCB1c2UgcmVhZC5kdGExMygpDQoNCjIuIExPT0tJTkcgQVQgVEhFIERBVEFTRVQNCmEuIFZpZXcoKSwgc3RyKCksIGhlYWQoKSwgdGFpbCgpLCB0YWJsZSgpLCBsZW5ndGgoKSwgdW5pcXVlKCkNCmIuIHN1bW1hcnkoKSBpcyBhbm90aGVyIGdvb2QgZnVuY3Rpb24uIFVzZWZ1bCBmb3IgY29udGludW91cyBkYXRhOiBzdW1tYXJ5KEFsYWJhbWEuZGF0YSRMRV93aGl0ZV9tZWFuKQ0KYy4gQW5kIHNvIGlzIHF1YW50aWxlKCk6DQpxdWFudGlsZShBbGFiYW1hLmRhdGEkTEVfYmxhY2tfbWVhbikNCnF1YW50aWxlKEFsYWJhbWEuZGF0YSRMRV9ibGFja19tZWFuLCAwLjMpDQoNCjMuIE1BTklQVUxBVEUgVEhFIERBVEENCmEuIHNlbGVjdCgpLCBmaWx0ZXIoKSwgZ3JvdXBfYnkoKSwgc3VtbWFyaXNlKCkNCk5vdGUgdGhhdCBzdW1tYXJpc2UgY29tcHV0ZXMgYSB2YXJpZXR5IG9mIHN1bW1hcnkgZnVuY3Rpb25zIC0tIG91ciBleGFtcGxlIGZvY3VzZWQgb24gY29tcHV0aW5nIHRoZSBtZWFuLg0KT3RoZXIgY29tbW9uIHN1bW1hcnkgZnVuY3Rpb25zOiBtZWRpYW4oKSwgc3VtKCksIGZpcnN0KCksIGxhc3QoKSwgbigpLCBtaW4oKSwgbWF4KCksIHNkKCkNCg0KNC4gU3VtbWFyaXNlIHRoZSBudW1iZXIgb2Ygcm93cyBwZXIgc3RyYXR1bToNCmNsZWFuZWQuZGF0YSAlPiUgDQogIGdyb3VwX2J5KHNleCwgc3RhdGUpICU+JQ0KICBzdW1tYXJpc2UobnVtLnBlci5zdHJhdGEgPSBuKCkpDQpBbHRlcm5hdGl2ZWx5LCB3ZSBjb3VsZCBoYXZlIHdyaXR0ZW46DQpjbGVhbmVkLmRhdGEgJT4lIA0KICBncm91cF9ieShzZXgsIHN0YXRlKSAlPiUNCiAgdGFsbHkoKQ0KVGhpcyBpcyByZWFsbHkgdXNlZnVsIGlmIHlvdSBoYXZlIHBhbmVsIGRhdGEgYW5kIHdhbnQgdG8ga25vdyB0aGUgbnVtYmVyIG9mIHZpc2l0cyBwZXIgcGF0aWVudCwgc2F5Lg0KT3IsIGJlZm9yZSBydW5uaW5nIGEgbXVsdGktbGV2ZWwgbW9kZWwsIHlvdSBjb3VsZCBjaGVjayB0aGUgY2x1c3RlciBzaXplcyBmb3IgYWxsIHlvdXIgY2x1c3RlcnMNCg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KDQojIyNTRUNUSU9OIDI6IERBVEEgVklTVUFMSVpBVElPTg0KSW4gUiwgdGhlcmUgYXJlICJiYXNlIFIgZ3JhcGhpY3MiLCBidXQgbW9zdCBmb2xrcyBwcmVmZXIgdGhlIGdncGxvdDIgZ3JhcGhpbmcgbGlicmFyeQ0KYGBge3J9DQpsaWJyYXJ5KGdncGxvdDIpICNyZW1lbWJlciB0byBmaXJzdCBpbnN0YWxsIHRoZSBwYWNrYWdlIGlmIHlvdSBoYXZlbid0IGRvbmUgc28gYWxyZWFkeQ0KYGBgDQoNClRoZSBtYWluIGZ1bmN0aW9uIGluIGdncGxvdDIgaXMgImdncGxvdCIhICBUaGlzIGZ1bmN0aW9uIGNyZWF0ZXMgYSBwbG90dGluZyB3aW5kb3cgdGhhdCByZWZsZWN0cyB0aGUgcmFuZ2Ugb2YgWCBhbmQgWSBpbiB0aGUgZGF0YS5mcmFtZQ0KYGBge3J9DQpnZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuZGF0YSwgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpDQpgYGANCg0KV2UgbmVlZCB0byB0ZWxsIGl0IGhvdyB0byBwbG90IHRoZSB0aW1lIHNlcmllcyBvZiB0aGUgbWVhbiBsaWZlIGV4cGVjdGFuY3kgZm9yIHdoaXRlcy4gTGV0J3Mgc3RhcnQgYnkgcGxvdHRpbmcgcG9pbnRzOg0KYGBge3J9DQpnZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuZGF0YSwgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgICAgDQogIGdlb21fcG9pbnQoKSAgDQpgYGANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQpOT1RFOiB0aGUgcGx1cyBzaWduIG5lZWRzIHRvIGFsd2F5cyBiZSBhdCB0aGUgZW5kIG9mIHRoZSBsaW5lLiBUaGUgZm9sbG93aW5nIGNvZGUgV0lMTCBOT1QgYWRkIHRoZSBnZW9tX3BvaW50KCkgY29tbWFuZDoNCmBgYHtyfQ0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKQ0KKyBnZW9tX3BvaW50KCkgDQpgYGANCg0KDQpXaXRoaW4gdGhlIGdlb21fcG9pbnQoKSBmdW5jdGlvbiwgeW91IGNhbiBjdXN0b21pemUgdGhlIGFwcGVhcmFuY2Ugb2YgdGhlIHBvaW50czoNCmBgYHtyfQ0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX3BvaW50KGNvbCA9ICJyZWQiLCBzaXplID0gMiwgcGNoID0gMykNCmBgYA0KDQoNCldvdWxkIHlvdSBwcmVmZXIgdG8gaGF2ZSBhIGxpbmUgaW5zdGVhZD8NCkVYRVJDSVNFOiBIb3cgZG8geW91IHRoaW5rIHlvdSdkIHBsb3QgYSBsaW5lIGluIGdncGxvdD8gR2l2ZSBpdCBhIGdvLiANCkhpbnQ6IGNoYW5nZSBnZW9tX3BvaW50IHRvIGFub3RoZXIgdHlwZSBvZiAiZ2VvbSINCmBgYHtyfQ0KDQpgYGANCg0KRVhFUkNJU0U6IFRpdGxlcw0KZ2d0aXRsZSgiVGhpcyBpcyBhIHRpdGxlIikgYWRkcyBhIHRpdGxlIHRvIHRoZSBnZ3Bsb3QuIEFkZCBvbmUhDQpBbHNvIHVzZSB4bGFiKCkgYW5kIHlsYWIoKSB0byB1cGRhdGUgdGhlIGFzc2lnbmVkIHggYW5kIHkgbGFiZWxzLg0KYGBge3J9DQoNCmBgYA0KDQoNCkhvdyBjYW4gd2UgY2hvb3NlIG5pY2UgY29sb3Vycz8NCk5pY2Ugb25saW5lIGNvbG91ciBwaWNrZXJzOg0KaHR0cDovL2NvbG9yYnJld2VyMi5vcmcvI3R5cGU9c2VxdWVudGlhbCZzY2hlbWU9QnVHbiZuPTMNCmh0dHA6Ly90cmlzdGVuLmNhL2hjbC1waWNrZXIvIy9obGMvNi8xLzE1NTM0Qy9FMkUwNjINClBpY2sgYSBjb2xvdXIgeW91IGxpa2UgYW5kIGNvcHkgaXRzIEhFWCB2YWx1ZSwgaW5jbHVkaW5nIHRoZSAiIyIuIFRoZW4gc3BlY2lmeSBjb2wgPSAiIzEyMzQ1Iiwgd2hlcmUgMTIzNDUgaXMgdGhlIEhFWCB2YWx1ZS4gDQpTb21lIG5pY2UgY29sb3VyczogIzFjOTA5OSwgIzdGNTI2RA0KUmVwbGFjZSB0aGUgZG90cyBpbiB0aGUgY29kZSB3aXRoIHlvdXIgZmF2b3JpdGUgY29sb3JzLiBQaWNrIGNvbG9ycyB0aGF0IGFyZSBlYXN5IG9uIHRoZSBleWVzISAoTm90ZTogbWFrZSBzdXJlIHRvIHdyYXAgdGhlIGNvbG9ycyBhcm91bmQNCndpdGggcXVvdGVzLCB5b3VyIGNvZGUgd2lsbCBub3QgcnVuISkNCmBgYHtyfQ0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmRhdGEsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX2xpbmUoY29sID0gLi4uICwgc2l6ZSA9IDIpICsNCiAgeGxhYigiWWVhciIpICsgeWxhYigiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKSIpICsNCiAgZ2d0aXRsZSgiTWVhbiBsaWZlIGV4cGVjdGFuY3kgZm9yIHdoaXRlIG1hbGVzIGluIEFsYWJhbWEsIDE5NjgtLTIwMTMiKQ0KDQpnZ3Bsb3QoZGF0YSA9IEFsYWJhbWEuZGF0YSwgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgDQogIGdlb21fbGluZShjb2wgPSAuLi4gLCBzaXplID0gMikgKw0KICB4bGFiKCJZZWFyIikgKyB5bGFiKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpIikgKw0KICBnZ3RpdGxlKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSBmb3Igd2hpdGUgbWFsZXMgaW4gQWxhYmFtYSwgMTk2OC0tMjAxMyIpDQpgYGANCg0KDQpJdCB3b3VsZCBiZSBuaWNlIHRvIGFsc28gcGxvdCB0aGUgbGlmZSBleHBlY3RhbmN5IGZvciBmZW1hbGVzIGR1cmluZyB0aGUgc2FtZSB0aW1lIHBlcmlvZC4NCkVYRVJDSVNFOiB1c2VyIGRwbHlyIGZ1bmN0aW9ucyBvbiB0aGUgY2xlYW5lZC5kYXRhIHRvIGNyZWF0ZSBhbmQgc3RvcmUgYSBuZXcgZGF0YXNldCB0aGF0IGNvbnRhaW5zIHRoZSBBbGFiYW1hIGRhdGEgZm9yIGJvdGggbWFsZXMgYW5kIGZlbWFsZXMuIENhbGwgdGhlIG5ldyBkYXRhc2V0IEFsYWJhbWEuYm90aC5nZW5kZXJzOg0KYGBge3J9DQpBbGFiYW1hLmJvdGguZ2VuZGVycyA8LSBjbGVhbmVkLmRhdGEgJT4lIC4uLg0KYGBgDQoNCkxldCdzIHBsb3QgdGhlIEFsYWJhbWEgZGF0YSB1c2luZyB0aGUgcHJldmlvdXMgY29kZTogDQpgYGB7cn0NCmdncGxvdChkYXRhID0gQWxhYmFtYS5ib3RoLmdlbmRlcnMsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX2xpbmUoY29sID0gIiM3RjUyNkQiLCBzaXplID0gMikgKyAjI29oIGJveSwgd2hhdCBpcyBoYXBwZW5pbmcgaGVyZT8gYW55IGd1ZXNzZXM/DQogIHhsYWIoIlllYXIiKSArIHlsYWIoIk1lYW4gbGlmZSBleHBlY3RhbmN5ICh5ZWFycykiKSANCmBgYA0KDQpUcnk6DQpgYGB7cn0NCmdncGxvdChkYXRhID0gQWxhYmFtYS5ib3RoLmdlbmRlcnMsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX3BvaW50KGNvbCA9ICIjN0Y1MjZEIiwgc2l6ZSA9IDIpICsgI2JldHRlciwgYnV0IHN0aWxsIG5vdCBpZGVhbC4gV2hhdCB3b3VsZCBtYWtlIHRoaXMgYmV0dGVyPw0KICB4bGFiKCJZZWFyIikgKyB5bGFiKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpIikgDQpgYGANCg0KT3B0aW9uIDE6IERpZmZlcmVudCBjb2xvdXJzIGZvciBlYWNoIGdlbmRlcjoNCmBgYHtyfQ0KZ2dwbG90KGRhdGEgPSBBbGFiYW1hLmJvdGguZ2VuZGVycywgYWVzKHggPSB5ZWFyLCB5ID0gTEVfd2hpdGVfbWVhbikpICsgDQogIGdlb21fcG9pbnQoYWVzKGNvbCA9IHNleCksIHNpemUgPSAyKSArIA0KICB4bGFiKCJZZWFyIikgKyB5bGFiKCJNZWFuIGxpZmUgZXhwZWN0YW5jeSAoeWVhcnMpIikgDQpgYGANCg0KT3B0aW9uIDI6IFNlcGFyYXRlIHBhbmVscyAoYWthICJmYWNldHMiKSBmb3IgZWFjaCBnZW5kZXI6DQpgYGB7cn0NCmdncGxvdChkYXRhID0gQWxhYmFtYS5ib3RoLmdlbmRlcnMsIGFlcyh4ID0geWVhciwgeSA9IExFX3doaXRlX21lYW4pKSArIA0KICBnZW9tX3BvaW50KHNpemUgPSAyKSArIA0KICBmYWNldF93cmFwKH5zZXgpICsNCiAgeGxhYigiWWVhciIpICsgeWxhYigiTWVhbiBsaWZlIGV4cGVjdGFuY3kgKHllYXJzKSIpIA0KYGBgDQoNCkxldCdzIHVzZSB0aGVzZSBzYW1lIHNraWxscyB0byBsb29rIGF0IGEgbGFyZ2VyIGRhdGFzZXQNCg0KRVhFUkNJU0UNClBBUlQgMTogVXNlIGRwbHlyIGZ1bmN0aW9ucyB0byBjcmVhdGUgYSBuZXcgZGF0YXNldCBjb250YWluaW5nIGRhdGEgb24gb25seSBmZW1hbGVzLiBDYWxsIGl0IGRhdGEuZmVtYWxlcw0KWW91IG5vdyBoYXZlIHRpbWUgc2VyaWVzIGRhdGEgZm9yIDQwIHN0YXRlcyBmb3IgYmxhY2sgYW5kIHdoaXRlIGZlbWFsZXMuDQpgYGB7cn0NCmRhdGEuZmVtYWxlcyA8LSAuLi4NCmBgYA0KDQpQQVJUIDI6IFBsb3QgdGhlIG1lYW4gbGlmZSBleHBlY3RhbmN5IGZvciB3aGl0ZSBmZW1hbGVzIHVzaW5nIGdlb21fcG9pbnQgb3IgZ2VvbV9saW5lLiANClVzZSBvbmUgb2YgdGhlIG9wdGlvbnMgbGVhcm5lZCBpbiB0aGUgcHJldmlvdXMgc3RlcCB0byBwbG90IGEgc2VwYXJhdGUgbGluZSBmb3IgZWFjaCBzdGF0ZS4NCldoaWNoIG9wdGlvbiBkbyB5b3UgbGlrZSBiZXN0Pw0KYGBge3J9DQoNCmBgYA0KDQpGb3IgdGhlIHByZXZpb3VzIHBsb3QsIGl0IHdvdWxkIGJlIHJlYWxseSBoZWxwZnVsIGlmIHdlIGNvdWxkIG1vcmUgZWFzaWx5IHRlbGwgd2hpY2ggbGluZSBpcyB3aGljaC4gDQpQbG90bHkgaXMgYSBncmFwaGluZyBwYWNrYWdlIHRoYXQgYWRkcyBpbnRlcmFjdGl2ZSBjb21wb25lbnRzOiBob3Zlciwgem9vbSwgaGlnaGxpZ2h0aW5nLiBGb3IgbWFueSBnZ3Bsb3RzLCB5b3UgY2FuIHBpcGUgdGhlbSB0byBnZ3Bsb3RseSgpIHRvIGVhc2lseSBhZGQgdGhlc2UgaW50ZXJhY3RpdmUgY29tcG9uZW50czoNCmBgYHtyfQ0KbGlicmFyeShwbG90bHkpICMgZG9uJ3QgZm9yZ2V0IHRvIGluc3RhbGwgZmlyc3QgaWYgeW91IGhhdmVuJ3QgZG9uZSBzbyBhbHJlYWR5DQpgYGANCg0KSGVyZSwgd2UncmUgc2F2aW5nIHRoZSBnZ3Bsb3QgcGxvdCBhbmQgY2FsbGluZyBpdCAib3VyLnBsb3QiDQpgYGB7cn0NCm91ci5wbG90IDwtIGdncGxvdChkYXRhID0gZGF0YS5mZW1hbGVzLCBhZXMoeCA9IHllYXIsIHkgPSBMRV93aGl0ZV9tZWFuKSkgKyANCiAgZ2VvbV9saW5lKGFlcyhjb2wgPSBzdGF0ZSkpICsgDQogIHhsYWIoIlllYXIiKSArIHlsYWIoIk1lYW4gbGlmZSBleHBlY3RhbmN5ICh5ZWFycykiKQ0KDQpvdXIucGxvdCAjdGhpcyBwcmludHMgdGhlIHN0YXRpYyB2ZXJzaW9uDQpgYGANCg0KVGhlbiwgd2Ugc2VuZCB0aGUgZ2dwbG90IHRvIHRoZSBwbG90bHkoKSBmdW5jdGlvbiBnZ3Bsb3RseSgpIHRvIGFkZCBob3ZlciB0ZXh0Og0KYGBge3J9DQpvdXIucGxvdCAlPiUgZ2dwbG90bHkoKQ0KYGBgDQoNCg0KRVhFUkNJU0U6IEluY29ycG9yYXRlIGluZm9ybWF0aW9uIG9uIENlbnN1c19EaXZzaW9uIG9yIENlbnN1c19SZWdpb24gaW50byB0aGUgZ2dwbG90IHRvIG1ha2UgaXQgbW9yZSByZWFkYWJsZS4gDQpIaW50OiBVc2UgYm90aCBhZXMoY29sKSBhbmQgZmFjZXRfd3JhcCh+KS4gVXNlIG9uZSBvZiB0aGUgY2Vuc3VzIHZhcmlhYmxlcywgYXMgd2VsbCBhcyB0aGUgc3RhdGUgdmFyaWFibGUuDQpPbmNlIHlvdSBoYXZlIGEgcGxvdCB5b3UgbGlrZSwgbWFrZSBpdCBpbnRlcmFjdGl2ZSB1c2luZyBnZ3Bsb3RseS4NCg0KDQpGaXJzdCwgcmVtaW5kIHlvdXJzZWxmIHdoYXQgdGhlIGNlbnN1cyB2YXJpYWJsZXMgYXJlIG5hbWVkOg0KYGBge3J9DQpuYW1lcyhkYXRhLmZlbWFsZXMpDQpgYGANCg0KYGBge3J9DQojI1R5cGUgc29sdXRpb24gaGVyZQ0KDQoNCmBgYA0KDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KV2hhdCBoYXZlIHdlIGxlYXJuZWQgc28gZmFyOg0KYS4gZ2VvbV9wb2ludCgpLCBnZW9tX2xpbmUoKQ0KYi4gaG93IHRvIHNldCBjb2xvdXIgdG8gYSBmaXhlZCB2YWx1ZSwgZS5nLiwgY29sKCJyZWQiKSBvciBjb2woIzdGNTI2RCkNCmMuIGhvdyB0byBzZXQgY29sb3VyIGFjY29yZGluZyB0byB0aGUgdmFsdWUgb2YgYSB2YXJpYWJsZSwgZS5nLiBhZXMoY29sID0gc3RhdGUpLiBUaGUgYWVzKCkgd3JhcHBlciBpcyBjcnVjaWFsIQ0KZC4gZmFjZXRfd3JhcCgpIHRvIG1ha2Ugc2VwYXJhdGUgcGFuZWxzIGZvciBlYWNoIGxldmVsIG9mIGEgdmFyaWFibGUNCmUuIGxhYmVsczogZ2d0aXRsZSgpLCB4bGFiKCksIHlsYWIoKQ0KZi4gZ2dwbG90bHkoKSB0byBtYWtlIGEgZ2dwbG90IGludGVyYWN0aXZlLiBXb3JrcyBvbiBtb3N0IGdncGxvdHMhDQojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KRVhFUkNJU0UgMTogU3RhcnQgd2l0aCBjbGVhbmVkLmRhdGEoKSBhbmQgdXNlIGEgZHBseXIgZnVuY3Rpb24gdG8ga2VlcCBvbmx5IGRhdGEgZnJvbSB0aGUgeWVhcnMgMTk2OSBhbmQgMjAxMw0KSElOVDogSW4gUiAifCIgaXMgdGhlIE9SIG9wZXJhdG9yIGFuZCAiJiIgaXMgdGhlIEFORCBvcGVyYXRvci4NClVzZSBvbmUgb2YgdGhlc2Ugb3BlcmF0b3JzIGluc2lkZSBhIGZpbHRlcigpIHN0YXRlbWVudCB0byBmaXRlciB0aGVzZSB0d28geWVhcnMgb2YgZGF0YQ0KYGBge3J9DQoNCmBgYA0KDQpBbHRlcm5hdGl2ZWx5LCB1c2UgdGhlICVpbiUgb3BlcmF0b3IuIA0KYGBge3J9DQoNCmBgYA0KDQoNCkVYRVJDSVNFIDI6IE1ha2UgYSBoaXN0b2dyYW0gb2YgYmxhY2sgbGlmZSBleHBlY3RhbmN5LCB3aXRoIHNlcGFyYXRlIHBhbmVscyBmb3IgeWVhciBhbmQgc2V4LiBDYWxsIHlvdXIgaGlzdG9ncmFtIHR3by55ZWFycw0KWW91J2xsIG5lZWQgdG8gdXNlIHR3byBuZXcgZnVuY3Rpb25zOiBnZW9tX2hpc3RvZ3JhbSgpIGFuZCBmYWNldF9ncmlkKHZhcjF+dmFyMikuDQpISU5UOiBTaW5jZSBoaXN0b2dyYW1zIGFyZSB1bml2YXJpYXRlLCB5b3Ugb25seSBuZWVkIHRvIHNldCB4IGluIHRoZSBnZ3Bsb3QoKSBjb21tYW5kLg0KYGBge3J9DQoNCmBgYA0KDQpFWEVSQ0lTRSAzOiBUaGlzIGlzIGtpbmQgb2YgdWdseS4gQ2hhbmdlIHRoZSBjb2xvdXIuIERpZCB0aGF0IGRvIGFzIHlvdSBleHBlY3RlZD8gVHJ5IGFsc28gY2hhbmdpbmcgdGhlIGZpbGwuDQpgYGB7cn0NCg0KYGBgDQoNCg0KRVhFUkNJU0UgNDogVXBkYXRlIHRoZSBjb2xvdXIgdG8gIndoaXRlIiwgYW5kIGNoYW5nZSB0aGUgZmlsbCB0byBiZSBhIGZ1bmN0aW9uIG9mIHNleC4gUmVtZW1iZXIgYWVzKCkhDQpgYGB7cn0NCg0KYGBgDQoNCklmIHlvdSBkb24ndCBsaWtlIHRoZSBncmV5IGJhY2tncm91bmQsIGFuIGVhc3kgd2F5IHRvIHJlbW92ZSBpdCBpcyB0byBtb2RpZnkgdGhlIHVuZGVybHlpbmcgdGhlbWU6ICANClRhYiB0aHJvdWdoIHRoZSB0aGVtZXMgYW5kIGFwcGx5IHRoZW0gdG8gZmluZCB0aGUgb25lIHlvdSBsaWtlLg0KYGBge3J9DQoNCmBgYA0KDQoNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCg0KIyMjU0VDVElPTiAzOiBBTk9USEVSIERBVEFTRVQsIEFOT1RIRVIgREFUQSBWSVNVQUxJWkFUSU9ODQpJIHByZXZpb3VzbHkgc2F2ZWQgdGhlIFIgZGF0YS5mcmFtZSAiQ1MuZGF0YSIgaW5zaWRlIFIuIFdlIGNhbiByZWxvYWQgaXQgdXNpbmcgdGhlIGxvYWQoKSBjb21tYW5kOg0KYGBge3J9DQpDUy5kYXRhIDwtIHJlYWQuY3N2KCIuLi9EYXRhL0Nlc2FyZWFuLmNzdiIpDQpgYGANCg0KTm90aWNlIHRoYXQgQ1MuZGF0YSBoYXMgYmVlbiBhZGRlZCB0byB0aGUgR2xvYmFsIEVudmlyb25tZW50Lg0KQ2hlY2sgb3V0IENTLmRhdGEgdXNpbmcgc29tZSBvZiB0aGUgY29tbWFuZHMgd2UgbGVhcm5lZCBlYXJsaWVyLiBUaGVyZSBpcyBhIHZhcmlhYmxlIGNhbGxlZCAiWDIwMDYiLiBUaGlzIHZhcmlhYmxlIGlzIHRoZSBncm9zcyBkb21lc3RpYyBwcm9kdWN0IGluIDIwMDYgZm9yIHRoZSBjb3JyZXNwb25kaW5nIGNvdW50cnkuDQpgYGB7cn0NCg0KDQoNCmBgYA0KDQoNCkxldCdzIHVzZSB0aGUgZHBseXIgZnVuY3Rpb24gcmVuYW1lKCkgdG8gZ2l2ZSB0aGlzIHZhcmlhYmxlIGEgYmV0dGVyIG5hbWUuDQpgYGB7cn0NCmV4YW1wbGUuZGF0YSA8LSBleGFtcGxlLmRhdGEgJT4lIHJlbmFtZShuZXcubmFtZSA9IG9sZC5uYW1lKQ0KYGBgDQoNCmBgYHtyfQ0KQ1MuZGF0YSA8LSBDUy5kYXRhICU+JSByZW5hbWUoZ2RwLjIwMDYgPSBYMjAwNikNCmBgYA0KDQoNCkNTX1JhdGUyIGlzIHRoZSBjZXNhcmVhbiBkZWxpdmVyeSByYXRlIGFzIGEgcHJvcG9ydGlvbiA8IDEuIEZvciBncmFwaGluZyBwdXJwb3NlcywgaXQgd2lsbCBiZSBuaWNlIHRvIGhhdmUgdGhpcyB2YXJpYWJsZSBoYXZlIGFuIHVwcGVyIGJvdW5kIG9mIDEwMC4NClVzZSB0aGUgZHBseXIgZnVuY3Rpb24gbXV0YXRlKCkgdG8gY3JlYXRlIGEgbmV3IHZhcmlhYmxlIGJhc2VkIG9uIENTX1JhdGUyIHRoYXQgaXMgbXVsdGlwbGllZCBieSAxMDAuDQpgYGB7cn0NCmV4YW1wbGUuZGF0YSA8LSBleGFtcGxlLmRhdGEgJT4lIG11dGF0ZShtdXRhdGVkLnZhciA9IGZ1bmN0aW9uKGV4aXN0aW5nLnZhcikpDQoNCkNTLmRhdGEgPC0gQ1MuZGF0YSAlPiUgbXV0YXRlKC4uLikNCmBgYA0KDQpEcm9wIHR3byBvZiB0aGUgY291bnRyeSB2YXJpYWJsZXMgYW5kIGtlZXAgdGhlIHRoaXJkLiBVc2UgVmlldygpIHRvIGxvb2sgYXQgdGhlIHZhbHVlcyBhbmQgY2hvb3NlIHRoZSBiZXN0IHZhcmlhYmxlIHRvIGtlZXAuDQpBbHNvIGRyb3AgdGhlIG9sZCBDU19SYXRlMiB2YXJpYWJsZQ0KYGBge3J9DQpDUy5kYXRhIDwtIENTLmRhdGEgJT4lIHNlbGVjdCgtQ291bnRyeS55LCAtQ291bnRyeS54LCAtQ1NfUmF0ZTIpDQpgYGANCg0KRVhFUkNJU0U6IFZpc3VhbGx5IGFzc2VzcyB0aGUgcmVsYXRpb25zaGlwIGJldHdlZW4gR0RQIGFuZCBjZXNhcmVhbiBkZWxpdmVyeSByYXRlIHVzaW5nIGEgc2NhdHRlciBwbG90IChpLmUuLCBnZW9tX3BvaW50KS4NClN0YXJ0IHNpbXBsZSBhbmQgdGhlbiBrZWVwIGVuaGFuY2luZyB0aGUgZ2dwbG90IHVudGlsIGl0IGlzIGF3ZXNvbWUuDQpSZW1lbWJlcjogY29sKCksIGZpbGwoKSwgYW5kIHNpemUoKS4gQWxzbywgcmVtZW1iZXIgdGhlIHRoZW1lcy4NCkV4cGVyaW1lbnQgd2l0aCBnZW9tX3RleHQoKS4gVHlwZSA/Z2VvbV90ZXh0IGludG8gdGhlIGNvbnNvbGUgdG8gb3BlbiBhIGhlbHAgd2luZG93IGFuZCBsZWFybiBhYm91dCBpdCBvciBnb29nbGUgaXQhDQoNClRoZSB2ZXJ5IGJhc2ljcw0KYGBge3J9DQpnZ3Bsb3QoZGF0YSA9IENTLmRhdGEsIGFlcyh4ID0gLi4uLCB5ID0gLi4uKSkgKyANCiAgZ2VvbV9wb2ludCgpDQpgYGANCg0KVGhlcmUgaXMgYSBsb3Qgb2YgZGF0YSBzbXVzaGVkIG5lYXIgMCwgZXNwZWNpYWxseSBvbiB0aGUgeC1heGlzIC0tIGNvdWxkIGEgdHJhbnNmb3JtYXRpb24gaGVscD8NCmBgYHtyfQ0KZ2dwbG90KGRhdGEgPSAuLi4sIGFlcyh4ID0gLi4uICwgeSA9IC4uLikpICsgDQogIGdlb21fcG9pbnQoYWVzKC4uLikpICsNCiAgLi4uICMjcmVwbGFjZSB0aGVzZSBkb3RzIHdpdGggYWVzdGhldGljDQpgYGANCg0Kd2hlcmUgc2hvdWxkIHNpemUgb2YgdGhlIHBvaW50cyBjb21lIGluPw0KYGBge3J9DQpnZ3Bsb3QoZGF0YSA9IENTLmRhdGEsIGFlcyguLi4pKSArIA0KICBnZW9tX3BvaW50KGFlcyguLi4pKSArDQogIC4uLg0KYGBgDQoNCkkgd2FudCB0aGUgcG9pbnRzIHRvIGFsbCBiZSBCSUdHRVIhIFlvdSBjYW4gYWRqdXN0IHRoZSBtYXggcG9pbnQgc2l6ZSB1c2luZyBzY2FsZV9zaXplX2FyZWEobWF4X3NpemUgPSAjIykNCmBgYHtyfQ0KZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoLi4uKSkgKyANCiAgZ2VvbV9wb2ludCguLi4pICsNCiAgLi4uICsgDQogIC4uLg0KYGBgDQoNCk9oIGJveSwgdGhlIGxlZ2VuZCBpcyBtYXNzaXZlIC0tIGxldCdzIHJlbW92ZSBpdC4gQW5kIHNvbWUgcG9pbnRzIGFyZSBvdmVybGFwcGluZyAtLSB5b3UgY2FuIG1ha2UgdGhlIHBvaW50cyBzZW1pLXRyYW5zcGFyZW50IGJ5IHNldHRpbmcgdGhlIGFscGhhIHBhcmFtZXRlciB0byBhIHZhbHVlIGJldHdlZW4gMCBhbmQgMToNCmBgYHtyfQ0KZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoLi4uKSArIA0KICBnZW9tX3BvaW50KC4uLiwgYWxwaGEgPSAuLi4pKSArDQogIC4uLiArIA0KICBzY2FsZV9zaXplX2FyZWEoLi4uICwgZ3VpZGUgPSAibm9uZSIpDQpgYGANCg0Kd2hpY2ggY291bnRyeSBpcyB3aGljaD8NCmBgYHtyfQ0KZ2dwbG90KGRhdGEgPSBDUy5kYXRhLCBhZXMoeCAuLi5SZWdpb24sIHNpemUgPSAuLi4sIGFscGhhID0gLi4uKSkgKw0KICAuLi4gKyANCiAgc2NhbGVfc2l6ZV9hcmVhKC4uLikgKw0KICBnZW9tX3RleHQoLi4uKQ0KDQpgYGANCg0KVG9vIG1hbnkgbGFiZWxzLiBMZXQncyB1c2UgYW4gaWZlbHNlKCkgc3RhdGVtZW50IHRvIHNlbGVjdGl2ZWx5IGRpc3BsYXkgbGFiZWxzIGZvciBhIGNlcnRhaW4gc2V0IG9mIGNvdW50cmllcw0KYGBge3J9DQpnZ3Bsb3QoZGF0YSA9IENTLmRhdGEsIGFlcyguLi4pICsgDQogIGdlb21fcG9pbnQoLi4uKSArDQogIC4uLiArDQogIHNjYWxlX3NpemVfYXJlYSguLi4sIGd1aWRlID0gIm5vbmUiKSArDQogIGdlb21fdGV4dChhZXMobGFiZWwgPSBpZmVsc2UoLi4uICwgLi4uKQ0KDQpnZ3Bsb3QoZGF0YSA9IENTLmRhdGEsIGFlcyguLi4pICsgDQogIGdlb21fcG9pbnQoLi4uKSArDQogIC4uLiArDQogIHNjYWxlX3NpemVfYXJlYSguLi4sIGd1aWRlID0gIm5vbmUiKSArDQogIGdlb21fdGV4dChhZXMobGFiZWwgPSBpZmVsc2UoLi4uICwgYXMuY2hhcmFjdGVyKENvdW50cnlfTmFtZSksICIiKSkpDQpgYGANCg0KDQpTb21lIG1vcmUgZWFzeSBzdHlsZSBjaGFuZ2VzDQpgYGB7cn0NCmdncGxvdChkYXRhID0gQ1MuZGF0YSwgYWVzKHggPSBnZHAuMjAwNiwgeSA9IENTX1JhdGUpKSArIA0KICBnZW9tX3BvaW50KGFlcyhjb2wgPSBSZWdpb24sIHNpemUgPSBCaXJ0aHNfUGVyXzEwMDAsIGFscGhhID0gMC41KSkgKw0KICBzY2FsZV94X2xvZzEwKCkgKw0KICBzY2FsZV9zaXplX2FyZWEobWF4X3NpemUgPSA1MCwgZ3VpZGUgPSAibm9uZSIpICsNCiAgc2NhbGVfYWxwaGFfY29udGludW91cyhndWlkZSA9ICJub25lIikgKw0KICBnZW9tX3RleHQoYWVzKGxhYmVsID0gaWZlbHNlKEJpcnRoc19QZXJfMTAwMCA+IDEwMDAsIGFzLmNoYXJhY3RlcihDb3VudHJ5X05hbWUpLCAiIikpKSArDQogIHhsYWIoIkdEUCIpICsgeWxhYigiQ2VzYXJlYW4gZGVsaXZlcnkgcmF0ZSAoJSkiKSArIHRoZW1lX21pbmltYWwoKQ0KDQpjcy5wbG90IDwtIGdncGxvdChkYXRhID0gQ1MuZGF0YSwgYWVzKHggPSBnZHAuMjAwNiwgeSA9IENTX1JhdGUpKSArIA0KICBnZW9tX3BvaW50KGFlcyhmaWxsID0gUmVnaW9uLCBzaXplID0gQmlydGhzX1Blcl8xMDAwLCBhbHBoYSA9IDAuNSksIGNvbCA9ICJibGFjayIsIHNoYXBlID0gMjEpICsNCiAgc2NhbGVfeF9sb2cxMChicmVha3MgPSBjKDEsIDEwMCwgMTAwMCwgMTAwMDApLCBsYWJlbHMgPSBjKDEsIDEwMCwgMTAwMCwgMTAwMDApKSArDQogIHNjYWxlX3NpemVfYXJlYShtYXhfc2l6ZSA9IDUwLCBndWlkZSA9ICJub25lIikgKw0KICBzY2FsZV9hbHBoYV9jb250aW51b3VzKGd1aWRlID0gIm5vbmUiKSArDQogIGdlb21fdGV4dChhZXMobGFiZWwgPSBpZmVsc2UoQmlydGhzX1Blcl8xMDAwID4gNzAwLCBhcy5jaGFyYWN0ZXIoQ291bnRyeV9OYW1lKSwgIiIpKSkgKw0KICB4bGFiKCJHRFAiKSArIHlsYWIoIkNlc2FyZWFuIGRlbGl2ZXJ5IHJhdGUgKCUpIikgKyB0aGVtZV9taW5pbWFsKCkgDQogIA0KY3MucGxvdCAlPiUgZ2dwbG90bHkoKQ0KYGBgDQoNCg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQpXaGF0IGVsc2UgZGlkIHdlIGxlYXJuOg0KYS4gZHBseXIgZnVuY3Rpb25zIHJlbmFtZSgpIHRvIGNoYW5nZSB2YXJpYWJsZSBuYW1lcywgYW5kIG11dGF0ZSgpIHRvIGFkZCBuZXcgdmFyaWFibGVzIGJhc2VkIG9uIGV4aXN0aW5nIHZhcmlhYmxlcw0KYi4gYWxwaGEoKSB0byBjb250cm9sIHRyYW5zcGFyZW5jeSwgc2hhcGUoKSB0byBjaGFuZ2Ugc2hhcGUgb2YgZ2VvbV9wb2ludCgpDQpjLiBzY2FsZV94X2xvZzEwKCkgdG8gdXNlIGEgbG9nLXRyYW5zZm9ybWVkIHgtYXhpcw0KZC4gZ2VvbV90ZXh0KCkgdG8gYWRkIGxhYmVscyB0byB0aGUgcGxvdA0KZS4gaWZlbHNlKCkgb3BlcmF0b3IuIElmIHRydWUgdGhlbiBkbzogLi4uLiwgZWxzZSwgZG86IC4uLi4NCg0KUmVhbGx5IHVzZWZ1bCByZXNvdXJjZXMgZm9yIGxlYXJuaW5nIGdncGxvdDIgYW5kIGRwbHlyOg0KZ2dwbG90MiBjaGVhdHNoZWV0OiBodHRwczovL3d3dy5yc3R1ZGlvLmNvbS93cC1jb250ZW50L3VwbG9hZHMvMjAxNS8wMy9nZ3Bsb3QyLWNoZWF0c2hlZXQucGRmDQpkcGx5ciBjaGVhdHNoZWV0OiBodHRwczovL3d3dy5yc3R1ZGlvLmNvbS93cC1jb250ZW50L3VwbG9hZHMvMjAxNS8wMi9kYXRhLXdyYW5nbGluZy1jaGVhdHNoZWV0LnBkZg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQo=</div>
 
 
 

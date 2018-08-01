@@ -37,7 +37,6 @@ In this lab, we will learn how to calculate summary statistics for the populatio
 max(birth_data$dbwt)  #9999
 min(birth_data$dbwt)  ##227
 ```
-
 Let us observe the distribution of median birthweights for the population. Run the cell beloW to observe a histogram of birthweights:
 ```{r}
 hist(birth_data$dbwt)
