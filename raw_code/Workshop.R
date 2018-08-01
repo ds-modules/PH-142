@@ -2,7 +2,10 @@
 
 #Read in the first dataset
 BlackWhite_results <- read.csv("../Data/BlackWhite_results.csv")
+<<<<<<< HEAD
 
+=======
+>>>>>>> de7bf5542959001ee63ae95f920657e0bf1a9d8a
 
 #Let's first use the viewer to look at these data.
 # 1. Click the data icon next to BlackWhite_results in the environment tab
