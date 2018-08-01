@@ -1,0 +1,90 @@
+---
+title: "Birth Data"
+output: html_notebook
+---
+```{r}
+set.seed(100)
+```
+
+Instructions:
+The goal of this lab is to show how to take a sample from a population and how the sample is used to calculate summary statistics to make inference about the population.
+- Get the birth data for a small state (say Rhode Island) from this link by the CDC: https://www.cdc.gov/nchs/data_access/vitalstatsonline.htm
+
+-We would like to have several babies in each county, so we could also use this dataset to talk about multistage and stratified sampling designs
+- then have the students take simple random sample of different sizes, 1%, 5%, say (but can use larger % if data frame is smaller)
+- calculate summary stats for entire population vs. the sample (prevalence for binary variables, medians for gestational age and birthweight) 
+- goal is to see that summary stats for sample deviate more from the population when the sample size is "too small
+
+First, read in the file using readr and assign it to a variable called birth_data
+```{r}
+##BirthData <- read.csv(file="natlterr2015.csv", header=TRUE, sep=",")
+birth_data <- read.csv(file="natlterr2015_cleaned.csv", header=TRUE, sep=",")
+```
+
+Extract the following variables: babyID, birthweight (continuous in grams), gestational age (in completed weeks), sex, birth.month, county. Assign them all to a variable, and observe their values.
+```{r}
+babyID <- birth_data$X
+birthweight <- birth_data$dbwt
+gestational_age <- birth_data$combgest
+sex <- birth_data$sex
+county <- birth_data$cig_rec
+birth_month <- birth_data$dob_mm
+```
+
+In this lab, we will learn how to calculate summary statistics for the population and use different sampling methods to take samples of different sizes to estimate the population's summary statistics.  We will learn how different sample sizes' distsribution of the test statistics deviate from the original population and which sample sizes are "good" estimates of the original population.
+```{r}
+max(birth_data$dbwt)  #9999
+min(birth_data$dbwt)  ##227
+```
+
+Let us observe the distribution of median birthweights for the population. Run the cell beloW to observe a histogram of birthweights:
+```{r}
+hist(birth_data$dbwt)
+```
+
+We observe that this distribution looks roughly normal.
+
+Before we get into the different samples, let us calculate the population median of the distribution of birthweights of the original population:
+```{r}
+median(birth_data$dbwt)       #3147
+```
+
+However, suppose we weren't able to find out every baby's birthweight (perhaps it was too costly). Instead, we can use different methods of sampling of the population to get an idea of the distribution of median birthweight of the babies. 
+
+Sampling method #1: Stratified sampling
+The method of stratification involves separating our population into different groups known as strata. The different groups are split according to a certain characteristic. For example, if we want to split a classroom of 30 people up into groups, we can split them up based on ethnicity: one group for Asians, one for whites, and one for blacks. After splitting them up, we select a simple random sample from each group to test some statistic and compare for each group.
+
+In order to illustrate the process of stratification, let us subset our data into two groups: one for males, and one for females. Set the variable males equal to the birth data data frame subsetted with only the male babies, and set females equal to the data frame subsetted with only the female babies.
+```{r}
+males <- birth_data[birth_data$sex == 'M',]  ##18903
+females <- birth_data[birth_data$sex == 'F',]  ##17821
+```
+
+Next, we will take simple random samples of different sizes from each group.  Let's take samples of sizes 5%, 10%, and 30% from both of the subsetted data frames.
+Hint: the sample_n function in the dplyer package will be useful. You can check its documentation by typing ?sample_n in your console to see description, arguments, and examples.
+5%
+```{r}
+five_percent_male <- sample_n(males, 18903 * .05, replace = F)
+five_percent_females <- sample_n(females, 18903 * .05, replace = F)
+
+View(five_percent_male)
+View(five_percent_females)
+```
+
+(Try wrapping above in a for loop)
+
+```{r}
+##SCRATCH WORK CELL
+birth_data$sex2 = birth_data$sex
+##birth_data$genderstrat <- cut(birth_data$sex, 2, labels = c("Male", "Female"))
+
+birth_data$sex2=as.factor(birth_data$sex2)
+levels(birth_data$sex2)[levels(birth_data$sex2)=="M"] <-"1"
+levels(birth_data$sex2)[levels(birth_data$sex2)=="F"] <-"0"
+birth_data$sex2 = as.numeric(birth_data$sex2)  ##change the 1's and 0's to numeric type to be able to use cut
+birth_data$sexstrata <- cut(birth_data$sex2, 2, labels = c("Male", "Female"))
+cut(birth_data$sex2, 2, labels = c("Male", "Female"))
+```
+
+
+
