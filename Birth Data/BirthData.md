@@ -1,0 +1,134 @@
+Birth Data
+================
+
+``` r
+set.seed(100)
+```
+
+``` r
+library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+Instructions:
+-------------
+
+The goal of this lab is to show how to take a sample from a population and how the sample is used to calculate summary statistics to make inference about the population. - Get the birth data for a small state (say Rhode Island) from this link by the CDC: <https://www.cdc.gov/nchs/data_access/vitalstatsonline.htm>
+
+Overview of this assignment:
+----------------------------
+
+-We would like to have several babies in each county, so we could also use this dataset to talk about multistage and stratified sampling designs - then we will take simple random sample of different sizes, 1%, 5%, say (but can use larger % if data frame is smaller) - calculate summary stats for entire population vs. the sample (prevalence for binary variables, medians for gestational age and birthweight) - goal is to see that summary stats for sample deviate more from the population when the sample size is "too small
+
+First, read in the file using readr and assign it to a variable called birth\_data
+
+``` r
+birth_data <- read.csv(file="natlterr2015_cleaned.csv", header=TRUE, sep=",")
+```
+
+Extract the following variables: babyID, birthweight (continuous in grams), gestational age (in completed weeks), sex, birth.month, county. Assign them all to a variable, and observe their values.
+
+``` r
+babyID <- birth_data$X
+birthweight <- birth_data$dbwt
+gestational_age <- birth_data$combgest
+sex <- birth_data$sex
+county <- birth_data$cig_rec
+birth_month <- birth_data$dob_mm
+```
+
+In this lab, we will learn how to calculate summary statistics for the population and use different sampling methods to take samples of different sizes to estimate the population's summary statistics. We will learn how different sample sizes' distsribution of the test statistics deviate from the original population and which sample sizes are "good" estimates of the original population.
+
+``` r
+##Just for my own observation
+max(birth_data$dbwt)  #9999
+```
+
+    ## [1] 9999
+
+``` r
+min(birth_data$dbwt)  ##227
+```
+
+    ## [1] 227
+
+Let us observe the distribution of median birthweights for the population. Run the cell beloW to observe a histogram of birthweights:
+
+``` r
+hist(birth_data$dbwt)
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-6-1.png)
+
+We observe that this distribution looks roughly normal.
+
+Before we get into the different samples, let us calculate the population median of the distribution of birthweights of the original population:
+
+``` r
+median(birth_data$dbwt)       #3147
+```
+
+    ## [1] 3147
+
+However, suppose we weren't able to find out every baby's birthweight (perhaps it was too costly). Instead, we can use the method of stratified sampling with different simple random samples of different sizes to get an idea of the distribution of median birthweight of the babies.
+
+Stratified sampling
+-------------------
+
+The method of stratification involves separating our population into different groups known as strata. The different groups are split according to a certain characteristic. For example, if we want to split a classroom of 30 people up into groups, we can split them up based on ethnicity: one group for Asians, one for whites, and one for blacks. After splitting them up, we select a simple random sample from each group to test some statistic and compare for each group.
+
+In order to illustrate the process of stratification, let us subset our data into two groups: one for males, and one for females. Set the variable males equal to the birth data frame subsetted with only the male babies, and set females equal to the data frame subsetted with only the female babies.
+
+``` r
+males <- birth_data[birth_data$sex == 'M',]  ##18903 rows
+females <- birth_data[birth_data$sex == 'F',]  ##17821 rows
+```
+
+Next, we will take simple random samples of different sizes from each group. Let's take samples (without replacement) of sizes 5%, 10%, and 30% from both of the subsetted data frames.
+
+Write a function called simple\_random\_sample that takes in two arguments: a subsetted data frame (male or female), and the percent in decimal form. It should return a new data frame with the resampled data. Hint: the sample\_n function in the dplyer package will be useful in the body of the function. You can check its documentation by typing ?sample\_n in your console to see description, arguments, and examples:
+
+After writing your function, call your function with the male and female subsetted data frames with each of the percentages above. Assign them all to a variable. You should have 6 variables in total, one for each subsetted data frame with the different sample size percentages.
+
+``` r
+simple_random_sample = function(data_frame, sample_size) {
+  subsetted_data_frame = sample_n(data_frame, 18903 * sample_size, replace = F)
+  return (subsetted_data_frame)
+}
+```
+
+``` r
+##5%:
+five_percent_male <- simple_random_sample(males, .05)
+five_percent_females <- simple_random_sample(females, .05)
+
+##10%:
+ten_percent_male <- simple_random_sample(males, .10)
+ten_percent_females <- simple_random_sample(females, .10)
+
+##30%:
+thirty_percent_male <- simple_random_sample(males, .30)
+thirty_percent_females <- simple_random_sample(females, .30)
+```
+
+Now, let's compute the medians of each of our data frames. Write a function called resampled\_medians. It should take in two arguments: a table name and a label, and return the median of the column data.
+
+``` r
+resampled_medians = function(table, label) {
+  return (median(table$label))
+}
+```
+
+Let's generate histograms for our subsetted histograms. Overlap all the histograms with the original unsubsetted data together to compare the distributions. What do you notice as the sample size increases? Answer:
+
+The answer to the question above has to do with the phenomenon known as the Central Limit Theorem. It states that as you take

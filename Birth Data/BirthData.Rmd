@@ -1,9 +1,13 @@
 ---
 title: "Birth Data"
-output: html_notebook
+output: github_document
 ---
 ```{r}
 set.seed(100)
+```
+
+```{r}
+library(dplyr)
 ```
 
 ##Instructions:
@@ -49,9 +53,9 @@ Before we get into the different samples, let us calculate the population median
 median(birth_data$dbwt)       #3147
 ```
 
-However, suppose we weren't able to find out every baby's birthweight (perhaps it was too costly). Instead, we can use the method of stratified sampling with different simple random samples of different sizes to get an idea of the distribution of median birthweight of the babies.
+However, suppose we weren't able to find out every baby's birthweight (perhaps it was too costly). Instead, we can take a subset of our data by taking random sample sizes of the data, with or without replacement. The two methods will be stratified sampling (without replacement) and bootstrapping (with replacement) to get an idea of the distribution of median birthweight of the babies.
 
-##Stratified sampling
+##Sampling method #1: Stratified sampling
 
 The method of stratification involves separating our population into different groups known as strata. The different groups are split according to a certain characteristic. For example, if we want to split a classroom of 30 people up into groups, we can split them up based on ethnicity: one group for Asians, one for whites, and one for blacks. After splitting them up, we select a simple random sample from each group to test some statistic and compare for each group.
 
@@ -61,7 +65,7 @@ males <- birth_data[birth_data$sex == 'M',]  ##18903 rows
 females <- birth_data[birth_data$sex == 'F',]  ##17821 rows
 ```
 
-Next, we will take simple random samples of different sizes from each group.  Let's take samples (without replacement) of sizes 5%, 10%, and 30% from both of the subsetted data frames.
+Next, we will take simple random samples of different sizes from each group.  Let's take samples (without replacement) of sizes 1%, 10%, and 30% from both of the subsetted data frames.
 
 Write a function called simple_random_sample that takes in two arguments: a subsetted data frame (male or female), and the percent in decimal form. It should return a new data frame with the resampled data.
 Hint: the sample_n function in the dplyer package will be useful in the body of the function. You can check its documentation by typing ?sample_n in your console to see description, arguments, and examples:
@@ -76,9 +80,9 @@ simple_random_sample = function(data_frame, sample_size) {
 ```
 
 ```{r}
-##5%:
-five_percent_male <- simple_random_sample(males, .05)
-five_percent_females <- simple_random_sample(females, .05)
+##1%:
+one_percent_male <- simple_random_sample(males, .01)
+one_percent_females <- simple_random_sample(females, .01)
 
 ##10%:
 ten_percent_male <- simple_random_sample(males, .10)
@@ -89,17 +93,87 @@ thirty_percent_male <- simple_random_sample(males, .30)
 thirty_percent_females <- simple_random_sample(females, .30)
 ```
 
-Now, let's compute the medians of each of our data frames. Write a function called resampled_medians. It should take in two arguments: a table name and a label, and return the median of the column data.
+Now, let's compute the medians of each of our data frames. Make a vector for the different percentages that contains the median for the males and females (you should have three vectors).  Hint: the concatenate function will be useful for 
+
 ```{r}
-resampled_medians = function(table, label) {
-  return (median(table$label))
-}
+one_percent_array = c(median(one_percent_male$dbwt), median(one_percent_females$dbwt))
+one_percent_array
+```
+```{r}
+ten_percent_array = c(median(ten_percent_male$dbwt), median(ten_percent_females$dbwt))
+ten_percent_array
+```
+```{r}
+thirty_percent_array = c(median(thirty_percent_male$dbwt), median(thirty_percent_females$dbwt))
+thirty_percent_array
+```
+
+Let's generate histograms for our subsetted histograms. Overlap all the histograms with the original unsubsetted data together to compare the distributions.
+
+The first step is to combine your two dataframes into one.  First, make a new column in each that will be a variable to identify where they came from later.
+```{r}
+birth_data$pop <- 'population'
+one_percent_male$pop <- '1 % male'
 ```
 
 
-Let's generate histograms for our subsetted histograms. Overlap all the histograms with the original unsubsetted data together to compare the distributions.  What do you notice as the sample size increases?
-Answer:
+Now, use the rbind command to comebine your two data frames together.
+```{r}
+one_percent_frame <- rbind(birth_data, one_percent_male)
+```
 
+Now, ggplot to create a histogram of the two in one plot.  Note: the geom_density plot will be helpful, and the fill acessory will be helpful in distinguishing between the population histogram from the 5% sample histogram. Create a useful title with 'ggtitle'.
+
+```{r}
+library(ggplot2)
+ggplot(one_percent_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("1% male")
+```
+
+Run the rest of the cells to view the histograms for the rest of the tables. They follow the same process as above.
+```{r}
+##1% females
+one_percent_females$pop <- '1 % female'
+one_percent_female_frame <- rbind(birth_data, one_percent_females)
+ggplot(one_percent_female_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("1% female")
+```
+
+```{r}
+##10%
+##male:
+ten_percent_male$pop <- '10 % male'
+ten_percent_male_frame <- rbind(birth_data, ten_percent_male)
+ggplot(ten_percent_male_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("10% male")
+```
+
+```{r}
+##10%
+##female:
+ten_percent_females$pop <- '10 % female'
+ten_percent_females_frame <- rbind(birth_data, ten_percent_females)
+ggplot(ten_percent_females_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("10% female")
+```
+
+```{r}
+##30%
+##male:
+thirty_percent_male$pop <- '30 % male'
+thirty_percent_male_frame <- rbind(birth_data, thirty_percent_male)
+ggplot(thirty_percent_male_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("30% male")
+```
+
+```{r}
+##30%
+##female:
+thirty_percent_females$pop <- '30 % female'
+thirty_percent_female_frame <- rbind(birth_data, thirty_percent_females)
+ggplot(thirty_percent_female_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("30% female")
+```
+
+What do you notice as the sample size increases?
+Answer:  We notice that as the sample size percentage increases, the histogram looks more and more like the original population histogram. There is less variability.
+
+
+##Sampling method #2: The Bootstrap
+We have another sampling technique that works with replacement rather than without replacement known as the bootstrap.  The bootstrap involves taking different samples with replacement from your sample of size 'n' from the population and doing that for many, many times, and calculating a statistic from the sample each time.  
 
 The answer to the question above has to do with the phenomenon known as the Central Limit Theorem. It states that as you take 
-
