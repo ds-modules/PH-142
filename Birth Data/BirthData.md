@@ -80,10 +80,10 @@ median(birth_data$dbwt)       #3147
 
     ## [1] 3147
 
-However, suppose we weren't able to find out every baby's birthweight (perhaps it was too costly). Instead, we can use the method of stratified sampling with different simple random samples of different sizes to get an idea of the distribution of median birthweight of the babies.
+The two methods we will be learning about in this lab will be stratified sampling (without replacement) and bootstrapping (with replacement) to get an idea of the distribution of median birthweight of the babies.
 
-Stratified sampling
--------------------
+Sampling method \#1: Stratified sampling
+----------------------------------------
 
 The method of stratification involves separating our population into different groups known as strata. The different groups are split according to a certain characteristic. For example, if we want to split a classroom of 30 people up into groups, we can split them up based on ethnicity: one group for Asians, one for whites, and one for blacks. After splitting them up, we select a simple random sample from each group to test some statistic and compare for each group.
 
@@ -94,7 +94,7 @@ males <- birth_data[birth_data$sex == 'M',]  ##18903 rows
 females <- birth_data[birth_data$sex == 'F',]  ##17821 rows
 ```
 
-Next, we will take simple random samples of different sizes from each group. Let's take samples (without replacement) of sizes 5%, 10%, and 30% from both of the subsetted data frames.
+Next, we will take simple random samples of different sizes from each group. Let's take samples (without replacement) of sizes 1%, 10%, and 30% from both of the subsetted data frames.
 
 Write a function called simple\_random\_sample that takes in two arguments: a subsetted data frame (male or female), and the percent in decimal form. It should return a new data frame with the resampled data. Hint: the sample\_n function in the dplyer package will be useful in the body of the function. You can check its documentation by typing ?sample\_n in your console to see description, arguments, and examples:
 
@@ -108,9 +108,9 @@ simple_random_sample = function(data_frame, sample_size) {
 ```
 
 ``` r
-##5%:
-five_percent_male <- simple_random_sample(males, .05)
-five_percent_females <- simple_random_sample(females, .05)
+##1%:
+one_percent_male <- simple_random_sample(males, .01)
+one_percent_females <- simple_random_sample(females, .01)
 
 ##10%:
 ten_percent_male <- simple_random_sample(males, .10)
@@ -121,14 +121,170 @@ thirty_percent_male <- simple_random_sample(males, .30)
 thirty_percent_females <- simple_random_sample(females, .30)
 ```
 
-Now, let's compute the medians of each of our data frames. Write a function called resampled\_medians. It should take in two arguments: a table name and a label, and return the median of the column data.
+Now, let's compute the medians of each of our data frames. Make a vector for the different percentages that contains the median for the males and females (you should have three vectors). Hint: the concatenate function will be useful for
 
 ``` r
-resampled_medians = function(table, label) {
-  return (median(table$label))
-}
+one_percent_array = c(median(one_percent_male$dbwt), median(one_percent_females$dbwt))
+one_percent_array
 ```
 
-Let's generate histograms for our subsetted histograms. Overlap all the histograms with the original unsubsetted data together to compare the distributions. What do you notice as the sample size increases? Answer:
+    ## [1] 3289 3090
 
-The answer to the question above has to do with the phenomenon known as the Central Limit Theorem. It states that as you take
+``` r
+ten_percent_array = c(median(ten_percent_male$dbwt), median(ten_percent_females$dbwt))
+ten_percent_array
+```
+
+    ## [1] 3204 3118
+
+``` r
+thirty_percent_array = c(median(thirty_percent_male$dbwt), median(thirty_percent_females$dbwt))
+thirty_percent_array
+```
+
+    ## [1] 3204 3118
+
+Let's generate histograms for our subsetted histograms. Overlap all the histograms with the original unsubsetted data together to compare the distributions.
+
+The first step is to combine your two dataframes into one. First, make a new column in each that will be a variable to identify where they came from later.
+
+``` r
+birth_data$pop <- 'population'
+one_percent_male$pop <- '1 % male'
+```
+
+Now, use the rbind command to comebine your two data frames together.
+
+``` r
+one_percent_frame <- rbind(birth_data, one_percent_male)
+```
+
+Now, ggplot to create a histogram of the two in one plot. Note: the geom\_density plot will be helpful, and the fill acessory will be helpful in distinguishing between the population histogram from the 5% sample histogram. Create a useful title with 'ggtitle'.
+
+``` r
+library(ggplot2)
+ggplot(one_percent_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("1% male")
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-16-1.png)
+
+Run the rest of the cells to view the histograms for the rest of the tables. They follow the same process as above.
+
+``` r
+##1% females
+one_percent_females$pop <- '1 % female'
+one_percent_female_frame <- rbind(birth_data, one_percent_females)
+ggplot(one_percent_female_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("1% female")
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-17-1.png)
+
+``` r
+##10%
+##male:
+ten_percent_male$pop <- '10 % male'
+ten_percent_male_frame <- rbind(birth_data, ten_percent_male)
+ggplot(ten_percent_male_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("10% male")
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-18-1.png)
+
+``` r
+##10%
+##female:
+ten_percent_females$pop <- '10 % female'
+ten_percent_females_frame <- rbind(birth_data, ten_percent_females)
+ggplot(ten_percent_females_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("10% female")
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-19-1.png)
+
+``` r
+##30%
+##male:
+thirty_percent_male$pop <- '30 % male'
+thirty_percent_male_frame <- rbind(birth_data, thirty_percent_male)
+ggplot(thirty_percent_male_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("30% male")
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-20-1.png)
+
+``` r
+##30%
+##female:
+thirty_percent_females$pop <- '30 % female'
+thirty_percent_female_frame <- rbind(birth_data, thirty_percent_females)
+ggplot(thirty_percent_female_frame, aes(dbwt, fill = pop)) + geom_density(alpha = 0.3) + ggtitle("30% female")
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-21-1.png)
+
+What do you notice as the sample size increases? Answer: We notice that as the sample size percentage increases, the histogram looks more and more like the original population histogram. There is less variability.
+
+Sampling method \#2: The Bootstrap
+----------------------------------
+
+We will now illustrate the second method of sampling: the bootstrap. Suppose we weren't able to find out every baby's birthweight (perhaps it was too costly). Instead, we can take a subset of size 'n' from our data and generate different samples of that size many, many with replacement. We would like to quantify and give some error to our estimate. The purpose is to estimate some population parameter. For the purposes of the next section, we will estimate the population mean.
+
+To illustrate the bootstrap, let's take samples of sizes 10, 200, and 1000 from our original sample, and generate different samples from each with replacement many, many times (say, 1000) for each and calculating the mean of each sample. Run these cells to see the histograms of the different resamples. (Note: This is the exact same process as in Python, except in R syntax!)
+
+``` r
+##sample of size 10:
+resampled_means <- vector()
+for (i in seq(1, 1000)) {
+  resampled_births <- sample_n(birth_data, 10, replace = T)$dbwt
+  means <- mean(resampled_births)
+  resampled_means <- append(resampled_means, means)
+}
+
+##plot:
+ten_bootstrap <- data.frame(resampled_means)
+hist(ten_bootstrap$resampled_means)
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-22-1.png)
+
+``` r
+##sample of size 200
+resampled_means_200 <- vector()
+for (i in seq(1, 1000)) {
+  resampled_births <- sample_n(birth_data, 200, replace = T)$dbwt
+  means <- mean(resampled_births)
+  resampled_means_200 <- append(resampled_means_200, means)
+}
+
+##plot:
+two_hundred_bootstrap <- data.frame(resampled_means_200)
+hist(two_hundred_bootstrap$resampled_means_200)
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-23-1.png)
+
+``` r
+##sample of size 1000
+resampled_means_1000 <- vector()
+for (i in seq(1, 1000)) {
+  resampled_births <- sample_n(birth_data, 1000, replace = T)$dbwt
+  means <- mean(resampled_births)
+  resampled_means_1000 <- append(resampled_means_1000, means)
+}
+
+##plot:
+one_thousand_bootstrap <- data.frame(resampled_means_1000)
+hist(one_thousand_bootstrap$resampled_means_1000)
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-24-1.png)
+
+Compare the distributions above to the original distribution of the birthweights
+
+``` r
+hist(birth_data$dbwt)
+```
+
+![](BirthData_files/figure-markdown_github/unnamed-chunk-25-1.png)
+
+Central Limit Theorem
+---------------------
+
+So why does the highest sample size of 1000 look the most "normal"? The answer to the question has to do with the phenomenon known as the Central Limit Theorem. It states that as you repeatedly take many, many samples with replacement from the original population, and calculate the average for each sample, your sample distribution will look roughly normal, REGARDLESS of the distribution of the original population.

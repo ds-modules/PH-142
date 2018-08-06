@@ -53,7 +53,7 @@ Before we get into the different samples, let us calculate the population median
 median(birth_data$dbwt)       #3147
 ```
 
-However, suppose we weren't able to find out every baby's birthweight (perhaps it was too costly). Instead, we can take a subset of our data by taking random sample sizes of the data, with or without replacement. The two methods will be stratified sampling (without replacement) and bootstrapping (with replacement) to get an idea of the distribution of median birthweight of the babies.
+The two methods we will be learning about in this lab will be stratified sampling (without replacement) and bootstrapping (with replacement) to get an idea of the distribution of median birthweight of the babies.
 
 ##Sampling method #1: Stratified sampling
 
@@ -174,6 +174,56 @@ Answer:  We notice that as the sample size percentage increases, the histogram l
 
 
 ##Sampling method #2: The Bootstrap
-We have another sampling technique that works with replacement rather than without replacement known as the bootstrap.  The bootstrap involves taking different samples with replacement from your sample of size 'n' from the population and doing that for many, many times, and calculating a statistic from the sample each time.  
+We will now illustrate the second method of sampling: the bootstrap. Suppose we weren't able to find out every baby's birthweight (perhaps it was too costly). Instead, we can take a subset of size 'n' from our data and generate different samples of that size many, many with replacement. We would like to quantify and give some error to our estimate. The purpose is to estimate some population parameter.  For the purposes of the next section, we will estimate the population mean.
 
-The answer to the question above has to do with the phenomenon known as the Central Limit Theorem. It states that as you take 
+To illustrate the bootstrap, let's take samples of sizes 10, 200, and 1000 from our original sample, and generate different samples from each with replacement many, many times (say, 1000) for each and calculating the mean of each sample.
+Run these cells to see the histograms of the different resamples.  (Note: This is the exact same process as in Python, except in R syntax!)
+
+```{r}
+##sample of size 10:
+resampled_means <- vector()
+for (i in seq(1, 1000)) {
+  resampled_births <- sample_n(birth_data, 10, replace = T)$dbwt
+  means <- mean(resampled_births)
+  resampled_means <- append(resampled_means, means)
+}
+
+##plot:
+ten_bootstrap <- data.frame(resampled_means)
+hist(ten_bootstrap$resampled_means)
+```
+```{r}
+##sample of size 200
+resampled_means_200 <- vector()
+for (i in seq(1, 1000)) {
+  resampled_births <- sample_n(birth_data, 200, replace = T)$dbwt
+  means <- mean(resampled_births)
+  resampled_means_200 <- append(resampled_means_200, means)
+}
+
+##plot:
+two_hundred_bootstrap <- data.frame(resampled_means_200)
+hist(two_hundred_bootstrap$resampled_means_200)
+```
+
+```{r}
+##sample of size 1000
+resampled_means_1000 <- vector()
+for (i in seq(1, 1000)) {
+  resampled_births <- sample_n(birth_data, 1000, replace = T)$dbwt
+  means <- mean(resampled_births)
+  resampled_means_1000 <- append(resampled_means_1000, means)
+}
+
+##plot:
+one_thousand_bootstrap <- data.frame(resampled_means_1000)
+hist(one_thousand_bootstrap$resampled_means_1000)
+```
+
+Compare the distributions above to the original distribution of the birthweights
+```{r}
+hist(birth_data$dbwt)
+```
+
+##Central Limit Theorem
+So why does the highest sample size of 1000 look the most "normal"?  The answer to the question has to do with the phenomenon known as the Central Limit Theorem. It states that as you repeatedly take many, many samples with replacement from the original population, and calculate the average for each sample, your sample distribution will look roughly normal, REGARDLESS of the distribution of the original population.
