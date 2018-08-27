@@ -1,13 +1,16 @@
-
+---
+title:Randomized-Controlled Treatments and Factor Designs.
+output: html_document
+---
 
 ```{r read-in-data}
 library(readr)
-natlterr2015_cleaned <- read.csv("natlterr2015_cleaned.csv", stringsAsFactors=FALSE)
+natlterr2015_cleaned <- read_csv("natlterr2015_cleaned.csv", stringsAsFactors=FALSE)
 ```
 ### Description of the data
 
 
-These are births by place of ocurrance in the 50 USA states, the District of Columbia, and U.S. territories from the year 2015.  This is a subset of the data downloaded from [here](http://www.nber.org/data/vital-statistics-natality-data.html).
+These are births by place of ocurrance for all U.S. territories from the year 2015.  This is a subset of the data downloaded from [here](http://www.nber.org/data/vital-statistics-natality-data.html).
 You can find more information about the data set [here](ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/DVS/natality/UserGuide2016.pdf).
 
 Here is the data dictionary for this dataset:
